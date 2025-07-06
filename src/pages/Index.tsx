@@ -70,9 +70,11 @@ const Index = () => {
               <Link to="/submit" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
                 Submit Tool
               </Link>
-              <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
-                Sign In
-              </Button>
+              <Link to="/auth">
+                <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
+                  Sign In / Sign Up
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -81,32 +83,37 @@ const Index = () => {
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent animate-fade-in">
             Discover the Best AI Tools
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Find, compare, and discover the perfect AI tools for your needs. From content creation to productivity, we've got you covered.
           </p>
           
           {/* Search Bar */}
-          <div className="relative max-w-2xl mx-auto mb-8">
+          <div className="relative max-w-2xl mx-auto mb-8 animate-scale-in" style={{ animationDelay: '0.4s' }}>
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
             <Input
               type="text"
               placeholder="Search AI tools..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 pr-4 py-4 text-lg border-2 border-gray-200 focus:border-purple-400 rounded-xl"
+              className="pl-12 pr-4 py-4 text-lg border-2 border-gray-200 focus:border-purple-400 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
             />
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 text-lg">
-              Browse Categories
-            </Button>
-            <Button size="lg" variant="outline" className="border-2 border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg">
-              Submit Your Tool
-            </Button>
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.6s' }}>
+            <Link to="/categories">
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 text-lg hover:scale-105 transition-all duration-300">
+                Browse Categories
+              </Button>
+            </Link>
+            <Link to="/submit">
+              <Button size="lg" variant="outline" className="border-2 border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg hover:scale-105 transition-all duration-300">
+                Submit Your Tool
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -115,15 +122,15 @@ const Index = () => {
       <section className="py-12 px-4 bg-white/50 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
               <div className="text-3xl font-bold text-purple-600 mb-2">500+</div>
               <div className="text-gray-600">AI Tools Listed</div>
             </div>
-            <div>
+            <div className="animate-fade-in" style={{ animationDelay: '1s' }}>
               <div className="text-3xl font-bold text-blue-600 mb-2">25+</div>
               <div className="text-gray-600">Categories</div>
             </div>
-            <div>
+            <div className="animate-fade-in" style={{ animationDelay: '1.2s' }}>
               <div className="text-3xl font-bold text-indigo-600 mb-2">10K+</div>
               <div className="text-gray-600">Happy Users</div>
             </div>
@@ -134,19 +141,20 @@ const Index = () => {
       {/* Featured Categories */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 animate-fade-in">
             Explore by Category
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {featuredCategories.map((category) => (
+            {featuredCategories.map((category, index) => (
               <Link
                 key={category.name}
                 to={`/category/${category.name.toLowerCase().replace(' ', '-')}`}
-                className="group"
+                className="group animate-fade-in"
+                style={{ animationDelay: `${1.4 + index * 0.1}s` }}
               >
-                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm">
+                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm hover:scale-105">
                   <CardContent className="p-6 text-center">
-                    <div className="text-4xl mb-4">{category.icon}</div>
+                    <div className="text-4xl mb-4 animate-pulse">{category.icon}</div>
                     <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
                       {category.name}
                     </h3>
@@ -160,7 +168,7 @@ const Index = () => {
           </div>
           <div className="text-center mt-8">
             <Link to="/categories">
-              <Button variant="outline" size="lg" className="border-purple-200 text-purple-600 hover:bg-purple-50">
+              <Button variant="outline" size="lg" className="border-purple-200 text-purple-600 hover:bg-purple-50 hover:scale-105 transition-all duration-300">
                 View All Categories
               </Button>
             </Link>
@@ -178,9 +186,9 @@ const Index = () => {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {trendingTools.map((tool) => (
-              <Link key={tool.id} to={`/tool/${tool.id}`} className="group">
-                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 backdrop-blur-sm">
+            {trendingTools.map((tool, index) => (
+              <Link key={tool.id} to={`/tool/${tool.id}`} className="group animate-fade-in" style={{ animationDelay: `${2 + index * 0.2}s` }}>
+                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 backdrop-blur-sm hover:scale-105">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4 mb-4">
                       <div className="text-3xl">{tool.logoUrl}</div>
@@ -224,14 +232,14 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6 text-gray-800">
+          <h2 className="text-4xl font-bold mb-6 text-gray-800 animate-fade-in">
             Ready to Share Your AI Tool?
           </h2>
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-xl text-gray-600 mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Join thousands of developers and creators who have already listed their AI tools on our platform.
           </p>
           <Link to="/submit">
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg">
+            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg hover:scale-105 transition-all duration-300 animate-fade-in" style={{ animationDelay: '0.4s' }}>
               Submit Your Tool
             </Button>
           </Link>

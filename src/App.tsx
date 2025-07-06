@@ -9,6 +9,7 @@ import Categories from "./pages/Categories";
 import CategoryTools from "./pages/CategoryTools";
 import ToolDetail from "./pages/ToolDetail";
 import SubmitTool from "./pages/SubmitTool";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/category/:categoryName" element={<CategoryTools />} />
           <Route path="/tool/:id" element={<ToolDetail />} />
           <Route path="/submit" element={<SubmitTool />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
