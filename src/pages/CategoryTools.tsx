@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,103 +5,34 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Star, ArrowUp, ExternalLink, Filter } from 'lucide-react';
+import { getToolsByCategory } from '@/data/toolsData';
 
 const CategoryTools = () => {
   const { categoryName } = useParams();
   const [sortBy, setSortBy] = useState('popular');
   const [filterBy, setFilterBy] = useState('all');
 
-  // Mock data for tools in a category
-  const tools = [
-    {
-      id: 1,
-      name: 'ChatGPT',
-      description: 'Advanced conversational AI that can help with writing, coding, analysis, and creative tasks. Perfect for students, professionals, and anyone looking to boost productivity.',
-      category: 'Personal Assistants',
-      votes: 1247,
-      rating: 4.8,
-      views: 25630,
-      tags: ['Chat', 'Writing', 'Assistant', 'GPT-4'],
-      logoUrl: '🤖',
-      websiteUrl: 'https://chat.openai.com',
-      highlights: ['Free tier available', 'API access', 'Mobile app'],
-      createdAt: '2024-01-15'
-    },
-    {
-      id: 2,
-      name: 'Claude',
-      description: 'Anthropic\'s AI assistant that excels at analysis, writing, and coding. Known for being helpful, harmless, and honest in all interactions.',
-      category: 'Personal Assistants',
-      votes: 892,
-      rating: 4.7,
-      views: 18420,
-      tags: ['Chat', 'Analysis', 'Writing', 'Code'],
-      logoUrl: '🤖',
-      websiteUrl: 'https://claude.ai',
-      highlights: ['Long context window', 'File uploads', 'Ethical AI'],
-      createdAt: '2024-02-01'
-    },
-    {
-      id: 3,
-      name: 'Perplexity AI',
-      description: 'AI-powered search engine that provides accurate, real-time answers with citations. Perfect for research and fact-checking.',
-      category: 'Personal Assistants',
-      votes: 634,
-      rating: 4.6,
-      views: 12890,
-      tags: ['Search', 'Research', 'Citations', 'Real-time'],
-      logoUrl: '🔍',
-      websiteUrl: 'https://perplexity.ai',
-      highlights: ['Real-time data', 'Source citations', 'Mobile friendly'],
-      createdAt: '2024-01-20'
-    },
-    {
-      id: 4,
-      name: 'Character.AI',
-      description: 'Create and chat with AI characters. Build custom personalities for entertainment, role-playing, or creative writing assistance.',
-      category: 'Personal Assistants',
-      votes: 523,
-      rating: 4.4,
-      views: 15240,
-      tags: ['Characters', 'Chat', 'Entertainment', 'Creative'],
-      logoUrl: '🎭',
-      websiteUrl: 'https://beta.character.ai',
-      highlights: ['Custom characters', 'Community driven', 'Creative writing'],
-      createdAt: '2024-01-10'
-    },
-    {
-      id: 5,
-      name: 'Replika',
-      description: 'Your AI companion that learns and grows with you. Designed for meaningful conversations and emotional support.',
-      category: 'Personal Assistants',
-      votes: 445,
-      rating: 4.3,
-      views: 11630,
-      tags: ['Companion', 'Emotional', 'Personal', 'Growth'],
-      logoUrl: '💭',
-      websiteUrl: 'https://replika.ai',
-      highlights: ['Emotional intelligence', 'Personalized', 'Mental health'],
-      createdAt: '2024-01-05'
-    },
-    {
-      id: 6,
-      name: 'Microsoft Copilot',
-      description: 'Microsoft\'s AI assistant integrated across Office 365 and Windows. Helps with productivity, coding, and creative tasks.',
-      category: 'Personal Assistants',
-      votes: 712,
-      rating: 4.5,
-      views: 19850,
-      tags: ['Microsoft', 'Office', 'Productivity', 'Integration'],
-      logoUrl: '🏢',
-      websiteUrl: 'https://copilot.microsoft.com',
-      highlights: ['Office integration', 'Enterprise ready', 'Multi-platform'],
-      createdAt: '2024-01-25'
-    }
-  ];
-
+  const tools = getToolsByCategory(categoryName || '');
   const categoryDisplayName = categoryName?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Category';
 
-  const sortedTools = [...tools].sort((a, b) => {
+  const getCategoryIcon = (categoryName: string) => {
+    const iconMap: { [key: string]: string } = {
+      'content-writing': '✍️',
+      'image-generation': '🎨',
+      'personal-assistants': '🤖',
+      'chatbots': '💬',
+      'sales': '💼'
+    };
+    return iconMap[categoryName.toLowerCase()] || '🤖';
+  };
+
+  const filteredTools = tools.filter(tool => {
+    if (filterBy === 'free') return !tool.isPaid;
+    if (filterBy === 'premium') return tool.isPaid;
+    return true;
+  });
+
+  const sortedTools = [...filteredTools].sort((a, b) => {
     switch (sortBy) {
       case 'popular':
         return b.votes - a.votes;
@@ -149,13 +79,13 @@ const CategoryTools = () => {
             Back to Categories
           </Link>
           <div className="flex items-center gap-4 mb-4">
-            <div className="text-5xl">🤖</div>
+            <div className="text-5xl">{getCategoryIcon(categoryName || '')}</div>
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 {categoryDisplayName}
               </h1>
               <p className="text-xl text-gray-600">
-                {tools.length} tools found • Discover AI assistants and chatbots
+                {tools.length} tools found • Discover AI tools in {categoryDisplayName}
               </p>
             </div>
           </div>
@@ -214,9 +144,14 @@ const CategoryTools = () => {
                         <ExternalLink className="h-4 w-4" />
                       </a>
                     </div>
-                    <Badge variant="secondary" className="mb-2">
-                      {tool.category}
-                    </Badge>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="secondary">
+                        {tool.category}
+                      </Badge>
+                      <Badge variant={tool.isPaid ? "destructive" : "default"} className="text-xs">
+                        {tool.isPaid ? 'Paid' : 'Free'}
+                      </Badge>
+                    </div>
                   </div>
                 </div>
 

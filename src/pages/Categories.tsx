@@ -4,35 +4,38 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { getCategoryCounts } from '@/data/toolsData';
 
 const Categories = () => {
+  const categoryCounts = getCategoryCounts();
+  
   const allCategories = [
-    { name: 'Content Writing', count: 45, icon: '✍️', description: 'AI-powered writing and content creation tools' },
-    { name: 'Image Generation', count: 38, icon: '🎨', description: 'Create stunning visuals with AI image generators' },
-    { name: 'Personal Assistants', count: 32, icon: '🤖', description: 'AI assistants for daily tasks and productivity' },
-    { name: 'Chatbots', count: 28, icon: '💬', description: 'Conversational AI and customer service bots' },
-    { name: 'Sales', count: 25, icon: '💼', description: 'AI tools for sales automation and lead generation' },
-    { name: 'Productivity', count: 42, icon: '⚡', description: 'Boost efficiency with AI productivity tools' },
-    { name: 'Video Creation', count: 22, icon: '🎬', description: 'AI-powered video editing and generation' },
-    { name: 'Music Creation', count: 18, icon: '🎵', description: 'Compose and generate music with AI' },
-    { name: 'Customer Support', count: 31, icon: '🎧', description: 'AI customer service and support solutions' },
-    { name: 'Interview Prep', count: 16, icon: '🎤', description: 'AI-powered interview practice and preparation' },
-    { name: 'AI Code Tools', count: 29, icon: '💻', description: 'Code generation and development assistance' },
-    { name: 'Resume Builder', count: 14, icon: '📄', description: 'Create professional resumes with AI help' },
-    { name: 'Email Assistants', count: 21, icon: '📧', description: 'AI email writing and management tools' },
-    { name: 'Data Analysis', count: 26, icon: '📊', description: 'Analyze and visualize data with AI' },
-    { name: 'PDF Tools', count: 19, icon: '📋', description: 'AI-powered PDF processing and analysis' },
-    { name: 'Legal AI Tools', count: 12, icon: '⚖️', description: 'Legal document analysis and assistance' },
-    { name: 'Language Translation', count: 24, icon: '🌍', description: 'AI translation and language tools' },
-    { name: 'Design Tools', count: 33, icon: '🎯', description: 'AI-assisted design and creative tools' },
-    { name: 'Avatars & Voice', count: 17, icon: '🗣️', description: 'AI avatars and voice synthesis' },
-    { name: 'Marketing', count: 37, icon: '📢', description: 'AI marketing automation and optimization' },
-    { name: 'SEO Tools', count: 23, icon: '🔍', description: 'AI-powered SEO analysis and optimization' },
-    { name: 'Logo Generator', count: 15, icon: '🏷️', description: 'Create logos and brand assets with AI' },
-    { name: 'Storytelling AI', count: 13, icon: '📖', description: 'AI-powered story and narrative creation' },
-    { name: 'Course Generator', count: 11, icon: '🎓', description: 'Create educational content with AI' },
-    { name: 'Business Plan Tools', count: 9, icon: '📈', description: 'AI business planning and strategy tools' },
-    { name: 'Prompt Marketplace', count: 8, icon: '💡', description: 'Buy and sell AI prompts and templates' }
+    { name: 'Content Writing', icon: '✍️', description: 'AI-powered writing and content creation tools' },
+    { name: 'Image Generation', icon: '🎨', description: 'Create stunning visuals with AI image generators' },
+    { name: 'Personal Assistants', icon: '🤖', description: 'AI assistants for daily tasks and productivity' },
+    { name: 'Chatbots', icon: '💬', description: 'Conversational AI and customer service bots' },
+    { name: 'Sales', icon: '💼', description: 'AI tools for sales automation and lead generation' },
+    { name: 'Productivity', icon: '⚡', description: 'Boost efficiency with AI productivity tools' },
+    { name: 'Video Creation', icon: '🎬', description: 'AI-powered video editing and generation' },
+    { name: 'Music Creation', icon: '🎵', description: 'Compose and generate music with AI' },
+    { name: 'Customer Support', icon: '🎧', description: 'AI customer service and support solutions' },
+    { name: 'Interview Prep', icon: '🎤', description: 'AI-powered interview practice and preparation' },
+    { name: 'AI Code Tools', icon: '💻', description: 'Code generation and development assistance' },
+    { name: 'Resume Builder', icon: '📄', description: 'Create professional resumes with AI help' },
+    { name: 'Email Assistants', icon: '📧', description: 'AI email writing and management tools' },
+    { name: 'Data Analysis', icon: '📊', description: 'Analyze and visualize data with AI' },
+    { name: 'PDF Tools', icon: '📋', description: 'AI-powered PDF processing and analysis' },
+    { name: 'Legal AI Tools', icon: '⚖️', description: 'Legal document analysis and assistance' },
+    { name: 'Language Translation', icon: '🌍', description: 'AI translation and language tools' },
+    { name: 'Design Tools', icon: '🎯', description: 'AI-assisted design and creative tools' },
+    { name: 'Avatars & Voice', icon: '🗣️', description: 'AI avatars and voice synthesis' },
+    { name: 'Marketing', icon: '📢', description: 'AI marketing automation and optimization' },
+    { name: 'SEO Tools', icon: '🔍', description: 'AI-powered SEO analysis and optimization' },
+    { name: 'Logo Generator', icon: '🏷️', description: 'Create logos and brand assets with AI' },
+    { name: 'Storytelling AI', icon: '📖', description: 'AI-powered story and narrative creation' },
+    { name: 'Course Generator', icon: '🎓', description: 'Create educational content with AI' },
+    { name: 'Business Plan Tools', icon: '📈', description: 'AI business planning and strategy tools' },
+    { name: 'Prompt Marketplace', icon: '💡', description: 'Buy and sell AI prompts and templates' }
   ];
 
   return (
@@ -91,7 +94,7 @@ const Categories = () => {
                         {category.name}
                       </h3>
                       <Badge variant="secondary" className="mb-2">
-                        {category.count} tools
+                        {categoryCounts[category.name] || 0} tools
                       </Badge>
                     </div>
                   </div>
@@ -111,7 +114,7 @@ const Categories = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
                 <div className="text-3xl font-bold text-purple-600 mb-2">
-                  {allCategories.reduce((sum, cat) => sum + cat.count, 0)}+
+                  {Object.values(categoryCounts).reduce((sum, count) => sum + count, 0)}+
                 </div>
                 <div className="text-gray-600">Total Tools</div>
               </div>

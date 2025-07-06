@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, Star, ArrowUp, ExternalLink, Share, Heart, MessageCircle, Eye, Calendar } from 'lucide-react';
+import { getToolById, toolsData } from '@/data/toolsData';
 
 const ToolDetail = () => {
   const { id } = useParams();
@@ -14,44 +14,27 @@ const ToolDetail = () => {
   const [userRating, setUserRating] = useState(0);
   const [comment, setComment] = useState('');
 
-  // Mock tool data
-  const tool = {
-    id: 1,
-    name: 'ChatGPT',
-    description: 'ChatGPT is an advanced conversational AI developed by OpenAI that can assist with a wide variety of tasks including writing, coding, analysis, creative projects, and problem-solving. Built on the GPT-4 architecture, it provides intelligent, context-aware responses and can maintain coherent conversations across multiple topics.',
-    fullDescription: `ChatGPT represents a breakthrough in conversational AI technology. Whether you're a student looking for help with homework, a professional seeking to streamline your workflow, or a creative individual exploring new ideas, ChatGPT adapts to your needs.
+  const tool = getToolById(Number(id));
 
-Key capabilities include:
-• Natural language understanding and generation
-• Code writing and debugging across multiple programming languages  
-• Creative writing, including stories, poems, and scripts
-• Data analysis and interpretation
-• Language translation and learning assistance
-• Problem-solving and logical reasoning
-• Educational support across various subjects
-
-The tool continuously learns from interactions while maintaining user privacy and safety through robust content filtering and ethical guidelines.`,
-    category: 'Personal Assistants',
-    votes: 1247,
-    rating: 4.8,
-    views: 25630,
-    totalRatings: 3420,
-    tags: ['Chat', 'Writing', 'Assistant', 'GPT-4', 'OpenAI', 'Coding', 'Analysis'],
-    logoUrl: '🤖',
-    websiteUrl: 'https://chat.openai.com',
-    highlights: ['Free tier available', 'API access', 'Mobile app', 'Multiple languages', 'Real-time responses'],
-    createdAt: '2024-01-15',
-    createdBy: 'OpenAI',
-    pricing: 'Freemium - $20/month for ChatGPT Plus',
-    screenshots: ['📱', '💻', '🖥️']
-  };
+  if (!tool) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">Tool Not Found</h1>
+          <Link to="/" className="text-purple-600 hover:text-purple-700">
+            Return to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const comments = [
     {
       id: 1,
       user: 'Sarah Johnson',
       rating: 5,
-      comment: 'Absolutely game-changing for my content writing workflow. The quality of responses is consistently impressive.',
+      comment: `Amazing tool! ${tool.name} has completely transformed my workflow. Highly recommend it to anyone in this space.`,
       date: '2024-01-20',
       helpful: 45
     },
@@ -59,7 +42,7 @@ The tool continuously learns from interactions while maintaining user privacy an
       id: 2,
       user: 'Mike Chen',
       rating: 4,
-      comment: 'Great for coding assistance and debugging. Sometimes gives outdated information but overall very helpful.',
+      comment: `Great experience with ${tool.name}. The features are solid and the interface is intuitive. Some minor issues but overall very satisfied.`,
       date: '2024-01-18',
       helpful: 32
     },
@@ -67,17 +50,15 @@ The tool continuously learns from interactions while maintaining user privacy an
       id: 3,
       user: 'Emily Rodriguez',
       rating: 5,
-      comment: 'The versatility is incredible. I use it for everything from email drafting to creative brainstorming.',
+      comment: `${tool.name} exceeded my expectations. The quality and reliability make it worth every penny. Perfect for professional use.`,
       date: '2024-01-15',
       helpful: 28
     }
   ];
 
-  const relatedTools = [
-    { id: 2, name: 'Claude', rating: 4.7, category: 'Personal Assistants', logoUrl: '🤖' },
-    { id: 3, name: 'Perplexity AI', rating: 4.6, category: 'Personal Assistants', logoUrl: '🔍' },
-    { id: 4, name: 'Character.AI', rating: 4.4, category: 'Personal Assistants', logoUrl: '🎭' }
-  ];
+  const relatedTools = toolsData
+    .filter(t => t.category === tool.category && t.id !== tool.id)
+    .slice(0, 3);
 
   const handleVote = () => {
     setUserVoted(!userVoted);
@@ -140,9 +121,14 @@ The tool continuously learns from interactions while maintaining user privacy an
                       <div>
                         <h1 className="text-3xl font-bold text-gray-800 mb-2">{tool.name}</h1>
                         <p className="text-lg text-gray-600 mb-3">{tool.description}</p>
-                        <Badge className="bg-purple-100 text-purple-700">
-                          {tool.category}
-                        </Badge>
+                        <div className="flex items-center gap-2">
+                          <Badge className="bg-purple-100 text-purple-700">
+                            {tool.category}
+                          </Badge>
+                          <Badge variant={tool.isPaid ? "destructive" : "default"}>
+                            {tool.isPaid ? 'Paid' : 'Free'}
+                          </Badge>
+                        </div>
                       </div>
                     </div>
 
