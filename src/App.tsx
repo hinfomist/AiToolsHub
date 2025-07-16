@@ -11,6 +11,10 @@ import ToolDetail from "./pages/ToolDetail";
 import SubmitTool from "./pages/SubmitTool";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import AddTool from "./pages/admin/AddTool";
+import AdminTools from "./pages/admin/AdminTools";
+import EditTool from "./pages/admin/EditTool";
+import AdminReviews from "./pages/admin/AdminReviews";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +31,10 @@ const App = () => (
           <Route path="/tool/:id" element={<ToolDetail />} />
           <Route path="/submit" element={<SubmitTool />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/admin/add-tool" element={<AddTool />} />
+          <Route path="/admin/tools" element={<AdminTools />} />
+          <Route path="/admin/edit-tool/:id" element={<EditTool />} />
+          <Route path="/admin/reviews" element={<AdminReviews />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
