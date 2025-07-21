@@ -15,6 +15,7 @@ import AddTool from "./pages/admin/AddTool";
 import AdminTools from "./pages/admin/AdminTools";
 import EditTool from "./pages/admin/EditTool";
 import AdminReviews from "./pages/admin/AdminReviews";
+import PendingTools from "./pages/admin/PendingTools";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./components/AdminLayout";
 
@@ -58,6 +59,13 @@ const App = () => (
             <ProtectedRoute>
               <AdminLayout>
                 <AdminReviews />
+              </AdminLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/pending" element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <PendingTools />
               </AdminLayout>
             </ProtectedRoute>
           } />

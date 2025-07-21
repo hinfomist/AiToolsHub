@@ -1,13 +1,27 @@
 
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { getCategoryCounts } from '@/data/toolsData';
+import { toolService } from '../services/toolService';
 
 const Categories = () => {
-  const categoryCounts = getCategoryCounts();
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const counts = await toolService.getCategoryCounts();
+        setCategoryCounts(counts);
+      } catch (error) {
+        console.error('Error fetching category counts:', error);
+      }
+    };
+
+    fetchCounts();
+  }, []);
   
   const allCategories = [
     { name: 'Content Writing', icon: '✍️', description: 'AI-powered writing and content creation tools' },
@@ -114,7 +128,7 @@ const Categories = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
                 <div className="text-3xl font-bold text-purple-600 mb-2">
-                  {Object.values(categoryCounts).reduce((sum, count) => sum + count, 0)}+
+                  {Object.values(categoryCounts).reduce((sum: number, count: unknown) => sum + (typeof count === 'number' ? count : 0), 0)}+
                 </div>
                 <div className="text-gray-600">Total Tools</div>
               </div>

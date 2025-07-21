@@ -1,19 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Star, ArrowUp, ExternalLink, Filter } from 'lucide-react';
-import { getToolsByCategory } from '@/data/toolsData';
+import { toolService } from '../services/toolService';
 
 const CategoryTools = () => {
   const { categoryName } = useParams();
   const [sortBy, setSortBy] = useState('popular');
   const [filterBy, setFilterBy] = useState('all');
+  const [tools, setTools] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const tools = getToolsByCategory(categoryName || '');
   const categoryDisplayName = categoryName?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Category';
+
+  useEffect(() => {
+    const fetchTools = async () => {
+      if (!categoryName) return;
+      
+      setLoading(true);
+      try {
+        const categoryTools = await toolService.getToolsByCategory(categoryDisplayName);
+        setTools(categoryTools);
+      } catch (error) {
+        console.error('Error fetching tools:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTools();
+  }, [categoryName, categoryDisplayName]);
 
   const getCategoryIcon = (categoryName: string) => {
     const iconMap: { [key: string]: string } = {
@@ -124,8 +143,14 @@ const CategoryTools = () => {
         </div>
 
         {/* Tools Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {sortedTools.map((tool) => (
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading tools...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {sortedTools.length > 0 ? sortedTools.map((tool) => (
             <Card key={tool.id} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4 mb-4">
@@ -208,8 +233,14 @@ const CategoryTools = () => {
                 </div>
               </CardContent>
             </Card>
-          ))}
-        </div>
+            )) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-xl text-gray-600">No tools found in this category yet.</p>
+                <p className="text-gray-500 mt-2">Check back soon for new additions!</p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Load More */}
         <div className="text-center mt-12">
