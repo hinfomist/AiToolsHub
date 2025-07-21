@@ -3,12 +3,13 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "your-app.firebaseapp.com",
-  projectId: "your-app",
-  storageBucket: "your-app.appspot.com",
-  messagingSenderId: "xxx",
-  appId: "xxx"
+  apiKey: "AIzaSyAzLlTiXgudODUFnrjQoKre6i-fSvWzzyk",
+  authDomain: "ai-tool-finder-fb502.firebaseapp.com",
+  projectId: "ai-tool-finder-fb502",
+  storageBucket: "ai-tool-finder-fb502.firebasestorage.app",
+  messagingSenderId: "393046093087",
+  appId: "1:393046093087:web:01317b337d6c34b707142a",
+  measurementId: "G-0M3TNWHVRY"
 };
 
 const app = initializeApp(firebaseConfig);

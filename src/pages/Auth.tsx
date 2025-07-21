@@ -1,6 +1,8 @@
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,10 +25,30 @@ const Auth = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This is where Firebase authentication would be handled
-    console.log('Form submitted:', formData);
+    setLoading(true);
+    setError('');
+
+    // Only allow hamza@gmail.com
+    if (formData.email !== 'hamza@gmail.com') {
+      setError('Access denied. Only authorized admin can sign in.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      navigate('/admin/tools');
+    } catch (error: any) {
+      setError('Invalid email or password');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,7 +63,7 @@ const Auth = () => {
         <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm animate-scale-in">
           <CardHeader className="text-center pb-6">
             <CardTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Admin Login
+              Admin Sign In
             </CardTitle>
             <p className="text-gray-600">
               Sign in to access the admin dashboard
@@ -49,6 +71,11 @@ const Auth = () => {
           </CardHeader>
 
           <CardContent className="space-y-4">
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
+                {error}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Admin Email</Label>
@@ -86,9 +113,10 @@ const Auth = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 mt-6"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 mt-6 disabled:opacity-50"
               >
-                Sign In
+                {loading ? 'Signing In...' : 'Sign In'}
               </Button>
             </form>
           </CardContent>
