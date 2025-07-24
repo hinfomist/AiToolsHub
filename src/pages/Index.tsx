@@ -195,7 +195,24 @@ const Index = () => {
                 <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 backdrop-blur-sm hover:scale-105">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="text-3xl">{tool.logoUrl}</div>
+                      <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                        {tool.logoUrl && tool.logoUrl.startsWith('http') ? (
+                          <img 
+                            src={tool.logoUrl} 
+                            alt={`${tool.name} logo`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const fallback = target.nextElementSibling as HTMLElement;
+                              if (fallback) fallback.style.display = 'block';
+                            }}
+                          />
+                        ) : (
+                          <span className="text-2xl">{tool.logoUrl || '🤖'}</span>
+                        )}
+                        <span className="text-2xl hidden">🤖</span>
+                      </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-lg mb-1 group-hover:text-purple-600 transition-colors">
                           {tool.name}

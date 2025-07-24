@@ -156,7 +156,24 @@ const CategoryTools = () => {
             <Card key={tool.id} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="text-4xl">{tool.logoUrl}</div>
+                  <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                    {tool.logoUrl && tool.logoUrl.startsWith('http') ? (
+                      <img 
+                        src={tool.logoUrl} 
+                        alt={`${tool.name} logo`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback) fallback.style.display = 'block';
+                        }}
+                      />
+                    ) : (
+                      <span className="text-2xl">{tool.logoUrl || '🤖'}</span>
+                    )}
+                    <span className="text-2xl hidden">🤖</span>
+                  </div>
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-2">
                       <h3 className="font-semibold text-xl text-gray-800">
