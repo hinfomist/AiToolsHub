@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
-import { Plus, Edit, Trash2, Eye } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Database } from 'lucide-react';
+import { populateTools } from '../../scripts/populateTools';
 
 interface Tool {
   id: string;
@@ -63,6 +64,28 @@ const AdminTools = () => {
     }
   };
 
+  const handlePopulateTools = async () => {
+    if (!confirm('This will add 25 sample tools to the database. Continue?')) return;
+    
+    setLoading(true);
+    try {
+      await populateTools();
+      toast({
+        title: "Success",
+        description: "Sample tools added successfully"
+      });
+      fetchTools(); // Refresh the tools list
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to populate tools",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchTools();
   }, []);
@@ -75,12 +98,22 @@ const AdminTools = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Manage Tools</h1>
-        <Link to="/admin/add-tool">
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Tool
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={handlePopulateTools}
+            disabled={loading}
+          >
+            <Database className="h-4 w-4 mr-2" />
+            Populate Sample Tools
           </Button>
-        </Link>
+          <Link to="/admin/add-tool">
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Tool
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="grid gap-6">
