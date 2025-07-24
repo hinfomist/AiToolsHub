@@ -68,9 +68,11 @@ const Categories = () => {
               <Link to="/submit" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
                 Submit Tool
               </Link>
-              <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
-                Sign In
-              </Button>
+              <Link to="/auth">
+                <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
+                  Sign In
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

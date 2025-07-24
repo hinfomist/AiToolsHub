@@ -6,14 +6,17 @@ export const toolService = {
   async getAllTools() {
     try {
       const toolsRef = collection(db, 'tools');
-      const q = query(toolsRef, where('approved', '==', true), orderBy('createdAt', 'desc'));
+      const q = query(toolsRef, where('approved', '==', true));
       const querySnapshot = await getDocs(q);
       
-      return querySnapshot.docs.map(doc => ({
+      const tools = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
         createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt
       }));
+      
+      // Sort by createdAt in JavaScript instead of Firestore
+      return tools.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } catch (error) {
       console.error('Error fetching tools:', error);
       return [];
@@ -27,16 +30,18 @@ export const toolService = {
       const q = query(
         toolsRef, 
         where('approved', '==', true),
-        where('category', '==', categoryName),
-        orderBy('createdAt', 'desc')
+        where('category', '==', categoryName)
       );
       const querySnapshot = await getDocs(q);
       
-      return querySnapshot.docs.map(doc => ({
+      const tools = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
         createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt
       }));
+      
+      // Sort by createdAt in JavaScript instead of Firestore
+      return tools.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } catch (error) {
       console.error('Error fetching tools by category:', error);
       return [];
@@ -47,14 +52,17 @@ export const toolService = {
   async getPendingTools() {
     try {
       const toolsRef = collection(db, 'tools');
-      const q = query(toolsRef, where('approved', '==', false), orderBy('createdAt', 'desc'));
+      const q = query(toolsRef, where('approved', '==', false));
       const querySnapshot = await getDocs(q);
       
-      return querySnapshot.docs.map(doc => ({
+      const tools = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
         createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt
       }));
+      
+      // Sort by createdAt in JavaScript instead of Firestore
+      return tools.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } catch (error) {
       console.error('Error fetching pending tools:', error);
       return [];
