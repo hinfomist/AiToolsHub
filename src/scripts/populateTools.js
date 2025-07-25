@@ -334,6 +334,207 @@ const toolsToAdd = [
     pricing: 'Free - $45/month',
     isPaid: false,
     createdBy: 'Lavender'
+  },
+
+  // Productivity Tools
+  {
+    name: 'Notion AI',
+    description: 'AI-powered writing assistant integrated into Notion workspace.',
+    fullDescription: 'Notion AI brings the power of artificial intelligence directly into your Notion workspace. Write faster, think bigger, and augment creativity with AI-powered writing assistance, content generation, and editing tools seamlessly integrated into your notes, docs, and databases.',
+    category: 'Productivity',
+    logoUrl: '📝',
+    websiteUrl: 'https://notion.so/product/ai',
+    tags: ['Writing', 'Workspace', 'Notes', 'Collaboration'],
+    highlights: ['Integrated with Notion', 'Content generation', 'Writing assistance'],
+    isPaid: true,
+    pricing: 'Paid - $10/month per member',
+    createdBy: 'Notion'
+  },
+  {
+    name: 'Otter.ai',
+    description: 'AI-powered meeting transcription and note-taking assistant.',
+    fullDescription: 'Otter.ai uses artificial intelligence to automatically transcribe meetings, interviews, lectures, and other conversations in real-time. Get searchable notes, summaries, and action items to boost productivity and never miss important details.',
+    category: 'Productivity',
+    logoUrl: '🦦',
+    websiteUrl: 'https://otter.ai',
+    tags: ['Transcription', 'Meetings', 'Notes', 'Real-time'],
+    highlights: ['Real-time transcription', 'Meeting summaries', 'Action items'],
+    isPaid: false,
+    pricing: 'Freemium - $16.99/month for Pro',
+    createdBy: 'Otter.ai'
+  },
+  {
+    name: 'Clockify AI',
+    description: 'AI-enhanced time tracking for better productivity insights.',
+    fullDescription: 'Clockify AI combines time tracking with artificial intelligence to provide insights into productivity patterns, suggest optimal work schedules, and automatically categorize time entries for better project management and personal productivity.',
+    category: 'Productivity',
+    logoUrl: '⏰',
+    websiteUrl: 'https://clockify.me',
+    tags: ['Time tracking', 'Analytics', 'Productivity', 'Insights'],
+    highlights: ['Automatic categorization', 'Productivity insights', 'Team collaboration'],
+    isPaid: false,
+    pricing: 'Freemium - $9.99/month for Pro',
+    createdBy: 'Clockify'
+  },
+  {
+    name: 'Krisp AI',
+    description: 'AI-powered noise cancellation for calls and meetings.',
+    fullDescription: 'Krisp AI uses advanced artificial intelligence to remove background noise, voices, and echoes from calls in real-time. Perfect for remote work, improving call quality and ensuring professional communication regardless of your environment.',
+    category: 'Productivity',
+    logoUrl: '🎧',
+    websiteUrl: 'https://krisp.ai',
+    tags: ['Noise cancellation', 'Calls', 'Remote work', 'Audio'],
+    highlights: ['Real-time noise removal', 'Works with any app', 'Background voice removal'],
+    isPaid: false,
+    pricing: 'Freemium - $8/month for Pro',
+    createdBy: 'Krisp'
+  },
+  {
+    name: 'Motion AI',
+    description: 'AI-powered calendar and task management for optimal scheduling.',
+    fullDescription: 'Motion AI automatically plans your day by scheduling tasks, managing your calendar, and protecting time for focused work. Uses AI to optimize your schedule based on priorities, deadlines, and work patterns for maximum productivity.',
+    category: 'Productivity',
+    logoUrl: '📅',
+    websiteUrl: 'https://usemotion.com',
+    tags: ['Calendar', 'Task management', 'Scheduling', 'Automation'],
+    highlights: ['Automatic scheduling', 'Task prioritization', 'Focus time protection'],
+    isPaid: true,
+    pricing: 'Paid - $19/month',
+    createdBy: 'Motion'
+  },
+
+  // Video Creation Tools
+  {
+    name: 'Synthesia',
+    description: 'AI video generator with realistic AI avatars and voiceovers.',
+    fullDescription: 'Synthesia creates professional videos using AI avatars and text-to-speech technology. Simply type your script and choose an avatar to generate high-quality videos without cameras, microphones, or actors. Perfect for training, marketing, and educational content.',
+    category: 'Video Creation',
+    logoUrl: '🎬',
+    websiteUrl: 'https://synthesia.io',
+    tags: ['AI avatars', 'Text-to-video', 'Professional', 'Multilingual'],
+    highlights: ['140+ AI avatars', '120+ languages', 'No equipment needed'],
+    isPaid: true,
+    pricing: 'Paid - $22.50/month',
+    createdBy: 'Synthesia'
+  },
+  {
+    name: 'Runway ML',
+    description: 'AI-powered video editing and generation platform.',
+    fullDescription: 'Runway ML offers cutting-edge AI tools for video creation and editing, including text-to-video generation, background removal, motion tracking, and style transfer. Designed for creators, filmmakers, and content producers looking to push creative boundaries.',
+    category: 'Video Creation',
+    logoUrl: '🛣️',
+    websiteUrl: 'https://runwayml.com',
+    tags: ['Video editing', 'Text-to-video', 'Creative', 'Professional'],
+    highlights: ['Text-to-video generation', 'Background removal', 'Style transfer'],
+    isPaid: false,
+    pricing: 'Freemium - $15/month for Standard',
+    createdBy: 'Runway'
+  },
+  {
+    name: 'Pictory AI',
+    description: 'Transform long-form content into engaging short videos.',
+    fullDescription: 'Pictory AI automatically converts blogs, articles, and scripts into engaging short videos. Uses AI to extract key points, add relevant visuals, and create compelling video content perfect for social media, marketing, and educational purposes.',
+    category: 'Video Creation',
+    logoUrl: '📖',
+    websiteUrl: 'https://pictory.ai',
+    tags: ['Content repurposing', 'Social media', 'Automatic editing', 'Marketing'],
+    highlights: ['Blog to video', 'Automatic highlights', 'Stock footage library'],
+    isPaid: false,
+    pricing: 'Freemium - $19/month for Standard',
+    createdBy: 'Pictory'
+  },
+  {
+    name: 'Loom AI',
+    description: 'AI-enhanced screen recording with smart editing features.',
+    fullDescription: 'Loom AI combines screen recording with artificial intelligence to automatically edit, transcribe, and enhance your videos. Perfect for creating tutorials, demos, and team communications with AI-powered features like auto-generated titles and summaries.',
+    category: 'Video Creation',
+    logoUrl: '🔴',
+    websiteUrl: 'https://loom.com',
+    tags: ['Screen recording', 'Tutorials', 'Team communication', 'Auto-editing'],
+    highlights: ['Auto transcription', 'Smart editing', 'Team collaboration'],
+    isPaid: false,
+    pricing: 'Freemium - $8/month for Business',
+    createdBy: 'Loom'
+  },
+  {
+    name: 'InVideo AI',
+    description: 'AI video creator with templates and automatic editing.',
+    fullDescription: 'InVideo AI makes video creation simple with AI-powered templates, automatic editing, and intelligent content suggestions. Transform ideas into professional videos quickly with smart scene detection, auto-sync music, and template customization.',
+    category: 'Video Creation',
+    logoUrl: '🎥',
+    websiteUrl: 'https://invideo.io',
+    tags: ['Templates', 'Automatic editing', 'Marketing videos', 'Social media'],
+    highlights: ['5000+ templates', 'Auto scene detection', 'Text-to-video'],
+    isPaid: false,
+    pricing: 'Freemium - $15/month for Business',
+    createdBy: 'InVideo'
+  },
+
+  // Music Creation Tools
+  {
+    name: 'AIVA',
+    description: 'AI composer for creating original music and soundtracks.',
+    fullDescription: 'AIVA (Artificial Intelligence Virtual Artist) composes emotional soundtrack music for films, video games, commercials, and other content. Trained on thousands of classical compositions, AIVA creates original music in various styles and genres.',
+    category: 'Music Creation',
+    logoUrl: '🎼',
+    websiteUrl: 'https://aiva.ai',
+    tags: ['Composition', 'Soundtrack', 'Classical', 'Original music'],
+    highlights: ['Multiple genres', 'Copyright ownership', 'Professional quality'],
+    isPaid: false,
+    pricing: 'Freemium - €15/month for Standard',
+    createdBy: 'AIVA Technologies'
+  },
+  {
+    name: 'Mubert',
+    description: 'AI-powered royalty-free music generation for any purpose.',
+    fullDescription: 'Mubert generates royalty-free music using artificial intelligence. Perfect for content creators, streamers, and businesses needing background music. Create infinite streams of music tailored to your mood, activity, or brand requirements.',
+    category: 'Music Creation',
+    logoUrl: '🎵',
+    websiteUrl: 'https://mubert.com',
+    tags: ['Royalty-free', 'Background music', 'Streaming', 'Content creation'],
+    highlights: ['Infinite music streams', 'Royalty-free', 'Multiple moods'],
+    isPaid: false,
+    pricing: 'Freemium - $14/month for Creator',
+    createdBy: 'Mubert'
+  },
+  {
+    name: 'Boomy',
+    description: 'Create original songs in seconds with AI music generation.',
+    fullDescription: 'Boomy lets anyone create original songs in seconds using artificial intelligence, even with no music experience. Generate songs in various styles, customize them, and submit to streaming platforms to earn revenue from your AI-created music.',
+    category: 'Music Creation',
+    logoUrl: '💥',
+    websiteUrl: 'https://boomy.com',
+    tags: ['Song creation', 'No experience needed', 'Streaming platforms', 'Revenue'],
+    highlights: ['Instant song creation', 'Streaming distribution', 'Revenue sharing'],
+    isPaid: false,
+    pricing: 'Freemium - $9.99/month for Creator',
+    createdBy: 'Boomy'
+  },
+  {
+    name: 'Soundraw',
+    description: 'AI music generator for creators with full customization.',
+    fullDescription: 'Soundraw is an AI music generator that creates royalty-free music for videos, podcasts, and other content. Offers extensive customization options including mood, genre, length, and instruments to create the perfect soundtrack for any project.',
+    category: 'Music Creation',
+    logoUrl: '🎹',
+    websiteUrl: 'https://soundraw.io',
+    tags: ['Customization', 'Royalty-free', 'Video music', 'Podcast'],
+    highlights: ['Unlimited downloads', 'Full customization', 'Commercial license'],
+    isPaid: false,
+    pricing: 'Freemium - $19.99/month for Creator',
+    createdBy: 'Soundraw'
+  },
+  {
+    name: 'Amadeus Code',
+    description: 'AI songwriting assistant for melody and chord progression.',
+    fullDescription: 'Amadeus Code uses artificial intelligence to help songwriters create melodies and chord progressions. Inspired by hit songs throughout history, it generates musical ideas that can be exported to DAWs and further developed into complete songs.',
+    category: 'Music Creation',
+    logoUrl: '🎖️',
+    websiteUrl: 'https://amadeuscode.com',
+    tags: ['Songwriting', 'Melody', 'Chord progression', 'DAW export'],
+    highlights: ['Hit song inspiration', 'DAW integration', 'MIDI export'],
+    isPaid: true,
+    pricing: 'Paid - $9.99/month',
+    createdBy: 'Amadeus Code'
   }
 ];
 

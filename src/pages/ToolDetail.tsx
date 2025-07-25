@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, Star, ArrowUp, ExternalLink, Share, Heart, MessageCircle, Eye, Calendar } from 'lucide-react';
-import { getToolById, toolsData } from '@/data/toolsData';
+import { toolService } from '../services/toolService';
 
 const ToolDetail = () => {
   const { id } = useParams();
@@ -13,8 +13,43 @@ const ToolDetail = () => {
   const [userSaved, setUserSaved] = useState(false);
   const [userRating, setUserRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [tool, setTool] = useState(null);
+  const [relatedTools, setRelatedTools] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const tool = getToolById(Number(id));
+  useEffect(() => {
+    const fetchTool = async () => {
+      if (!id) return;
+      
+      setLoading(true);
+      try {
+        const toolData = await toolService.getTool(id);
+        setTool(toolData);
+        
+        if (toolData) {
+          const related = await toolService.getToolsByCategory(toolData.category);
+          setRelatedTools(related.filter(t => t.id !== toolData.id).slice(0, 3));
+        }
+      } catch (error) {
+        console.error('Error fetching tool:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTool();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading tool details...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!tool) {
     return (
@@ -56,9 +91,6 @@ const ToolDetail = () => {
     }
   ];
 
-  const relatedTools = toolsData
-    .filter(t => t.category === tool.category && t.id !== tool.id)
-    .slice(0, 3);
 
   const handleVote = () => {
     setUserVoted(!userVoted);
@@ -115,7 +147,24 @@ const ToolDetail = () => {
             <Card className="border-0 bg-white/80 backdrop-blur-sm">
               <CardContent className="p-8">
                 <div className="flex items-start gap-6 mb-6">
-                  <div className="text-6xl">{tool.logoUrl}</div>
+                  <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                    {tool.logoUrl && tool.logoUrl.startsWith('http') ? (
+                      <img 
+                        src={tool.logoUrl} 
+                        alt={`${tool.name} logo`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback) fallback.style.display = 'block';
+                        }}
+                      />
+                    ) : (
+                      <span className="text-4xl">{tool.logoUrl || '🤖'}</span>
+                    )}
+                    <span className="text-4xl hidden">🤖</span>
+                  </div>
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-4">
                       <div>
@@ -368,7 +417,24 @@ const ToolDetail = () => {
                       to={`/tool/${relatedTool.id}`}
                       className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors group"
                     >
-                      <div className="text-2xl">{relatedTool.logoUrl}</div>
+                      <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                        {relatedTool.logoUrl && relatedTool.logoUrl.startsWith('http') ? (
+                          <img 
+                            src={relatedTool.logoUrl} 
+                            alt={`${relatedTool.name} logo`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const fallback = target.nextElementSibling as HTMLElement;
+                              if (fallback) fallback.style.display = 'block';
+                            }}
+                          />
+                        ) : (
+                          <span className="text-lg">{relatedTool.logoUrl || '🤖'}</span>
+                        )}
+                        <span className="text-lg hidden">🤖</span>
+                      </div>
                       <div className="flex-1">
                         <div className="font-medium text-gray-800 group-hover:text-purple-600">
                           {relatedTool.name}
