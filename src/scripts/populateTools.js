@@ -943,10 +943,20 @@ const toolsToAdd = [
 export async function populateTools() {
   console.log('Starting to populate tools...');
   
+  // Get existing tools to check for duplicates
+  const existingTools = await toolService.getAllTools();
+  const existingToolNames = existingTools.map(tool => tool.name.toLowerCase());
+  
   for (const tool of toolsToAdd) {
     try {
+      // Check if tool already exists by name
+      if (existingToolNames.includes(tool.name.toLowerCase())) {
+        console.log(`Tool already exists, skipping: ${tool.name}`);
+        continue;
+      }
+      
       const toolId = await toolService.addTool(tool);
-      console.log(`Added tool: ${tool.name} with ID: ${toolId}`);
+      console.log(`Added new tool: ${tool.name} with ID: ${toolId}`);
     } catch (error) {
       console.error(`Error adding tool ${tool.name}:`, error);
     }
