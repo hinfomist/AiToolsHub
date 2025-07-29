@@ -1,1505 +1,444 @@
 import { toolService } from '../services/toolService.js';
 
 const toolsToAdd = [
-  // Content Writing Tools
-  {
-    name: 'Jasper AI',
-    description: 'AI-powered content creation platform for marketing teams and businesses.',
-    fullDescription: 'Jasper AI is an advanced AI content creation platform that helps marketing teams, content creators, and businesses generate high-quality written content at scale. It offers templates for various content types including blog posts, social media content, email campaigns, and ad copy.',
-    category: 'Content Writing',
-    tags: ['AI Writing', 'Marketing', 'Content Creation', 'Blog Posts', 'Copywriting'],
-    logoUrl: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.jasper.ai',
-    highlights: ['50+ content templates', 'Brand voice consistency', 'SEO optimization', 'Team collaboration'],
-    pricing: 'Starting at $49/month',
-    isPaid: true,
-    createdBy: 'Jasper AI'
-  },
-  {
-    name: 'Copy.ai',
-    description: 'AI copywriter that helps you create compelling content for marketing and sales.',
-    fullDescription: 'Copy.ai is an AI-powered copywriting tool that generates marketing copy, product descriptions, blog posts, and social media content. It uses advanced natural language processing to create engaging content that converts.',
-    category: 'Content Writing',
-    tags: ['Copywriting', 'Marketing Copy', 'Social Media', 'Product Descriptions'],
-    logoUrl: 'https://images.unsplash.com/photo-1586953983027-d7508a64f4bb?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.copy.ai',
-    highlights: ['90+ copywriting templates', 'Multiple languages', 'Tone adjustment', 'Free plan available'],
-    pricing: 'Free - $49/month',
-    isPaid: false,
-    createdBy: 'Copy.ai'
-  },
-  {
-    name: 'Writesonic',
-    description: 'AI writing assistant for creating articles, blogs, ads, and marketing content.',
-    fullDescription: 'Writesonic is an AI writing platform that helps create high-quality content including articles, blog posts, ads, product descriptions, and social media posts. It offers SEO-optimized content generation and supports multiple languages.',
-    category: 'Content Writing',
-    tags: ['AI Writing', 'SEO Content', 'Blog Writing', 'Ad Copy'],
-    logoUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=100&h=100&fit=crop',
-    websiteUrl: 'https://writesonic.com',
-    highlights: ['SEO-optimized content', '25+ languages', 'Factual content', 'API access'],
-    pricing: 'Free - $19/month',
-    isPaid: false,
-    createdBy: 'Writesonic'
-  },
-  {
-    name: 'Rytr',
-    description: 'AI writing assistant that helps you create killer content instantly.',
-    fullDescription: 'Rytr is an AI writing assistant that generates high-quality content for blogs, emails, ads, and more. It supports 30+ languages and 20+ tones of voice, making it versatile for various content creation needs.',
-    category: 'Content Writing',
-    tags: ['AI Writing', 'Content Generation', 'Multilingual', 'Email Writing'],
-    logoUrl: 'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=100&h=100&fit=crop',
-    websiteUrl: 'https://rytr.me',
-    highlights: ['30+ languages', '20+ tones', 'Plagiarism checker', 'Chrome extension'],
-    pricing: 'Free - $29/month',
-    isPaid: false,
-    createdBy: 'Rytr'
-  },
-  {
-    name: 'Anyword',
-    description: 'AI copywriting platform with predictive performance scoring.',
-    fullDescription: 'Anyword is an AI-powered copywriting platform that not only generates content but also predicts its performance. It offers data-driven insights to optimize marketing copy, social media posts, and ad campaigns.',
-    category: 'Content Writing',
-    tags: ['AI Copywriting', 'Performance Prediction', 'Marketing', 'Data-Driven'],
-    logoUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=100&fit=crop',
-    websiteUrl: 'https://anyword.com',
-    highlights: ['Performance prediction', 'A/B testing', 'Brand guidelines', 'Analytics dashboard'],
-    pricing: 'Starting at $39/month',
-    isPaid: true,
-    createdBy: 'Anyword'
-  },
-
-  // Image Generation Tools
-  {
-    name: 'Stability AI',
-    description: 'Open-source AI system for generating images from text descriptions.',
-    fullDescription: 'Stability AI offers Stable Diffusion, a powerful open-source AI model for generating high-quality images from text prompts. It provides various models and tools for creative professionals and developers.',
-    category: 'Image Generation',
-    tags: ['Text-to-Image', 'Open Source', 'Stable Diffusion', 'Art Generation'],
-    logoUrl: 'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=100&h=100&fit=crop',
-    websiteUrl: 'https://stability.ai',
-    highlights: ['Open source models', 'High-quality output', 'Multiple model versions', 'API access'],
-    pricing: 'Free - $20/month',
-    isPaid: false,
-    createdBy: 'Stability AI'
-  },
-  {
-    name: 'Adobe Firefly',
-    description: 'AI-powered creative tools integrated into Adobe Creative Suite.',
-    fullDescription: 'Adobe Firefly is a family of AI-powered creative tools that generate images, text effects, and design elements. Integrated into Adobe Creative Suite, it helps designers and artists enhance their creative workflow.',
-    category: 'Image Generation',
-    tags: ['Adobe', 'Creative Suite', 'Text Effects', 'Design Elements'],
-    logoUrl: 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=100&h=100&fit=crop',
-    websiteUrl: 'https://firefly.adobe.com',
-    highlights: ['Adobe integration', 'Commercial usage rights', 'Text effects', 'Vector generation'],
-    pricing: 'Included with Adobe CC',
-    isPaid: true,
-    createdBy: 'Adobe'
-  },
-  {
-    name: 'Canva AI',
-    description: 'AI-powered design tools within the Canva platform.',
-    fullDescription: 'Canva AI brings artificial intelligence to the popular design platform, offering features like Magic Design, Background Remover, and AI-generated images to streamline the design process for users.',
-    category: 'Image Generation',
-    tags: ['Design Platform', 'Magic Design', 'Background Removal', 'Templates'],
-    logoUrl: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.canva.com',
-    highlights: ['Easy-to-use interface', 'Design templates', 'Background removal', 'Team collaboration'],
-    pricing: 'Free - $15/month',
-    isPaid: false,
-    createdBy: 'Canva'
-  },
-  {
-    name: 'Leonardo AI',
-    description: 'Advanced AI image generator for creating production-quality visual assets.',
-    fullDescription: 'Leonardo AI is a powerful AI image generation platform designed for creating production-quality visual assets. It offers fine-tuned models, advanced editing capabilities, and tools for game development, marketing, and creative projects.',
-    category: 'Image Generation',
-    tags: ['Production Quality', 'Game Assets', 'Fine-tuned Models', 'Advanced Editing'],
-    logoUrl: 'https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=100&h=100&fit=crop',
-    websiteUrl: 'https://leonardo.ai',
-    highlights: ['Fine-tuned models', 'Realtime canvas', 'AI video generation', 'Commercial license'],
-    pricing: 'Free - $48/month',
-    isPaid: false,
-    createdBy: 'Leonardo AI'
-  },
-  {
-    name: 'RunwayML',
-    description: 'AI-powered creative toolkit for video, image, and audio generation.',
-    fullDescription: 'RunwayML is a comprehensive AI creative platform that offers tools for generating and editing videos, images, and audio. It provides cutting-edge AI models for creative professionals, filmmakers, and artists.',
-    category: 'Image Generation',
-    tags: ['Video Generation', 'Creative Toolkit', 'AI Models', 'Professional Tools'],
-    logoUrl: 'https://images.unsplash.com/photo-1524749292158-7540c2494485?w=100&h=100&fit=crop',
-    websiteUrl: 'https://runwayml.com',
-    highlights: ['Video generation', 'Real-time collaboration', '30+ AI tools', 'Professional features'],
-    pricing: 'Free - $95/month',
-    isPaid: false,
-    createdBy: 'Runway'
-  },
-
-  // Personal Assistants
-  {
-    name: 'Notion AI',
-    description: 'AI assistant integrated into Notion workspace for enhanced productivity.',
-    fullDescription: 'Notion AI is an intelligent writing assistant built into Notion that helps users generate content, improve writing, brainstorm ideas, and organize information more efficiently within their workspace.',
-    category: 'Personal Assistants',
-    tags: ['Workspace AI', 'Writing Assistant', 'Productivity', 'Note Taking'],
-    logoUrl: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.notion.so/product/ai',
-    highlights: ['Integrated workspace', 'Content generation', 'Writing improvement', 'Brainstorming'],
-    pricing: '$10/month per user',
-    isPaid: true,
-    createdBy: 'Notion'
-  },
-  {
-    name: 'Otter.ai',
-    description: 'AI-powered meeting assistant that records, transcribes, and summarizes conversations.',
-    fullDescription: 'Otter.ai is an AI meeting assistant that automatically records, transcribes, and summarizes meetings in real-time. It integrates with popular video conferencing platforms and helps teams stay organized and productive.',
-    category: 'Personal Assistants',
-    tags: ['Meeting Transcription', 'Voice Recording', 'Meeting Summary', 'Team Collaboration'],
-    logoUrl: 'https://images.unsplash.com/photo-1553484771-371a605b060b?w=100&h=100&fit=crop',
-    websiteUrl: 'https://otter.ai',
-    highlights: ['Real-time transcription', 'Meeting summaries', 'Speaker identification', 'Integration with Zoom/Teams'],
-    pricing: 'Free - $20/month',
-    isPaid: false,
-    createdBy: 'Otter.ai'
-  },
-  {
-    name: 'Clockify AI',
-    description: 'AI-enhanced time tracking and project management assistant.',
-    fullDescription: 'Clockify AI combines time tracking with artificial intelligence to help individuals and teams manage projects more effectively. It provides insights, automation, and intelligent suggestions for better productivity.',
-    category: 'Personal Assistants',
-    tags: ['Time Tracking', 'Project Management', 'Productivity Analytics', 'Team Management'],
-    logoUrl: 'https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?w=100&h=100&fit=crop',
-    websiteUrl: 'https://clockify.me',
-    highlights: ['Time tracking', 'Project insights', 'Team analytics', 'Automated reporting'],
-    pricing: 'Free - $9.99/month',
-    isPaid: false,
-    createdBy: 'Clockify'
-  },
-  {
-    name: 'Reclaim AI',
-    description: 'AI scheduling assistant that optimizes your calendar automatically.',
-    fullDescription: 'Reclaim AI is an intelligent scheduling assistant that automatically optimizes your calendar by scheduling focus time, managing habits, and coordinating team schedules to maximize productivity.',
-    category: 'Personal Assistants',
-    tags: ['Calendar Management', 'Schedule Optimization', 'Focus Time', 'Habit Tracking'],
-    logoUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100&h=100&fit=crop',
-    websiteUrl: 'https://reclaim.ai',
-    highlights: ['Smart scheduling', 'Focus time blocks', 'Habit integration', 'Team coordination'],
-    pricing: 'Free - $18/month',
-    isPaid: false,
-    createdBy: 'Reclaim AI'
-  },
-  {
-    name: 'Superhuman',
-    description: 'AI-powered email client that helps you process email faster.',
-    fullDescription: 'Superhuman is an AI-enhanced email client designed for speed and efficiency. It offers features like AI-powered email composition, smart scheduling, and advanced keyboard shortcuts to help users manage their inbox more effectively.',
-    category: 'Personal Assistants',
-    tags: ['Email Management', 'Productivity', 'AI Composition', 'Keyboard Shortcuts'],
-    logoUrl: 'https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=100&h=100&fit=crop',
-    websiteUrl: 'https://superhuman.com',
-    highlights: ['Fastest email experience', 'AI-powered features', 'Advanced shortcuts', 'Email scheduling'],
-    pricing: '$30/month',
-    isPaid: true,
-    createdBy: 'Superhuman'
-  },
-
-  // Chatbots
-  {
-    name: 'Claude',
-    description: 'Advanced AI assistant by Anthropic for conversational AI and analysis.',
-    fullDescription: 'Claude is Anthropic\'s AI assistant designed to be helpful, harmless, and honest. It excels at complex reasoning, creative writing, coding assistance, and in-depth analysis while maintaining strong safety guidelines.',
-    category: 'Chatbots',
-    tags: ['Conversational AI', 'Reasoning', 'Creative Writing', 'Code Assistant'],
-    logoUrl: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=100&h=100&fit=crop',
-    websiteUrl: 'https://claude.ai',
-    highlights: ['Advanced reasoning', 'Large context window', 'Safety-focused', 'Multimodal capabilities'],
-    pricing: 'Free - $20/month',
-    isPaid: false,
-    createdBy: 'Anthropic'
-  },
-  {
-    name: 'Perplexity AI',
-    description: 'AI-powered search engine that provides accurate answers with sources.',
-    fullDescription: 'Perplexity AI is an AI-powered search engine that combines the capabilities of large language models with real-time web search to provide accurate, cited answers to complex questions.',
-    category: 'Chatbots',
-    tags: ['AI Search', 'Real-time Information', 'Source Citations', 'Research Assistant'],
-    logoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
-    websiteUrl: 'https://perplexity.ai',
-    highlights: ['Real-time search', 'Source citations', 'Follow-up questions', 'Academic mode'],
-    pricing: 'Free - $20/month',
-    isPaid: false,
-    createdBy: 'Perplexity AI'
-  },
-  {
-    name: 'Character.AI',
-    description: 'Create and chat with AI characters for entertainment and roleplay.',
-    fullDescription: 'Character.AI allows users to create and interact with AI-powered characters for entertainment, education, and creative purposes. Users can chat with historical figures, fictional characters, or create their own.',
-    category: 'Chatbots',
-    tags: ['Character Creation', 'Roleplay', 'Entertainment', 'Creative AI'],
-    logoUrl: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=100&h=100&fit=crop',
-    websiteUrl: 'https://character.ai',
-    highlights: ['Custom characters', 'Roleplay scenarios', 'Community sharing', 'Mobile app'],
-    pricing: 'Free - $9.99/month',
-    isPaid: false,
-    createdBy: 'Character.AI'
-  },
-  {
-    name: 'Replika',
-    description: 'AI companion designed for meaningful conversations and emotional support.',
-    fullDescription: 'Replika is an AI chatbot designed to be a personal companion that learns from conversations to provide emotional support, companionship, and engaging dialogue tailored to each user.',
-    category: 'Chatbots',
-    tags: ['AI Companion', 'Emotional Support', 'Personal AI', 'Mental Health'],
-    logoUrl: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=100&h=100&fit=crop',
-    websiteUrl: 'https://replika.ai',
-    highlights: ['Emotional intelligence', 'Personalized responses', 'Mood tracking', '3D avatar'],
-    pricing: 'Free - $19.99/month',
-    isPaid: false,
-    createdBy: 'Luka Inc.'
-  },
-  {
-    name: 'Pi by Inflection',
-    description: 'Personal AI assistant focused on helpful, natural conversations.',
-    fullDescription: 'Pi is a personal AI assistant created by Inflection AI, designed to be helpful, kind, and engaging in natural conversations. It focuses on being a supportive companion for daily tasks and discussions.',
-    category: 'Chatbots',
-    tags: ['Personal Assistant', 'Natural Conversation', 'Helpful AI', 'Daily Tasks'],
-    logoUrl: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=100&h=100&fit=crop',
-    websiteUrl: 'https://pi.ai',
-    highlights: ['Natural conversations', 'Emotional intelligence', 'Voice interaction', 'Multi-platform'],
-    pricing: 'Free',
-    isPaid: false,
-    createdBy: 'Inflection AI'
-  },
-
-  // Sales Tools
-  {
-    name: 'Salesforce Einstein',
-    description: 'AI-powered CRM features integrated into Salesforce platform.',
-    fullDescription: 'Salesforce Einstein brings artificial intelligence to the Salesforce CRM platform, offering predictive analytics, automated insights, and intelligent recommendations to help sales teams close more deals.',
-    category: 'Sales',
-    tags: ['CRM AI', 'Predictive Analytics', 'Sales Insights', 'Lead Scoring'],
-    logoUrl: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.salesforce.com/products/einstein',
-    highlights: ['Predictive lead scoring', 'Opportunity insights', 'Automated activity capture', 'AI-powered forecasting'],
-    pricing: 'Included with Salesforce plans',
-    isPaid: true,
-    createdBy: 'Salesforce'
-  },
-  {
-    name: 'Gong.io',
-    description: 'AI-powered revenue intelligence platform for sales teams.',
-    fullDescription: 'Gong.io uses AI to analyze sales conversations, emails, and meetings to provide insights into deal progression, customer sentiment, and competitive intelligence, helping sales teams improve their performance.',
-    category: 'Sales',
-    tags: ['Revenue Intelligence', 'Conversation Analytics', 'Deal Intelligence', 'Sales Coaching'],
-    logoUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.gong.io',
-    highlights: ['Conversation intelligence', 'Deal risk analysis', 'Competitive insights', 'Sales coaching'],
-    pricing: 'Contact for pricing',
-    isPaid: true,
-    createdBy: 'Gong.io'
-  },
-  {
-    name: 'Outreach.io',
-    description: 'AI-powered sales engagement platform for prospecting and outreach.',
-    fullDescription: 'Outreach.io is a sales engagement platform that uses AI to optimize outreach sequences, predict the best times to contact prospects, and provide insights to improve sales effectiveness.',
-    category: 'Sales',
-    tags: ['Sales Engagement', 'Email Sequences', 'Prospecting', 'Sales Analytics'],
-    logoUrl: 'https://images.unsplash.com/photo-1553484771-cc0d9b8c2b33?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.outreach.io',
-    highlights: ['Automated sequences', 'A/B testing', 'Analytics dashboard', 'CRM integration'],
-    pricing: 'Starting at $100/month per user',
-    isPaid: true,
-    createdBy: 'Outreach'
-  },
-  {
-    name: 'Clay',
-    description: 'AI-powered data enrichment and personalization platform for sales.',
-    fullDescription: 'Clay combines data enrichment with AI-powered personalization to help sales teams find, research, and reach out to prospects with highly personalized messages at scale.',
-    category: 'Sales',
-    tags: ['Data Enrichment', 'Personalization', 'Prospecting', 'Lead Generation'],
-    logoUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.clay.com',
-    highlights: ['Data enrichment', 'AI personalization', 'Webhook integrations', 'Automated research'],
-    pricing: 'Starting at $149/month',
-    isPaid: true,
-    createdBy: 'Clay'
-  },
-  {
-    name: 'Lavender',
-    description: 'AI email coach that helps improve sales email performance.',
-    fullDescription: 'Lavender is an AI-powered email assistant that helps sales professionals write better emails by providing real-time coaching, personalization suggestions, and performance analytics.',
-    category: 'Sales',
-    tags: ['Email Coaching', 'Sales Emails', 'Performance Analytics', 'Personalization'],
-    logoUrl: 'https://images.unsplash.com/photo-1586953983027-d7508a64f4bb?w=100&h=100&fit=crop',
-    websiteUrl: 'https://www.lavender.ai',
-    highlights: ['Real-time email coaching', 'Deliverability insights', 'Personalization suggestions', 'Performance tracking'],
-    pricing: 'Free - $45/month',
-    isPaid: false,
-    createdBy: 'Lavender'
-  },
-
-  // Productivity Tools
-  {
-    name: 'Notion AI',
-    description: 'AI-powered writing assistant integrated into Notion workspace.',
-    fullDescription: 'Notion AI brings the power of artificial intelligence directly into your Notion workspace. Write faster, think bigger, and augment creativity with AI-powered writing assistance, content generation, and editing tools seamlessly integrated into your notes, docs, and databases.',
-    category: 'Productivity',
-    logoUrl: '📝',
-    websiteUrl: 'https://notion.so/product/ai',
-    tags: ['Writing', 'Workspace', 'Notes', 'Collaboration'],
-    highlights: ['Integrated with Notion', 'Content generation', 'Writing assistance'],
-    isPaid: true,
-    pricing: 'Paid - $10/month per member',
-    createdBy: 'Notion'
-  },
-  {
-    name: 'Otter.ai',
-    description: 'AI-powered meeting transcription and note-taking assistant.',
-    fullDescription: 'Otter.ai uses artificial intelligence to automatically transcribe meetings, interviews, lectures, and other conversations in real-time. Get searchable notes, summaries, and action items to boost productivity and never miss important details.',
-    category: 'Productivity',
-    logoUrl: '🦦',
-    websiteUrl: 'https://otter.ai',
-    tags: ['Transcription', 'Meetings', 'Notes', 'Real-time'],
-    highlights: ['Real-time transcription', 'Meeting summaries', 'Action items'],
-    isPaid: false,
-    pricing: 'Freemium - $16.99/month for Pro',
-    createdBy: 'Otter.ai'
-  },
-  {
-    name: 'Clockify AI',
-    description: 'AI-enhanced time tracking for better productivity insights.',
-    fullDescription: 'Clockify AI combines time tracking with artificial intelligence to provide insights into productivity patterns, suggest optimal work schedules, and automatically categorize time entries for better project management and personal productivity.',
-    category: 'Productivity',
-    logoUrl: '⏰',
-    websiteUrl: 'https://clockify.me',
-    tags: ['Time tracking', 'Analytics', 'Productivity', 'Insights'],
-    highlights: ['Automatic categorization', 'Productivity insights', 'Team collaboration'],
-    isPaid: false,
-    pricing: 'Freemium - $9.99/month for Pro',
-    createdBy: 'Clockify'
-  },
-  {
-    name: 'Krisp AI',
-    description: 'AI-powered noise cancellation for calls and meetings.',
-    fullDescription: 'Krisp AI uses advanced artificial intelligence to remove background noise, voices, and echoes from calls in real-time. Perfect for remote work, improving call quality and ensuring professional communication regardless of your environment.',
-    category: 'Productivity',
-    logoUrl: '🎧',
-    websiteUrl: 'https://krisp.ai',
-    tags: ['Noise cancellation', 'Calls', 'Remote work', 'Audio'],
-    highlights: ['Real-time noise removal', 'Works with any app', 'Background voice removal'],
-    isPaid: false,
-    pricing: 'Freemium - $8/month for Pro',
-    createdBy: 'Krisp'
-  },
-  {
-    name: 'Motion AI',
-    description: 'AI-powered calendar and task management for optimal scheduling.',
-    fullDescription: 'Motion AI automatically plans your day by scheduling tasks, managing your calendar, and protecting time for focused work. Uses AI to optimize your schedule based on priorities, deadlines, and work patterns for maximum productivity.',
-    category: 'Productivity',
-    logoUrl: '📅',
-    websiteUrl: 'https://usemotion.com',
-    tags: ['Calendar', 'Task management', 'Scheduling', 'Automation'],
-    highlights: ['Automatic scheduling', 'Task prioritization', 'Focus time protection'],
-    isPaid: true,
-    pricing: 'Paid - $19/month',
-    createdBy: 'Motion'
-  },
-
-  // Video Creation Tools
-  {
-    name: 'Synthesia',
-    description: 'AI video generator with realistic AI avatars and voiceovers.',
-    fullDescription: 'Synthesia creates professional videos using AI avatars and text-to-speech technology. Simply type your script and choose an avatar to generate high-quality videos without cameras, microphones, or actors. Perfect for training, marketing, and educational content.',
-    category: 'Video Creation',
-    logoUrl: '🎬',
-    websiteUrl: 'https://synthesia.io',
-    tags: ['AI avatars', 'Text-to-video', 'Professional', 'Multilingual'],
-    highlights: ['140+ AI avatars', '120+ languages', 'No equipment needed'],
-    isPaid: true,
-    pricing: 'Paid - $22.50/month',
-    createdBy: 'Synthesia'
-  },
-  {
-    name: 'Runway ML',
-    description: 'AI-powered video editing and generation platform.',
-    fullDescription: 'Runway ML offers cutting-edge AI tools for video creation and editing, including text-to-video generation, background removal, motion tracking, and style transfer. Designed for creators, filmmakers, and content producers looking to push creative boundaries.',
-    category: 'Video Creation',
-    logoUrl: '🛣️',
-    websiteUrl: 'https://runwayml.com',
-    tags: ['Video editing', 'Text-to-video', 'Creative', 'Professional'],
-    highlights: ['Text-to-video generation', 'Background removal', 'Style transfer'],
-    isPaid: false,
-    pricing: 'Freemium - $15/month for Standard',
-    createdBy: 'Runway'
-  },
-  {
-    name: 'Pictory AI',
-    description: 'Transform long-form content into engaging short videos.',
-    fullDescription: 'Pictory AI automatically converts blogs, articles, and scripts into engaging short videos. Uses AI to extract key points, add relevant visuals, and create compelling video content perfect for social media, marketing, and educational purposes.',
-    category: 'Video Creation',
-    logoUrl: '📖',
-    websiteUrl: 'https://pictory.ai',
-    tags: ['Content repurposing', 'Social media', 'Automatic editing', 'Marketing'],
-    highlights: ['Blog to video', 'Automatic highlights', 'Stock footage library'],
-    isPaid: false,
-    pricing: 'Freemium - $19/month for Standard',
-    createdBy: 'Pictory'
-  },
-  {
-    name: 'Loom AI',
-    description: 'AI-enhanced screen recording with smart editing features.',
-    fullDescription: 'Loom AI combines screen recording with artificial intelligence to automatically edit, transcribe, and enhance your videos. Perfect for creating tutorials, demos, and team communications with AI-powered features like auto-generated titles and summaries.',
-    category: 'Video Creation',
-    logoUrl: '🔴',
-    websiteUrl: 'https://loom.com',
-    tags: ['Screen recording', 'Tutorials', 'Team communication', 'Auto-editing'],
-    highlights: ['Auto transcription', 'Smart editing', 'Team collaboration'],
-    isPaid: false,
-    pricing: 'Freemium - $8/month for Business',
-    createdBy: 'Loom'
-  },
-  {
-    name: 'InVideo AI',
-    description: 'AI video creator with templates and automatic editing.',
-    fullDescription: 'InVideo AI makes video creation simple with AI-powered templates, automatic editing, and intelligent content suggestions. Transform ideas into professional videos quickly with smart scene detection, auto-sync music, and template customization.',
-    category: 'Video Creation',
-    logoUrl: '🎥',
-    websiteUrl: 'https://invideo.io',
-    tags: ['Templates', 'Automatic editing', 'Marketing videos', 'Social media'],
-    highlights: ['5000+ templates', 'Auto scene detection', 'Text-to-video'],
-    isPaid: false,
-    pricing: 'Freemium - $15/month for Business',
-    createdBy: 'InVideo'
-  },
-
-  // Music Creation Tools
-  {
-    name: 'AIVA',
-    description: 'AI composer for creating original music and soundtracks.',
-    fullDescription: 'AIVA (Artificial Intelligence Virtual Artist) composes emotional soundtrack music for films, video games, commercials, and other content. Trained on thousands of classical compositions, AIVA creates original music in various styles and genres.',
-    category: 'Music Creation',
-    logoUrl: '🎼',
-    websiteUrl: 'https://aiva.ai',
-    tags: ['Composition', 'Soundtrack', 'Classical', 'Original music'],
-    highlights: ['Multiple genres', 'Copyright ownership', 'Professional quality'],
-    isPaid: false,
-    pricing: 'Freemium - €15/month for Standard',
-    createdBy: 'AIVA Technologies'
-  },
-  {
-    name: 'Mubert',
-    description: 'AI-powered royalty-free music generation for any purpose.',
-    fullDescription: 'Mubert generates royalty-free music using artificial intelligence. Perfect for content creators, streamers, and businesses needing background music. Create infinite streams of music tailored to your mood, activity, or brand requirements.',
-    category: 'Music Creation',
-    logoUrl: '🎵',
-    websiteUrl: 'https://mubert.com',
-    tags: ['Royalty-free', 'Background music', 'Streaming', 'Content creation'],
-    highlights: ['Infinite music streams', 'Royalty-free', 'Multiple moods'],
-    isPaid: false,
-    pricing: 'Freemium - $14/month for Creator',
-    createdBy: 'Mubert'
-  },
-  {
-    name: 'Boomy',
-    description: 'Create original songs in seconds with AI music generation.',
-    fullDescription: 'Boomy lets anyone create original songs in seconds using artificial intelligence, even with no music experience. Generate songs in various styles, customize them, and submit to streaming platforms to earn revenue from your AI-created music.',
-    category: 'Music Creation',
-    logoUrl: '💥',
-    websiteUrl: 'https://boomy.com',
-    tags: ['Song creation', 'No experience needed', 'Streaming platforms', 'Revenue'],
-    highlights: ['Instant song creation', 'Streaming distribution', 'Revenue sharing'],
-    isPaid: false,
-    pricing: 'Freemium - $9.99/month for Creator',
-    createdBy: 'Boomy'
-  },
-  {
-    name: 'Soundraw',
-    description: 'AI music generator for creators with full customization.',
-    fullDescription: 'Soundraw is an AI music generator that creates royalty-free music for videos, podcasts, and other content. Offers extensive customization options including mood, genre, length, and instruments to create the perfect soundtrack for any project.',
-    category: 'Music Creation',
-    logoUrl: '🎹',
-    websiteUrl: 'https://soundraw.io',
-    tags: ['Customization', 'Royalty-free', 'Video music', 'Podcast'],
-    highlights: ['Unlimited downloads', 'Full customization', 'Commercial license'],
-    isPaid: false,
-    pricing: 'Freemium - $19.99/month for Creator',
-    createdBy: 'Soundraw'
-  },
-  {
-    name: 'Amadeus Code',
-    description: 'AI songwriting assistant for melody and chord progression.',
-    fullDescription: 'Amadeus Code uses artificial intelligence to help songwriters create melodies and chord progressions. Inspired by hit songs throughout history, it generates musical ideas that can be exported to DAWs and further developed into complete songs.',
-    category: 'Music Creation',
-    logoUrl: '🎖️',
-    websiteUrl: 'https://amadeuscode.com',
-    tags: ['Songwriting', 'Melody', 'Chord progression', 'DAW export'],
-    highlights: ['Hit song inspiration', 'DAW integration', 'MIDI export'],
-    isPaid: true,
-    pricing: 'Paid - $9.99/month',
-    createdBy: 'Amadeus Code'
-  },
-
-  // Interview Prep Tools
-  {
-    name: 'InterviewBoss',
-    description: 'AI-powered mock interviews with personalized feedback.',
-    fullDescription: 'InterviewBoss uses AI to create unlimited mock interviews with personalized questions based on your job description and resume. Get real-time feedback, practice answers, and build confidence for your next interview.',
-    category: 'Interview Prep',
-    logoUrl: '💼',
-    websiteUrl: 'https://interviewboss.ai',
-    tags: ['Mock interviews', 'Personalized feedback', 'Job preparation', 'Practice'],
-    highlights: ['Unlimited mock interviews', 'Personalized questions', 'Real-time feedback'],
-    isPaid: false,
-    pricing: 'Freemium - $19/month for Pro',
-    createdBy: 'InterviewBoss'
-  },
-  {
-    name: 'Mockstar',
-    description: 'Realistic AI mock interviews with video avatars.',
-    fullDescription: 'Mockstar provides realistic mock interview practice with AI video avatars tailored to your specific job and resume. Practice with real-time feedback and improve your interview performance.',
-    category: 'Interview Prep',
-    logoUrl: '⭐',
-    websiteUrl: 'https://mockstar.co',
-    tags: ['Video interviews', 'AI avatars', 'Realistic practice', 'Job-specific'],
-    highlights: ['Video interviews', 'Real-time avatars', 'Job-specific prep'],
-    isPaid: false,
-    pricing: 'Freemium - $29/month for Premium',
-    createdBy: 'Mockstar'
-  },
-  {
-    name: 'Interview Sidekick',
-    description: 'AI interview assistant for before, during, and after interviews.',
-    fullDescription: 'Interview Sidekick provides comprehensive AI assistance throughout your entire interview process with real-time support, question preparation, and post-interview analysis.',
-    category: 'Interview Prep',
-    logoUrl: '🤝',
-    websiteUrl: 'https://interviewsidekick.com',
-    tags: ['Real-time assistance', 'Interview support', 'Question bank', 'Comprehensive'],
-    highlights: ['Real-time assistance', 'Question bank', 'Live coaching'],
-    isPaid: true,
-    pricing: 'Paid - $49/month',
-    createdBy: 'Interview Sidekick'
-  },
-  {
-    name: 'Acedit AI',
-    description: 'AI interview coach with real-time question detection.',
-    fullDescription: 'Acedit AI provides live AI coaching during interviews with real-time question detection and personalized response suggestions that adapt to your experience level.',
-    category: 'Interview Prep',
-    logoUrl: '🎯',
-    websiteUrl: 'https://acedit.ai',
-    tags: ['Live coaching', 'Question detection', 'Response suggestions', 'Real-time'],
-    highlights: ['Live AI coaching', 'Question detection', 'Response suggestions'],
-    isPaid: true,
-    pricing: 'Paid - $39/month',
-    createdBy: 'Acedit AI'
-  },
-  {
-    name: 'FinalRound AI',
-    description: 'Comprehensive AI interview preparation platform.',
-    fullDescription: 'FinalRound AI offers comprehensive interview preparation including technical questions, system design practice, behavioral questions, and algorithm challenges for software engineers.',
-    category: 'Interview Prep',
-    logoUrl: '🏆',
-    websiteUrl: 'https://finalround.ai',
-    tags: ['Comprehensive prep', 'Technical interviews', 'System design', 'Algorithms'],
-    highlights: ['System design prep', 'Behavioral questions', 'Algorithm practice'],
-    isPaid: true,
-    pricing: 'Paid - $79/month',
-    createdBy: 'FinalRound AI'
-  },
-
   // AI Code Tools
   {
     name: 'GitHub Copilot',
-    description: 'AI pair programmer that suggests code and entire functions.',
-    fullDescription: 'GitHub Copilot is an AI-powered code completion tool that suggests whole lines or entire functions right inside your editor. Trained on billions of lines of code, it helps you code faster with fewer errors.',
+    description: 'AI pair programmer that helps you write code faster with intelligent suggestions.',
+    fullDescription: 'GitHub Copilot is an AI coding assistant that provides intelligent code suggestions and completions. It helps developers write code faster by suggesting whole lines or blocks of code as you type.',
     category: 'AI Code Tools',
-    logoUrl: '🐙',
+    tags: ['Code Assistant', 'AI Programming', 'Code Completion', 'Developer Tools'],
+    logoUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=100&h=100&fit=crop',
     websiteUrl: 'https://github.com/features/copilot',
-    tags: ['Code completion', 'AI programming', 'Multiple languages', 'IDE integration'],
-    highlights: ['Code suggestions', 'Multiple languages', 'IDE integration'],
+    highlights: ['Code suggestions', 'Multiple languages', 'IDE integration', 'Context-aware'],
+    pricing: '$10/month per user',
     isPaid: true,
-    pricing: 'Paid - $10/month',
     createdBy: 'GitHub'
+  },
+  {
+    name: 'Tabnine',
+    description: 'AI code completion tool that boosts developer productivity.',
+    fullDescription: 'Tabnine is an AI-powered code completion tool that predicts and suggests code completions based on context and patterns. It supports multiple programming languages and integrates with popular IDEs.',
+    category: 'AI Code Tools',
+    tags: ['Code Completion', 'AI Assistant', 'IDE Integration', 'Multiple Languages'],
+    logoUrl: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.tabnine.com',
+    highlights: ['AI code predictions', '30+ languages', 'Privacy focused', 'Team learning'],
+    pricing: 'Free - $39/month',
+    isPaid: false,
+    createdBy: 'Tabnine'
   },
   {
     name: 'Cursor',
     description: 'AI-first code editor built for pair programming with AI.',
-    fullDescription: 'Cursor is an AI-first code editor designed for pair programming with AI. It features native AI integration with Cmd+K for inline edits, Tab for autocomplete, and Chat for codebase conversations.',
+    fullDescription: 'Cursor is an AI-first code editor that enables developers to edit code with AI assistance. It offers features like AI-powered code generation, debugging, and refactoring in a modern editor interface.',
     category: 'AI Code Tools',
-    logoUrl: '💻',
+    tags: ['AI Editor', 'Code Generation', 'Pair Programming', 'Debugging'],
+    logoUrl: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=100&h=100&fit=crop',
     websiteUrl: 'https://cursor.sh',
-    tags: ['AI editor', 'Pair programming', 'Inline edits', 'Code chat'],
-    highlights: ['Cmd+K inline edits', 'AI chat', 'Native AI integration'],
+    highlights: ['AI pair programming', 'Code generation', 'Natural language editing', 'Git integration'],
+    pricing: 'Free - $20/month',
     isPaid: false,
-    pricing: 'Freemium - $20/month for Pro',
-    createdBy: 'Cursor'
+    createdBy: 'Anysphere'
   },
   {
-    name: 'Codeium',
-    description: 'Free AI-powered code acceleration toolkit.',
-    fullDescription: 'Codeium offers free AI-powered code acceleration with fast autocomplete, intelligent search, and chat capabilities across 70+ programming languages.',
+    name: 'Replit AI',
+    description: 'AI coding assistant integrated into Replit\'s cloud development environment.',
+    fullDescription: 'Replit AI is an integrated AI coding assistant that helps developers write, debug, and explain code within Replit\'s browser-based development environment.',
     category: 'AI Code Tools',
-    logoUrl: '⚡',
-    websiteUrl: 'https://codeium.com',
-    tags: ['Free', 'Code acceleration', 'Autocomplete', 'Multiple languages'],
-    highlights: ['Free forever', '70+ languages', 'Fast autocomplete'],
+    tags: ['Cloud IDE', 'Code Assistant', 'Debugging', 'Code Explanation'],
+    logoUrl: 'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=100&h=100&fit=crop',
+    websiteUrl: 'https://replit.com',
+    highlights: ['Cloud-based coding', 'AI assistance', 'Collaborative editing', 'Instant deployment'],
+    pricing: 'Free - $20/month',
     isPaid: false,
-    pricing: 'Free',
-    createdBy: 'Codeium'
-  },
-  {
-    name: 'Tabnine',
-    description: 'AI assistant for software developers with code completion.',
-    fullDescription: 'Tabnine is an AI code assistant that provides intelligent code completions, keeps your code private, and can be trained on your team\'s codebase for personalized suggestions.',
-    category: 'AI Code Tools',
-    logoUrl: '🔧',
-    websiteUrl: 'https://tabnine.com',
-    tags: ['Code completion', 'Privacy focused', 'Team training', 'Enterprise'],
-    highlights: ['Privacy focused', 'Team training', 'Enterprise ready'],
-    isPaid: false,
-    pricing: 'Freemium - $12/month per user',
-    createdBy: 'Tabnine'
-  },
-  {
-    name: 'Replit Ghostwriter',
-    description: 'AI pair programmer integrated into the Replit IDE.',
-    fullDescription: 'Replit Ghostwriter is an AI pair programmer built into the Replit online IDE, offering real-time code suggestions, explanations, and instant deployment capabilities.',
-    category: 'AI Code Tools',
-    logoUrl: '👻',
-    websiteUrl: 'https://replit.com/ai',
-    tags: ['Online IDE', 'Real-time collaboration', 'Instant deployment', 'Code suggestions'],
-    highlights: ['Integrated IDE', 'Real-time collaboration', 'Deploy instantly'],
-    isPaid: false,
-    pricing: 'Freemium - $7/month for Hacker',
     createdBy: 'Replit'
   },
-
-  // Resume Builder Tools
   {
-    name: 'ResumeBuild',
-    description: 'AI resume builder trusted by 1.4M+ users worldwide.',
-    fullDescription: 'ResumeBuild is the world\'s most trusted AI resume builder that optimizes your CV for ATS systems and helps you get more job interviews with AI-powered writing and formatting.',
-    category: 'Resume Builder',
-    logoUrl: '📄',
-    websiteUrl: 'https://resumebuild.ai',
-    tags: ['ATS optimization', 'AI writing', 'Job interviews', 'Professional'],
-    highlights: ['ATS optimization', 'AI writing', 'Free to use'],
+    name: 'CodeWhisperer',
+    description: 'Amazon\'s AI coding companion for real-time code suggestions.',
+    fullDescription: 'Amazon CodeWhisperer is an AI coding companion that provides real-time code suggestions and recommendations. It helps developers write code faster and more securely with ML-powered suggestions.',
+    category: 'AI Code Tools',
+    tags: ['Amazon', 'Code Suggestions', 'Security Scanning', 'Real-time'],
+    logoUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=100&h=100&fit=crop',
+    websiteUrl: 'https://aws.amazon.com/codewhisperer',
+    highlights: ['Real-time suggestions', 'Security scanning', 'Multiple languages', 'AWS integration'],
+    pricing: 'Free - $19/month',
     isPaid: false,
-    pricing: 'Freemium - $29/month for Pro',
-    createdBy: 'ResumeBuild'
-  },
-  {
-    name: 'RankResume',
-    description: 'AI resume builder that creates ATS-friendly resumes in 60 seconds.',
-    fullDescription: 'RankResume uses AI to analyze job descriptions and build customized, ATS-friendly resumes with matching cover letters in just 60 seconds.',
-    category: 'Resume Builder',
-    logoUrl: '🚀',
-    websiteUrl: 'https://rankresume.io',
-    tags: ['Fast creation', 'ATS-friendly', 'Job matching', 'Cover letters'],
-    highlights: ['60-second creation', 'Job matching', 'Cover letters'],
-    isPaid: true,
-    pricing: 'Paid - $19/month',
-    createdBy: 'RankResume'
-  },
-  {
-    name: 'Kickresume',
-    description: 'AI resume writer with professional templates.',
-    fullDescription: 'Kickresume combines AI writing assistance with professional templates and career advice to help you create standout resumes and cover letters.',
-    category: 'Resume Builder',
-    logoUrl: '✨',
-    websiteUrl: 'https://kickresume.com',
-    tags: ['Professional templates', 'AI writing', 'Career advice', 'Cover letters'],
-    highlights: ['Professional templates', 'AI writing', 'Career advice'],
-    isPaid: false,
-    pricing: 'Freemium - $19/month for Premium',
-    createdBy: 'Kickresume'
-  },
-  {
-    name: 'Zety',
-    description: 'AI-powered resume builder with expert guidance.',
-    fullDescription: 'Zety offers AI-powered resume building with expert guidance, multiple formats, and interview preparation tips to help you land your dream job.',
-    category: 'Resume Builder',
-    logoUrl: '🎓',
-    websiteUrl: 'https://zety.com',
-    tags: ['Expert guidance', 'Multiple formats', 'Interview tips', 'Professional'],
-    highlights: ['Expert guidance', 'Multiple formats', 'Interview tips'],
-    isPaid: true,
-    pricing: 'Paid - $5.95/month',
-    createdBy: 'Zety'
-  },
-  {
-    name: 'MyPerfectResume',
-    description: 'AI resume builder with step-by-step guidance.',
-    fullDescription: 'MyPerfectResume provides step-by-step guidance with AI assistance to create professional resumes, cover letters, and career documents.',
-    category: 'Resume Builder',
-    logoUrl: '📋',
-    websiteUrl: 'https://myperfectresume.com',
-    tags: ['Step-by-step', 'Professional', 'Cover letters', 'Career documents'],
-    highlights: ['Step-by-step builder', 'Industry templates', 'Cover letters'],
-    isPaid: true,
-    pricing: 'Paid - $5.95/month',
-    createdBy: 'MyPerfectResume'
-  },
-
-  // Email Assistants
-  {
-    name: 'Superhuman',
-    description: 'AI-native email for high-performing teams.',
-    fullDescription: 'Superhuman is an AI-enhanced email client that helps high-performing teams process email faster with AI-powered features, smart scheduling, and advanced productivity tools.',
-    category: 'Email Assistants',
-    logoUrl: '⚡',
-    websiteUrl: 'https://superhuman.com',
-    tags: ['High-performance', 'Team productivity', 'AI-powered', 'Fast email'],
-    highlights: ['4 hours saved weekly', 'Auto organization', 'Fast responses'],
-    isPaid: true,
-    pricing: 'Paid - $30/month',
-    createdBy: 'Superhuman'
-  },
-  {
-    name: 'EmailTree',
-    description: 'Next-gen AI email automation with 95% faster processing.',
-    fullDescription: 'EmailTree provides enterprise-grade AI email automation with GDPR compliance, on-premises deployment, and up to 95% faster email processing.',
-    category: 'Email Assistants',
-    logoUrl: '🌳',
-    websiteUrl: 'https://emailtree.ai',
-    tags: ['Enterprise', 'Automation', 'GDPR compliant', 'Fast processing'],
-    highlights: ['95% faster processing', 'GDPR compliant', 'On-premises deployment'],
-    isPaid: true,
-    pricing: 'Enterprise pricing',
-    createdBy: 'EmailTree'
-  },
-  {
-    name: 'Lindy',
-    description: 'AI email assistant that drafts replies and handles follow-ups.',
-    fullDescription: 'Lindy is an AI email assistant that automatically drafts replies, handles follow-ups, and prioritizes messages to help you achieve inbox zero.',
-    category: 'Email Assistants',
-    logoUrl: '🤖',
-    websiteUrl: 'https://lindy.ai',
-    tags: ['Auto replies', 'Follow-ups', 'Message prioritization', 'Inbox zero'],
-    highlights: ['Auto replies', 'Follow-up handling', 'Message prioritization'],
-    isPaid: true,
-    pricing: 'Paid - $39/month',
-    createdBy: 'Lindy'
-  },
-  {
-    name: 'Missive',
-    description: 'AI-powered team email with collaborative features.',
-    fullDescription: 'Missive combines email with AI assistance and team collaboration features to help teams manage shared inboxes and achieve inbox zero together.',
-    category: 'Email Assistants',
-    logoUrl: '💬',
-    websiteUrl: 'https://missiveapp.com',
-    tags: ['Team collaboration', 'Shared inbox', 'AI assistance', 'Productivity'],
-    highlights: ['Team collaboration', 'AI assistance', 'Inbox zero'],
-    isPaid: true,
-    pricing: 'Paid - $18/month per user',
-    createdBy: 'Missive'
-  },
-  {
-    name: 'SaneBox',
-    description: 'AI email organizer that filters important messages.',
-    fullDescription: 'SaneBox uses AI to automatically organize your email by filtering important messages, snoozing emails, and providing reminder systems for better email management.',
-    category: 'Email Assistants',
-    logoUrl: '📧',
-    websiteUrl: 'https://sanebox.com',
-    tags: ['Email organization', 'Smart filtering', 'Snooze', 'Reminders'],
-    highlights: ['Smart filtering', 'Snooze emails', 'Reminder system'],
-    isPaid: true,
-    pricing: 'Paid - $7/month',
-    createdBy: 'SaneBox'
-  },
-
-  // Data Analysis Tools
-  {
-    name: 'DataRobot',
-    description: 'Enterprise AI platform for data science and machine learning.',
-    fullDescription: 'DataRobot is a comprehensive enterprise AI platform that automates machine learning workflows, provides production-ready models, and enables data scientists to build AI applications faster.',
-    category: 'Data Analysis',
-    logoUrl: '🤖',
-    websiteUrl: 'https://datarobot.com',
-    tags: ['Enterprise', 'Machine learning', 'AutoML', 'Production-ready'],
-    highlights: ['AutoML platform', 'Enterprise grade', 'Production ready'],
-    isPaid: true,
-    pricing: 'Enterprise pricing',
-    createdBy: 'DataRobot'
-  },
-  {
-    name: 'PowerDrill AI',
-    description: 'AI-powered Excel data analysis and visualization.',
-    fullDescription: 'PowerDrill AI integrates with Excel to provide AI-powered data analysis, automated insights, and smart visualization capabilities for better business intelligence.',
-    category: 'Data Analysis',
-    logoUrl: '📊',
-    websiteUrl: 'https://powerdrill.ai',
-    tags: ['Excel integration', 'Data visualization', 'Business intelligence', 'Automated insights'],
-    highlights: ['Excel integration', 'Auto insights', 'Smart visualization'],
-    isPaid: false,
-    pricing: 'Freemium - $29/month for Pro',
-    createdBy: 'PowerDrill'
-  },
-  {
-    name: 'Numerous AI',
-    description: 'AI data analysis tools for spreadsheets and automation.',
-    fullDescription: 'Numerous AI brings artificial intelligence to spreadsheets with automated analysis, business insights, and intelligent data processing capabilities.',
-    category: 'Data Analysis',
-    logoUrl: '📈',
-    websiteUrl: 'https://numerous.ai',
-    tags: ['Spreadsheets', 'Automation', 'Business insights', 'Data processing'],
-    highlights: ['Spreadsheet AI', 'Automated analysis', 'Business insights'],
-    isPaid: true,
-    pricing: 'Paid - $49/month',
-    createdBy: 'Numerous'
-  },
-  {
-    name: 'Fabi AI',
-    description: 'AI-powered business intelligence and data analysis.',
-    fullDescription: 'Fabi AI provides AI-powered business intelligence with automated insights, interactive reports, and intelligent data analysis for better decision making.',
-    category: 'Data Analysis',
-    logoUrl: '🧠',
-    websiteUrl: 'https://fabi.ai',
-    tags: ['Business intelligence', 'Interactive reports', 'Decision making', 'Data insights'],
-    highlights: ['Business intelligence', 'Automated insights', 'Interactive reports'],
-    isPaid: true,
-    pricing: 'Paid - $79/month',
-    createdBy: 'Fabi'
-  },
-  {
-    name: 'Julius AI',
-    description: 'AI data analyst that interprets and analyzes your data.',
-    fullDescription: 'Julius AI acts as your personal data analyst, interpreting complex datasets through natural language queries and providing instant insights and visualizations.',
-    category: 'Data Analysis',
-    logoUrl: '🔍',
-    websiteUrl: 'https://julius.ai',
-    tags: ['Natural language', 'Data interpretation', 'Instant insights', 'Personal analyst'],
-    highlights: ['Natural language queries', 'Data interpretation', 'Instant insights'],
-    isPaid: false,
-    pricing: 'Freemium - $20/month for Pro',
-    createdBy: 'Julius'
+    createdBy: 'Amazon'
   },
 
   // PDF Tools
   {
-    name: 'PDF.ai',
-    description: 'Transform PDFs into interactive conversational partners.',
-    fullDescription: 'PDF.ai allows you to chat with any PDF document, ask questions, get summaries, and extract key information with AI-powered document interaction.',
+    name: 'ChatPDF',
+    description: 'AI-powered tool to chat with your PDF documents.',
+    fullDescription: 'ChatPDF allows you to upload PDF documents and ask questions about their content. The AI reads and understands the document to provide accurate answers and summaries.',
     category: 'PDF Tools',
-    logoUrl: '📄',
-    websiteUrl: 'https://pdf.ai',
-    tags: ['PDF chat', 'Document interaction', 'Q&A', 'Summaries'],
-    highlights: ['Chat with PDFs', 'Instant summaries', 'Cited sources'],
+    tags: ['Document AI', 'PDF Chat', 'Document Analysis', 'Question Answering'],
+    logoUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.chatpdf.com',
+    highlights: ['PDF conversations', 'Document understanding', 'Multi-language support', 'Source citations'],
+    pricing: 'Free - $20/month',
     isPaid: false,
-    pricing: 'Freemium - $19/month for Pro',
+    createdBy: 'ChatPDF'
+  },
+  {
+    name: 'PDF.ai',
+    description: 'AI-powered PDF editor and analyzer for document processing.',
+    fullDescription: 'PDF.ai provides intelligent PDF processing capabilities including text extraction, document analysis, form filling, and automated document understanding using advanced AI technology.',
+    category: 'PDF Tools',
+    tags: ['PDF Processing', 'Document Analysis', 'Text Extraction', 'Form Filling'],
+    logoUrl: 'https://images.unsplash.com/photo-1568667256549-094345857637?w=100&h=100&fit=crop',
+    websiteUrl: 'https://pdf.ai',
+    highlights: ['Smart extraction', 'Document insights', 'Batch processing', 'API access'],
+    pricing: 'Free - $29/month',
+    isPaid: false,
     createdBy: 'PDF.ai'
   },
   {
-    name: 'AskYourPDF',
-    description: 'AI-powered PDF analysis and question answering.',
-    fullDescription: 'AskYourPDF provides AI-powered PDF analysis with intelligent question answering, document summarization, and key insight extraction.',
+    name: 'LightPDF AI',
+    description: 'AI-enhanced PDF tools for editing, converting, and analyzing documents.',
+    fullDescription: 'LightPDF AI offers comprehensive PDF management with AI-powered features for document conversion, editing, analysis, and intelligent content extraction.',
     category: 'PDF Tools',
-    logoUrl: '❓',
-    websiteUrl: 'https://askyourpdf.com',
-    tags: ['PDF analysis', 'Question answering', 'Document summary', 'Key insights'],
-    highlights: ['PDF Q&A', 'Document analysis', 'Key insights'],
+    tags: ['PDF Converter', 'Document Editing', 'AI Analysis', 'Content Extraction'],
+    logoUrl: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=100&h=100&fit=crop',
+    websiteUrl: 'https://lightpdf.com',
+    highlights: ['AI-powered conversion', 'Document editing', 'Cloud storage', 'Batch operations'],
+    pricing: 'Free - $9.99/month',
     isPaid: false,
-    pricing: 'Freemium - $15/month for Premium',
-    createdBy: 'AskYourPDF'
+    createdBy: 'LightPDF'
   },
   {
-    name: 'Smallpdf AI',
-    description: 'AI PDF insights and document processing.',
-    fullDescription: 'Smallpdf AI provides free AI-powered PDF insights with cross-platform compatibility and unlimited access to intelligent document processing.',
+    name: 'Documint',
+    description: 'AI document processing platform for automated PDF workflows.',
+    fullDescription: 'Documint uses AI to automate document processing workflows, extract data from PDFs, and generate intelligent document insights for businesses.',
     category: 'PDF Tools',
-    logoUrl: '🔧',
-    websiteUrl: 'https://smallpdf.com/ai-pdf',
-    tags: ['PDF processing', 'Cross-platform', 'Document insights', 'Free access'],
-    highlights: ['Free AI insights', 'Cross-platform', 'Unlimited access'],
-    isPaid: false,
-    pricing: 'Freemium - $12/month for Pro',
-    createdBy: 'Smallpdf'
-  },
-  {
-    name: 'PDF Flex',
-    description: 'AI-driven PDF chat and document interaction tool.',
-    fullDescription: 'PDF Flex offers AI-driven PDF chat capabilities with cost-effective document interaction and time-saving features for professional document management.',
-    category: 'PDF Tools',
-    logoUrl: '💬',
-    websiteUrl: 'https://pdfflex.com',
-    tags: ['PDF chat', 'Document interaction', 'Time saving', 'Professional'],
-    highlights: ['Document chat', 'Time saving', 'Cost effective'],
+    tags: ['Document Automation', 'Data Extraction', 'Workflow Automation', 'Business Intelligence'],
+    logoUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop',
+    websiteUrl: 'https://documint.me',
+    highlights: ['Automated workflows', 'Data extraction', 'Template generation', 'Integration APIs'],
+    pricing: 'Starting at $19/month',
     isPaid: true,
-    pricing: 'Paid - $25/month',
-    createdBy: 'PDF Flex'
+    createdBy: 'Documint'
   },
   {
-    name: 'ChatPDF',
-    description: 'Chat with any PDF document using AI.',
-    fullDescription: 'ChatPDF enables you to chat with any PDF document using AI, providing instant answers with source citations in multiple languages.',
+    name: 'Nanonets PDF AI',
+    description: 'AI-powered PDF data extraction and document processing platform.',
+    fullDescription: 'Nanonets PDF AI specializes in extracting structured data from unstructured PDF documents using machine learning models trained for document understanding.',
     category: 'PDF Tools',
-    logoUrl: '💭',
-    websiteUrl: 'https://chatpdf.com',
-    tags: ['PDF chat', 'Multi-language', 'Source citations', 'Instant answers'],
-    highlights: ['Instant answers', 'Multi-language', 'Source citations'],
-    isPaid: false,
-    pricing: 'Freemium - $20/month for Plus',
-    createdBy: 'ChatPDF'
+    tags: ['Data Extraction', 'Document AI', 'Machine Learning', 'Structured Data'],
+    logoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
+    websiteUrl: 'https://nanonets.com',
+    highlights: ['ML-powered extraction', 'Custom models', 'API integration', 'High accuracy'],
+    pricing: 'Free trial - $299/month',
+    isPaid: true,
+    createdBy: 'Nanonets'
   },
 
   // Legal AI Tools
   {
-    name: 'LegalBot AI',
-    description: 'AI-powered legal document analysis and contract review assistant.',
-    fullDescription: 'LegalBot AI provides comprehensive legal document analysis, contract review, and legal research assistance using advanced AI technology to help legal professionals streamline their workflow.',
+    name: 'DoNotPay',
+    description: 'AI lawyer that helps with legal issues and bureaucracy.',
+    fullDescription: 'DoNotPay is an AI-powered legal assistant that helps users with various legal issues including parking tickets, contract reviews, and bureaucratic processes.',
     category: 'Legal AI Tools',
-    logoUrl: '⚖️',
-    websiteUrl: 'https://legalbot.ai',
-    tags: ['legal', 'contracts', 'analysis', 'documents', 'law'],
-    highlights: ['Contract analysis', 'Legal research', 'Document review', 'Risk assessment'],
+    tags: ['Legal Assistant', 'Contract Review', 'Legal Documents', 'Consumer Rights'],
+    logoUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=100&h=100&fit=crop',
+    websiteUrl: 'https://donotpay.com',
+    highlights: ['Legal document generation', 'Contract analysis', 'Consumer protection', 'Automated appeals'],
+    pricing: '$36/year',
     isPaid: true,
-    pricing: 'Starting at $99/month',
-    createdBy: 'LegalBot AI'
+    createdBy: 'DoNotPay'
   },
   {
-    name: 'ContractIQ',
-    description: 'Smart contract generation and legal clause optimization.',
-    fullDescription: 'ContractIQ uses AI to generate smart contracts, optimize legal clauses, and ensure compliance with current legal standards across multiple jurisdictions.',
+    name: 'LawGeex',
+    description: 'AI-powered contract review and legal document analysis platform.',
+    fullDescription: 'LawGeex uses AI to review contracts and legal documents, identifying risks, suggesting revisions, and ensuring compliance with legal standards.',
     category: 'Legal AI Tools',
-    logoUrl: '📋',
-    websiteUrl: 'https://contractiq.com',
-    tags: ['contracts', 'legal', 'clauses', 'optimization', 'generation'],
-    highlights: ['Smart contracts', 'Clause optimization', 'Multi-jurisdiction', 'Compliance'],
+    tags: ['Contract Review', 'Legal Analysis', 'Risk Assessment', 'Compliance'],
+    logoUrl: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.lawgeex.com',
+    highlights: ['Contract AI review', 'Risk identification', 'Compliance checking', 'Legal insights'],
+    pricing: 'Contact for pricing',
     isPaid: true,
-    pricing: 'Starting at $149/month',
-    createdBy: 'ContractIQ'
+    createdBy: 'LawGeex'
   },
   {
-    name: 'LawMind',
-    description: 'AI legal research assistant with case law analysis.',
-    fullDescription: 'LawMind provides AI-powered legal research capabilities with comprehensive case law analysis, precedent tracking, and legal citation management.',
+    name: 'Spellbook',
+    description: 'AI copilot for lawyers to draft and review contracts faster.',
+    fullDescription: 'Spellbook is an AI assistant for lawyers that integrates with Microsoft Word to help draft, review, and negotiate contracts more efficiently.',
     category: 'Legal AI Tools',
-    logoUrl: '🔍',
-    websiteUrl: 'https://lawmind.ai',
-    tags: ['research', 'case law', 'legal', 'analysis', 'assistant'],
-    highlights: ['Case law analysis', 'Precedent tracking', 'Citation management', 'Research automation'],
+    tags: ['Legal Writing', 'Contract Drafting', 'Microsoft Word', 'Legal Research'],
+    logoUrl: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.spellbook.legal',
+    highlights: ['Word integration', 'Contract drafting', 'Legal research', 'Clause suggestions'],
+    pricing: 'Starting at $40/month',
     isPaid: true,
-    pricing: 'Starting at $79/month',
-    createdBy: 'LawMind'
+    createdBy: 'Spellbook'
   },
   {
-    name: 'JurisAI',
-    description: 'Comprehensive legal AI platform for document drafting and review.',
-    fullDescription: 'JurisAI offers a complete legal AI platform with document drafting, review capabilities, and intelligent legal advice for law firms and legal departments.',
+    name: 'Kira Systems',
+    description: 'AI-powered contract analysis and due diligence platform.',
+    fullDescription: 'Kira Systems uses machine learning to extract and analyze information from contracts and documents, streamlining due diligence and contract review processes.',
     category: 'Legal AI Tools',
-    logoUrl: '⚖️',
-    websiteUrl: 'https://jurisai.com',
-    tags: ['drafting', 'review', 'legal', 'documents', 'platform'],
-    highlights: ['Document drafting', 'Legal review', 'AI advice', 'Workflow automation'],
+    tags: ['Contract Analysis', 'Due Diligence', 'Document Review', 'Legal Tech'],
+    logoUrl: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=100&h=100&fit=crop',
+    websiteUrl: 'https://kirasystems.com',
+    highlights: ['ML contract analysis', 'Due diligence automation', 'Data extraction', 'Legal insights'],
+    pricing: 'Contact for pricing',
     isPaid: true,
-    pricing: 'Starting at $199/month',
-    createdBy: 'JurisAI'
+    createdBy: 'Kira Systems'
   },
   {
-    name: 'LegalGenius',
-    description: 'AI-powered legal advice and compliance checker.',
-    fullDescription: 'LegalGenius provides AI-powered legal advice, compliance checking, and regulatory guidance to help businesses stay compliant and make informed legal decisions.',
+    name: 'CoCounsel',
+    description: 'AI legal assistant for research, document review, and legal tasks.',
+    fullDescription: 'CoCounsel is an AI legal assistant that helps lawyers with legal research, document review, contract analysis, and other legal tasks using advanced AI technology.',
     category: 'Legal AI Tools',
-    logoUrl: '💡',
-    websiteUrl: 'https://legalgenius.ai',
-    tags: ['advice', 'compliance', 'legal', 'checker', 'AI'],
-    highlights: ['Legal advice', 'Compliance checking', 'Regulatory guidance', 'Risk assessment'],
+    tags: ['Legal Research', 'Document Review', 'Legal Assistant', 'Case Analysis'],
+    logoUrl: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=100&h=100&fit=crop',
+    websiteUrl: 'https://casetext.com/cocounsel',
+    highlights: ['Legal research', 'Document analysis', 'Case law search', 'Brief drafting'],
+    pricing: 'Contact for pricing',
     isPaid: true,
-    pricing: 'Starting at $129/month',
-    createdBy: 'LegalGenius'
+    createdBy: 'Casetext'
   },
 
-  // Language Translation
+  // Business Plan Tools
   {
-    name: 'TranslateMax',
-    description: 'Advanced AI translation with context awareness and cultural adaptation.',
-    fullDescription: 'TranslateMax provides advanced AI translation services with deep context awareness, cultural adaptation, and industry-specific terminology for professional translation needs.',
-    category: 'Language Translation',
-    logoUrl: '🌐',
-    websiteUrl: 'https://translatemax.ai',
-    tags: ['translation', 'context', 'cultural', 'language', 'AI'],
-    highlights: ['Context awareness', 'Cultural adaptation', 'Industry terminology', 'Professional quality'],
+    name: 'LivePlan',
+    description: 'AI-powered business planning software for entrepreneurs and startups.',
+    fullDescription: 'LivePlan uses AI to help entrepreneurs create comprehensive business plans with financial forecasts, pitch decks, and strategic planning tools.',
+    category: 'Business Plan Tools',
+    tags: ['Business Planning', 'Financial Forecasting', 'Pitch Decks', 'Strategy'],
+    logoUrl: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.liveplan.com',
+    highlights: ['AI-guided planning', 'Financial forecasts', 'Pitch deck builder', 'Progress tracking'],
+    pricing: 'Starting at $20/month',
     isPaid: true,
+    createdBy: 'Palo Alto Software'
+  },
+  {
+    name: 'BizPlanBuilder',
+    description: 'AI-assisted business plan creation with templates and guidance.',
+    fullDescription: 'BizPlanBuilder provides AI-powered business plan creation tools with professional templates, financial modeling, and step-by-step guidance for entrepreneurs.',
+    category: 'Business Plan Tools',
+    tags: ['Business Templates', 'Financial Modeling', 'Plan Writing', 'Entrepreneurship'],
+    logoUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.bizplanbuilder.com',
+    highlights: ['Professional templates', 'Financial modeling', 'Investor-ready plans', 'Expert guidance'],
+    pricing: 'Starting at $39.95',
+    isPaid: true,
+    createdBy: 'JIAN'
+  },
+  {
+    name: 'Upmetrics',
+    description: 'AI business plan generator with collaborative features.',
+    fullDescription: 'Upmetrics offers AI-powered business plan generation with collaborative editing, financial forecasting, and presentation tools for entrepreneurs and teams.',
+    category: 'Business Plan Tools',
+    tags: ['Collaborative Planning', 'AI Generation', 'Team Collaboration', 'Presentations'],
+    logoUrl: 'https://images.unsplash.com/photo-1553484771-371a605b060b?w=100&h=100&fit=crop',
+    websiteUrl: 'https://upmetrics.co',
+    highlights: ['AI plan generation', 'Team collaboration', 'Financial dashboards', 'Presentation mode'],
+    pricing: 'Free - $20/month',
+    isPaid: false,
+    createdBy: 'Upmetrics'
+  },
+  {
+    name: 'Enloop',
+    description: 'Automated business plan writing and financial forecasting tool.',
+    fullDescription: 'Enloop automatically writes business plans and creates financial forecasts based on your business information, using AI to generate professional documents.',
+    category: 'Business Plan Tools',
+    tags: ['Automated Writing', 'Financial Forecasts', 'Business Analytics', 'Performance Tracking'],
+    logoUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=100&h=100&fit=crop',
+    websiteUrl: 'https://enloop.com',
+    highlights: ['Automated writing', 'Performance scores', 'Financial sync', 'Industry comparisons'],
+    pricing: 'Free - $39.95/month',
+    isPaid: false,
+    createdBy: 'Enloop'
+  },
+  {
+    name: 'PlanGuru',
+    description: 'Advanced business planning and budgeting software with AI insights.',
+    fullDescription: 'PlanGuru provides comprehensive business planning, budgeting, and forecasting tools with AI-powered insights for strategic decision making.',
+    category: 'Business Plan Tools',
+    tags: ['Budgeting', 'Forecasting', 'Strategic Planning', 'Business Intelligence'],
+    logoUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.planguru.com',
+    highlights: ['Advanced forecasting', 'Scenario planning', 'KPI dashboards', 'Integration tools'],
+    pricing: 'Starting at $99/month',
+    isPaid: true,
+    createdBy: 'PlanGuru'
+  },
+
+  // Prompt Marketplace
+  {
+    name: 'PromptBase',
+    description: 'Marketplace for buying and selling AI prompts for various applications.',
+    fullDescription: 'PromptBase is a marketplace where users can buy and sell high-quality prompts for AI models like ChatGPT, DALL-E, and Stable Diffusion.',
+    category: 'Prompt Marketplace',
+    tags: ['Prompt Marketplace', 'AI Prompts', 'ChatGPT', 'DALL-E'],
+    logoUrl: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=100&h=100&fit=crop',
+    websiteUrl: 'https://promptbase.com',
+    highlights: ['Quality prompts', 'Multiple AI models', 'Prompt testing', 'Creator earnings'],
+    pricing: 'Free to browse - varies per prompt',
+    isPaid: false,
+    createdBy: 'PromptBase'
+  },
+  {
+    name: 'PromptHero',
+    description: 'Search engine and marketplace for AI art prompts and images.',
+    fullDescription: 'PromptHero is a platform for discovering and sharing AI-generated art prompts, featuring a searchable database of prompts and generated images.',
+    category: 'Prompt Marketplace',
+    tags: ['AI Art', 'Prompt Search', 'Image Generation', 'Creative Prompts'],
+    logoUrl: 'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=100&h=100&fit=crop',
+    websiteUrl: 'https://prompthero.com',
+    highlights: ['Prompt search', 'AI art gallery', 'Model information', 'Trending prompts'],
+    pricing: 'Free',
+    isPaid: false,
+    createdBy: 'PromptHero'
+  },
+  {
+    name: 'FlowGPT',
+    description: 'Community-driven platform for sharing ChatGPT prompts and workflows.',
+    fullDescription: 'FlowGPT is a community platform where users share and discover effective ChatGPT prompts, workflows, and use cases for various applications.',
+    category: 'Prompt Marketplace',
+    tags: ['ChatGPT Prompts', 'Community', 'Workflows', 'Prompt Sharing'],
+    logoUrl: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=100&h=100&fit=crop',
+    websiteUrl: 'https://flowgpt.com',
+    highlights: ['Community prompts', 'Workflow templates', 'Use case examples', 'Prompt collections'],
+    pricing: 'Free',
+    isPaid: false,
+    createdBy: 'FlowGPT'
+  },
+  {
+    name: 'OrdinaryPeoplePrompts',
+    description: 'Platform for discovering and sharing practical AI prompts.',
+    fullDescription: 'OrdinaryPeoplePrompts is a community-driven platform focused on practical, everyday AI prompts that regular users can apply to solve common problems.',
+    category: 'Prompt Marketplace',
+    tags: ['Practical Prompts', 'Community', 'Everyday Use', 'Problem Solving'],
+    logoUrl: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=100&h=100&fit=crop',
+    websiteUrl: 'https://ordinarypeopleprompts.com',
+    highlights: ['Practical prompts', 'Real-world use cases', 'User submissions', 'Easy categories'],
+    pricing: 'Free',
+    isPaid: false,
+    createdBy: 'OrdinaryPeoplePrompts'
+  },
+  {
+    name: 'AIPRM',
+    description: 'Chrome extension with curated ChatGPT prompts for professionals.',
+    fullDescription: 'AIPRM provides a Chrome extension with curated ChatGPT prompts designed for professionals in marketing, SEO, copywriting, and other business functions.',
+    category: 'Prompt Marketplace',
+    tags: ['Chrome Extension', 'Professional Prompts', 'Marketing', 'SEO'],
+    logoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.aiprm.com',
+    highlights: ['Browser integration', 'Professional focus', 'Curated prompts', 'One-click access'],
+    pricing: 'Free - $20/month',
+    isPaid: false,
+    createdBy: 'AIPRM'
+  },
+
+  // Course Generator
+  {
+    name: 'LearnWorlds AI',
+    description: 'AI-powered course creation platform for educators and trainers.',
+    fullDescription: 'LearnWorlds AI helps educators create comprehensive online courses with AI-generated content, assessments, and interactive learning materials.',
+    category: 'Course Generator',
+    tags: ['Course Creation', 'Educational AI', 'Online Learning', 'Content Generation'],
+    logoUrl: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=100&h=100&fit=crop',
+    websiteUrl: 'https://www.learnworlds.com',
+    highlights: ['AI course builder', 'Interactive content', 'Assessment tools', 'Student analytics'],
+    pricing: 'Starting at $24/month',
+    isPaid: true,
+    createdBy: 'LearnWorlds'
+  },
+  {
+    name: 'CourseAI',
+    description: 'AI course generator that creates complete courses from topics.',
+    fullDescription: 'CourseAI automatically generates complete course curriculums, lessons, and materials based on any topic you provide, using advanced AI technology.',
+    category: 'Course Generator',
+    tags: ['Automated Course Creation', 'Curriculum Design', 'Lesson Planning', 'Educational Content'],
+    logoUrl: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=100&h=100&fit=crop',
+    websiteUrl: 'https://course-ai.com',
+    highlights: ['Automated generation', 'Complete curriculums', 'Multiple formats', 'Quick creation'],
+    pricing: 'Starting at $19/month',
+    isPaid: true,
+    createdBy: 'CourseAI'
+  },
+  {
+    name: 'Teachable AI',
+    description: 'AI-enhanced course platform with intelligent content suggestions.',
+    fullDescription: 'Teachable AI integrates artificial intelligence into course creation, offering smart content suggestions, automated transcriptions, and intelligent course organization.',
+    category: 'Course Generator',
+    tags: ['Course Platform', 'Content Suggestions', 'AI Enhancement', 'Course Organization'],
+    logoUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=100&h=100&fit=crop',
+    websiteUrl: 'https://teachable.com',
+    highlights: ['Smart suggestions', 'Auto transcription', 'Course analytics', 'Student insights'],
+    pricing: 'Free - $159/month',
+    isPaid: false,
+    createdBy: 'Teachable'
+  },
+  {
+    name: 'MindStudio Course Creator',
+    description: 'AI-powered tool for creating interactive educational content.',
+    fullDescription: 'MindStudio Course Creator uses AI to help educators design interactive courses with multimedia content, quizzes, and adaptive learning paths.',
+    category: 'Course Generator',
+    tags: ['Interactive Learning', 'Multimedia Content', 'Adaptive Learning', 'Educational Design'],
+    logoUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=100&h=100&fit=crop',
+    websiteUrl: 'https://mindstudio.ai',
+    highlights: ['Interactive design', 'Adaptive paths', 'Multimedia support', 'Learning analytics'],
     pricing: 'Starting at $49/month',
-    createdBy: 'TranslateMax'
+    isPaid: true,
+    createdBy: 'MindStudio'
   },
   {
-    name: 'LinguaBot',
-    description: 'Real-time conversation translator with voice recognition.',
-    fullDescription: 'LinguaBot offers real-time conversation translation with advanced voice recognition, supporting multiple languages and providing seamless communication across language barriers.',
-    category: 'Language Translation',
-    logoUrl: '🎤',
-    websiteUrl: 'https://linguabot.com',
-    tags: ['conversation', 'real-time', 'voice', 'translation', 'recognition'],
-    highlights: ['Real-time translation', 'Voice recognition', 'Multi-language', 'Conversation mode'],
+    name: 'Coursebox',
+    description: 'AI course creator that transforms content into engaging courses.',
+    fullDescription: 'Coursebox uses AI to transform existing content, documents, and videos into structured, engaging online courses with interactive elements and assessments.',
+    category: 'Course Generator',
+    tags: ['Content Transformation', 'Course Structure', 'Interactive Elements', 'Assessment Creation'],
+    logoUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=100&h=100&fit=crop',
+    websiteUrl: 'https://coursebox.ai',
+    highlights: ['Content transformation', 'Auto structuring', 'Interactive quizzes', 'Video integration'],
+    pricing: 'Free - $99/month',
     isPaid: false,
-    pricing: 'Freemium - $29/month for Pro',
-    createdBy: 'LinguaBot'
-  },
-  {
-    name: 'GlobalSpeak',
-    description: 'Professional document translation with industry-specific terminology.',
-    fullDescription: 'GlobalSpeak specializes in professional document translation with extensive industry-specific terminology databases and quality assurance for business communications.',
-    category: 'Language Translation',
-    logoUrl: '📄',
-    websiteUrl: 'https://globalspeak.ai',
-    tags: ['professional', 'documents', 'terminology', 'industry', 'translation'],
-    highlights: ['Industry terminology', 'Document translation', 'Quality assurance', 'Business focus'],
-    isPaid: true,
-    pricing: 'Starting at $89/month',
-    createdBy: 'GlobalSpeak'
-  },
-  {
-    name: 'PolyglotAI',
-    description: 'Multi-language content adaptation and localization platform.',
-    fullDescription: 'PolyglotAI provides comprehensive multi-language content adaptation and localization services, helping businesses expand globally with culturally appropriate content.',
-    category: 'Language Translation',
-    logoUrl: '🌍',
-    websiteUrl: 'https://polyglotai.com',
-    tags: ['multi-language', 'adaptation', 'localization', 'content', 'platform'],
-    highlights: ['Content localization', 'Cultural adaptation', 'Multi-language support', 'Global expansion'],
-    isPaid: true,
-    pricing: 'Starting at $149/month',
-    createdBy: 'PolyglotAI'
-  },
-  {
-    name: 'QuickTranslate',
-    description: 'Instant translation with grammar correction and style adaptation.',
-    fullDescription: 'QuickTranslate offers instant translation services with built-in grammar correction, style adaptation, and tone matching for various communication contexts.',
-    category: 'Language Translation',
-    logoUrl: '⚡',
-    websiteUrl: 'https://quicktranslate.ai',
-    tags: ['instant', 'grammar', 'correction', 'style', 'translation'],
-    highlights: ['Instant translation', 'Grammar correction', 'Style adaptation', 'Tone matching'],
-    isPaid: false,
-    pricing: 'Freemium - $19/month for Premium',
-    createdBy: 'QuickTranslate'
-  },
-
-  // Design Tools
-  {
-    name: 'DesignGenius',
-    description: 'AI-powered design assistant for creating stunning visuals and layouts.',
-    fullDescription: 'DesignGenius is an advanced AI design assistant that helps create stunning visuals, layouts, and design elements with intelligent suggestions and automated design optimization.',
-    category: 'Design Tools',
-    logoUrl: '🎨',
-    websiteUrl: 'https://designgenius.ai',
-    tags: ['design', 'visuals', 'layouts', 'creative', 'AI'],
-    highlights: ['Visual creation', 'Layout optimization', 'Design suggestions', 'Creative automation'],
-    isPaid: true,
-    pricing: 'Starting at $59/month',
-    createdBy: 'DesignGenius'
-  },
-  {
-    name: 'CreativeBot',
-    description: 'Automated graphic design with brand consistency and style guides.',
-    fullDescription: 'CreativeBot provides automated graphic design services with brand consistency enforcement, style guide adherence, and intelligent design asset generation.',
-    category: 'Design Tools',
-    logoUrl: '🤖',
-    websiteUrl: 'https://creativebot.com',
-    tags: ['graphic design', 'brand', 'consistency', 'style', 'automation'],
-    highlights: ['Brand consistency', 'Style guides', 'Asset generation', 'Design automation'],
-    isPaid: true,
-    pricing: 'Starting at $79/month',
-    createdBy: 'CreativeBot'
-  },
-  {
-    name: 'ArtFlow AI',
-    description: 'Generate custom illustrations and artwork with AI assistance.',
-    fullDescription: 'ArtFlow AI enables users to generate custom illustrations, artwork, and creative visuals with AI assistance, offering various artistic styles and customization options.',
-    category: 'Design Tools',
-    logoUrl: '🖼️',
-    websiteUrl: 'https://artflow.ai',
-    tags: ['illustrations', 'artwork', 'custom', 'generation', 'AI'],
-    highlights: ['Custom illustrations', 'Artistic styles', 'Creative visuals', 'Style variety'],
-    isPaid: false,
-    pricing: 'Freemium - $39/month for Pro',
-    createdBy: 'ArtFlow AI'
-  },
-  {
-    name: 'LayoutMaster',
-    description: 'Intelligent layout optimization for web and print designs.',
-    fullDescription: 'LayoutMaster provides intelligent layout optimization for web and print designs, using AI to suggest optimal arrangements and improve visual hierarchy.',
-    category: 'Design Tools',
-    logoUrl: '📐',
-    websiteUrl: 'https://layoutmaster.ai',
-    tags: ['layout', 'optimization', 'web', 'print', 'design'],
-    highlights: ['Layout optimization', 'Visual hierarchy', 'Web design', 'Print design'],
-    isPaid: true,
-    pricing: 'Starting at $49/month',
-    createdBy: 'LayoutMaster'
-  },
-  {
-    name: 'ColorHarmony',
-    description: 'AI color palette generator with mood and brand matching.',
-    fullDescription: 'ColorHarmony generates AI-powered color palettes with mood matching, brand alignment, and accessibility considerations for professional design projects.',
-    category: 'Design Tools',
-    logoUrl: '🌈',
-    websiteUrl: 'https://colorharmony.ai',
-    tags: ['color', 'palette', 'mood', 'brand', 'matching'],
-    highlights: ['Color palettes', 'Mood matching', 'Brand alignment', 'Accessibility'],
-    isPaid: false,
-    pricing: 'Freemium - $29/month for Premium',
-    createdBy: 'ColorHarmony'
-  },
-
-  // Avatars & Voice
-  {
-    name: 'VoiceClone AI',
-    description: 'Create realistic voice clones and custom speech synthesis.',
-    fullDescription: 'VoiceClone AI provides advanced voice cloning technology and custom speech synthesis, enabling realistic voice reproduction for various applications.',
-    category: 'Avatars & Voice',
-    logoUrl: '🎙️',
-    websiteUrl: 'https://voiceclone.ai',
-    tags: ['voice', 'clone', 'speech', 'synthesis', 'realistic'],
-    highlights: ['Voice cloning', 'Speech synthesis', 'Realistic output', 'Custom voices'],
-    isPaid: true,
-    pricing: 'Starting at $99/month',
-    createdBy: 'VoiceClone AI'
-  },
-  {
-    name: 'AvatarPro',
-    description: 'Generate photorealistic avatars and digital personas.',
-    fullDescription: 'AvatarPro creates photorealistic avatars and digital personas with advanced customization options and AI-powered generation for professional and personal use.',
-    category: 'Avatars & Voice',
-    logoUrl: '👤',
-    websiteUrl: 'https://avatarpro.ai',
-    tags: ['avatars', 'photorealistic', 'personas', 'digital', 'generation'],
-    highlights: ['Photorealistic avatars', 'Digital personas', 'Customization', 'Professional quality'],
-    isPaid: true,
-    pricing: 'Starting at $69/month',
-    createdBy: 'AvatarPro'
-  },
-  {
-    name: 'SpeechCraft',
-    description: 'AI-powered voice modulation and audio enhancement.',
-    fullDescription: 'SpeechCraft offers AI-powered voice modulation, audio enhancement, and speech optimization tools for content creators and professionals.',
-    category: 'Avatars & Voice',
-    logoUrl: '🔊',
-    websiteUrl: 'https://speechcraft.ai',
-    tags: ['voice', 'modulation', 'audio', 'enhancement', 'AI'],
-    highlights: ['Voice modulation', 'Audio enhancement', 'Speech optimization', 'Content creation'],
-    isPaid: false,
-    pricing: 'Freemium - $49/month for Pro',
-    createdBy: 'SpeechCraft'
-  },
-  {
-    name: 'FaceGen AI',
-    description: 'Generate unique faces and expressions for avatars.',
-    fullDescription: 'FaceGen AI generates unique faces and expressions for avatars, offering diverse customization options and realistic facial features for various applications.',
-    category: 'Avatars & Voice',
-    logoUrl: '😊',
-    websiteUrl: 'https://facegen.ai',
-    tags: ['faces', 'expressions', 'avatars', 'unique', 'generation'],
-    highlights: ['Unique faces', 'Expression variety', 'Avatar creation', 'Realistic features'],
-    isPaid: false,
-    pricing: 'Freemium - $39/month for Premium',
-    createdBy: 'FaceGen AI'
-  },
-  {
-    name: 'VirtualMe',
-    description: 'Create animated avatars with lip-sync and gesture recognition.',
-    fullDescription: 'VirtualMe creates animated avatars with advanced lip-sync technology, gesture recognition, and real-time animation for interactive applications.',
-    category: 'Avatars & Voice',
-    logoUrl: '🎭',
-    websiteUrl: 'https://virtualme.ai',
-    tags: ['animated', 'avatars', 'lip-sync', 'gesture', 'recognition'],
-    highlights: ['Animated avatars', 'Lip-sync technology', 'Gesture recognition', 'Real-time animation'],
-    isPaid: true,
-    pricing: 'Starting at $89/month',
-    createdBy: 'VirtualMe'
-  },
-
-  // Marketing
-  {
-    name: 'MarketingAI Pro',
-    description: 'Comprehensive AI marketing automation and campaign optimization.',
-    fullDescription: 'MarketingAI Pro provides comprehensive AI-powered marketing automation, campaign optimization, and performance analytics for modern marketing teams.',
-    category: 'Marketing',
-    logoUrl: '📊',
-    websiteUrl: 'https://marketingai.pro',
-    tags: ['marketing', 'automation', 'campaigns', 'optimization', 'AI'],
-    highlights: ['Marketing automation', 'Campaign optimization', 'Performance analytics', 'Team collaboration'],
-    isPaid: true,
-    pricing: 'Starting at $149/month',
-    createdBy: 'MarketingAI Pro'
-  },
-  {
-    name: 'AdGenius',
-    description: 'AI-powered ad copy generation and A/B testing platform.',
-    fullDescription: 'AdGenius generates AI-powered ad copy with built-in A/B testing capabilities, performance tracking, and optimization recommendations for better campaign results.',
-    category: 'Marketing',
-    logoUrl: '📝',
-    websiteUrl: 'https://adgenius.ai',
-    tags: ['ad copy', 'generation', 'testing', 'platform', 'AI'],
-    highlights: ['Ad copy generation', 'A/B testing', 'Performance tracking', 'Optimization'],
-    isPaid: true,
-    pricing: 'Starting at $79/month',
-    createdBy: 'AdGenius'
-  },
-  {
-    name: 'SocialBoost',
-    description: 'Automated social media content creation and scheduling.',
-    fullDescription: 'SocialBoost automates social media content creation and scheduling with AI-powered content generation, optimal timing, and multi-platform management.',
-    category: 'Marketing',
-    logoUrl: '📱',
-    websiteUrl: 'https://socialboost.ai',
-    tags: ['social media', 'content', 'automation', 'scheduling', 'creation'],
-    highlights: ['Content automation', 'Smart scheduling', 'Multi-platform', 'Content generation'],
-    isPaid: false,
-    pricing: 'Freemium - $59/month for Pro',
-    createdBy: 'SocialBoost'
-  },
-  {
-    name: 'EmailCraft AI',
-    description: 'Smart email marketing with personalization and optimization.',
-    fullDescription: 'EmailCraft AI provides smart email marketing with AI-powered personalization, subject line optimization, and automated campaign management.',
-    category: 'Marketing',
-    logoUrl: '📧',
-    websiteUrl: 'https://emailcraft.ai',
-    tags: ['email', 'marketing', 'personalization', 'optimization', 'smart'],
-    highlights: ['Email personalization', 'Subject optimization', 'Campaign automation', 'Smart targeting'],
-    isPaid: true,
-    pricing: 'Starting at $99/month',
-    createdBy: 'EmailCraft AI'
-  },
-  {
-    name: 'ConversionMax',
-    description: 'AI-driven conversion rate optimization and funnel analysis.',
-    fullDescription: 'ConversionMax provides AI-driven conversion rate optimization with funnel analysis, user behavior tracking, and intelligent optimization recommendations.',
-    category: 'Marketing',
-    logoUrl: '📈',
-    websiteUrl: 'https://conversionmax.ai',
-    tags: ['conversion', 'optimization', 'funnel', 'analysis', 'AI'],
-    highlights: ['Conversion optimization', 'Funnel analysis', 'Behavior tracking', 'Smart recommendations'],
-    isPaid: true,
-    pricing: 'Starting at $129/month',
-    createdBy: 'ConversionMax'
-  },
-
-  // SEO Tools
-  {
-    name: 'SEO Optimizer AI',
-    description: 'Advanced AI-powered SEO analysis and content optimization.',
-    fullDescription: 'SEO Optimizer AI provides advanced SEO analysis and content optimization with AI-powered keyword research, competitor analysis, and ranking strategies.',
-    category: 'SEO Tools',
-    logoUrl: '🔍',
-    websiteUrl: 'https://seooptimizer.ai',
-    tags: ['SEO', 'analysis', 'content', 'optimization', 'AI'],
-    highlights: ['SEO analysis', 'Content optimization', 'Keyword research', 'Competitor analysis'],
-    isPaid: true,
-    pricing: 'Starting at $89/month',
-    createdBy: 'SEO Optimizer AI'
-  },
-  {
-    name: 'RankBoost Pro',
-    description: 'Comprehensive keyword research and ranking strategy platform.',
-    fullDescription: 'RankBoost Pro offers comprehensive keyword research, ranking strategy development, and SEO performance tracking for improved search visibility.',
-    category: 'SEO Tools',
-    logoUrl: '📊',
-    websiteUrl: 'https://rankboost.pro',
-    tags: ['keywords', 'research', 'ranking', 'strategy', 'SEO'],
-    highlights: ['Keyword research', 'Ranking strategies', 'Performance tracking', 'Search visibility'],
-    isPaid: true,
-    pricing: 'Starting at $119/month',
-    createdBy: 'RankBoost Pro'
-  },
-  {
-    name: 'ContentSEO AI',
-    description: 'AI content generation optimized for search engines.',
-    fullDescription: 'ContentSEO AI generates SEO-optimized content with AI-powered keyword integration, content structure optimization, and search engine compliance.',
-    category: 'SEO Tools',
-    logoUrl: '📝',
-    websiteUrl: 'https://contentseo.ai',
-    tags: ['content', 'generation', 'search engines', 'optimization', 'AI'],
-    highlights: ['SEO content generation', 'Keyword integration', 'Structure optimization', 'Search compliance'],
-    isPaid: false,
-    pricing: 'Freemium - $69/month for Pro',
-    createdBy: 'ContentSEO AI'
-  },
-  {
-    name: 'BacklinkMaster',
-    description: 'Smart backlink analysis and link building opportunities.',
-    fullDescription: 'BacklinkMaster provides smart backlink analysis, link building opportunity identification, and competitor link strategy analysis for improved domain authority.',
-    category: 'SEO Tools',
-    logoUrl: '🔗',
-    websiteUrl: 'https://backlinkmaster.ai',
-    tags: ['backlinks', 'analysis', 'link building', 'opportunities', 'SEO'],
-    highlights: ['Backlink analysis', 'Link opportunities', 'Competitor analysis', 'Domain authority'],
-    isPaid: true,
-    pricing: 'Starting at $99/month',
-    createdBy: 'BacklinkMaster'
-  },
-  {
-    name: 'TechSEO Scanner',
-    description: 'Technical SEO audit and website performance analysis.',
-    fullDescription: 'TechSEO Scanner performs comprehensive technical SEO audits and website performance analysis with actionable recommendations for technical improvements.',
-    category: 'SEO Tools',
-    logoUrl: '🔧',
-    websiteUrl: 'https://techseo.scanner',
-    tags: ['technical SEO', 'audit', 'performance', 'analysis', 'website'],
-    highlights: ['Technical audits', 'Performance analysis', 'Actionable recommendations', 'Technical improvements'],
-    isPaid: true,
-    pricing: 'Starting at $79/month',
-    createdBy: 'TechSEO Scanner'
-  },
-
-  // Logo Generator
-  {
-    name: 'LogoAI Creator',
-    description: 'Professional logo design with AI-powered brand identity creation.',
-    fullDescription: 'LogoAI Creator provides professional logo design with AI-powered brand identity creation, style customization, and complete brand package generation.',
-    category: 'Logo Generator',
-    logoUrl: '🎨',
-    websiteUrl: 'https://logoai.creator',
-    tags: ['logo', 'design', 'brand', 'identity', 'professional'],
-    highlights: ['Professional logos', 'Brand identity', 'Style customization', 'Brand packages'],
-    isPaid: true,
-    pricing: 'Starting at $49/month',
-    createdBy: 'LogoAI Creator'
-  },
-  {
-    name: 'BrandMark AI',
-    description: 'Generate unique logos with trademark checking and brand guidelines.',
-    fullDescription: 'BrandMark AI generates unique logos with built-in trademark checking, brand guideline creation, and comprehensive brand asset generation.',
-    category: 'Logo Generator',
-    logoUrl: '🏷️',
-    websiteUrl: 'https://brandmark.ai',
-    tags: ['logos', 'trademark', 'brand', 'guidelines', 'unique'],
-    highlights: ['Unique logos', 'Trademark checking', 'Brand guidelines', 'Asset generation'],
-    isPaid: true,
-    pricing: 'Starting at $59/month',
-    createdBy: 'BrandMark AI'
-  },
-  {
-    name: 'LogoCraft Pro',
-    description: 'Advanced logo generation with industry-specific templates.',
-    fullDescription: 'LogoCraft Pro offers advanced logo generation with industry-specific templates, customization options, and professional design variations.',
-    category: 'Logo Generator',
-    logoUrl: '⚒️',
-    websiteUrl: 'https://logocraft.pro',
-    tags: ['logo', 'generation', 'industry', 'templates', 'advanced'],
-    highlights: ['Industry templates', 'Advanced generation', 'Customization', 'Professional variations'],
-    isPaid: false,
-    pricing: 'Freemium - $39/month for Pro',
-    createdBy: 'LogoCraft Pro'
-  },
-  {
-    name: 'IconGenius',
-    description: 'Create stunning logos and icons with AI assistance.',
-    fullDescription: 'IconGenius creates stunning logos and icons with AI assistance, offering various design styles, icon libraries, and brand-consistent designs.',
-    category: 'Logo Generator',
-    logoUrl: '✨',
-    websiteUrl: 'https://icongenius.ai',
-    tags: ['logos', 'icons', 'stunning', 'creation', 'AI'],
-    highlights: ['Stunning designs', 'Icon creation', 'Design styles', 'Brand consistency'],
-    isPaid: false,
-    pricing: 'Freemium - $29/month for Premium',
-    createdBy: 'IconGenius'
-  },
-  {
-    name: 'DesignLogo AI',
-    description: 'Instant logo creation with vector format and multiple variations.',
-    fullDescription: 'DesignLogo AI provides instant logo creation with vector format output, multiple design variations, and scalable logo assets for all platforms.',
-    category: 'Logo Generator',
-    logoUrl: '⚡',
-    websiteUrl: 'https://designlogo.ai',
-    tags: ['instant', 'logo', 'vector', 'variations', 'creation'],
-    highlights: ['Instant creation', 'Vector format', 'Multiple variations', 'Scalable assets'],
-    isPaid: true,
-    pricing: 'Starting at $35/month',
-    createdBy: 'DesignLogo AI'
-  },
-
-  // Storytelling AI
-  {
-    name: 'StoryWeaver AI',
-    description: 'Advanced narrative generation with character development and plot structuring.',
-    fullDescription: 'StoryWeaver AI provides advanced narrative generation with intelligent character development, plot structuring, and story arc optimization for compelling storytelling.',
-    category: 'Storytelling AI',
-    logoUrl: '📚',
-    websiteUrl: 'https://storyweaver.ai',
-    tags: ['narrative', 'characters', 'plot', 'storytelling', 'generation'],
-    highlights: ['Narrative generation', 'Character development', 'Plot structuring', 'Story optimization'],
-    isPaid: true,
-    pricing: 'Starting at $69/month',
-    createdBy: 'StoryWeaver AI'
-  },
-  {
-    name: 'PlotGenius',
-    description: 'Interactive story creation with branching narratives and multiple endings.',
-    fullDescription: 'PlotGenius creates interactive stories with branching narratives, multiple endings, and dynamic plot development for engaging storytelling experiences.',
-    category: 'Storytelling AI',
-    logoUrl: '🌳',
-    websiteUrl: 'https://plotgenius.ai',
-    tags: ['interactive', 'branching', 'narratives', 'endings', 'stories'],
-    highlights: ['Interactive stories', 'Branching narratives', 'Multiple endings', 'Dynamic plots'],
-    isPaid: false,
-    pricing: 'Freemium - $49/month for Pro',
-    createdBy: 'PlotGenius'
-  },
-  {
-    name: 'NarrativeBot',
-    description: 'AI-powered script writing and dialogue generation for stories.',
-    fullDescription: 'NarrativeBot provides AI-powered script writing and dialogue generation with character voice consistency, scene development, and narrative flow optimization.',
-    category: 'Storytelling AI',
-    logoUrl: '🎬',
-    websiteUrl: 'https://narrativebot.com',
-    tags: ['script', 'writing', 'dialogue', 'generation', 'stories'],
-    highlights: ['Script writing', 'Dialogue generation', 'Character voices', 'Scene development'],
-    isPaid: true,
-    pricing: 'Starting at $59/month',
-    createdBy: 'NarrativeBot'
-  },
-  {
-    name: 'TaleSpinner',
-    description: 'Generate compelling stories with genre-specific templates and themes.',
-    fullDescription: 'TaleSpinner generates compelling stories with genre-specific templates, thematic consistency, and customizable story elements for various narrative styles.',
-    category: 'Storytelling AI',
-    logoUrl: '🎭',
-    websiteUrl: 'https://talespinner.ai',
-    tags: ['compelling', 'stories', 'genre', 'templates', 'themes'],
-    highlights: ['Compelling narratives', 'Genre templates', 'Thematic consistency', 'Customizable elements'],
-    isPaid: false,
-    pricing: 'Freemium - $39/month for Premium',
-    createdBy: 'TaleSpinner'
-  },
-  {
-    name: 'ChapterCraft',
-    description: 'Long-form story development with chapter-by-chapter guidance.',
-    fullDescription: 'ChapterCraft provides long-form story development with chapter-by-chapter guidance, story continuity tracking, and narrative pacing optimization.',
-    category: 'Storytelling AI',
-    logoUrl: '📖',
-    websiteUrl: 'https://chaptercraft.ai',
-    tags: ['long-form', 'development', 'chapters', 'guidance', 'stories'],
-    highlights: ['Long-form stories', 'Chapter guidance', 'Continuity tracking', 'Pacing optimization'],
-    isPaid: true,
-    pricing: 'Starting at $79/month',
-    createdBy: 'ChapterCraft'
+    createdBy: 'Coursebox'
   }
 ];
 
-export async function populateTools() {
+// Populate function with duplicate prevention
+export const populateTools = async () => {
   console.log('Starting to populate tools...');
   
-  // Get existing tools to check for duplicates
-  const existingTools = await toolService.getAllTools();
-  const existingToolNames = existingTools.map(tool => tool.name.toLowerCase());
-  
-  for (const tool of toolsToAdd) {
-    try {
-      // Check if tool already exists by name
-      if (existingToolNames.includes(tool.name.toLowerCase())) {
-        console.log(`Tool already exists, skipping: ${tool.name}`);
+  try {
+    // Get existing tools to check for duplicates
+    const existingTools = await toolService.getAllTools();
+    const existingNames = new Set(existingTools.map(tool => tool.name.toLowerCase()));
+    
+    let addedCount = 0;
+    let skippedCount = 0;
+    
+    for (const tool of toolsToAdd) {
+      // Check if tool already exists (case-insensitive)
+      if (existingNames.has(tool.name.toLowerCase())) {
+        console.log(`Skipping duplicate tool: ${tool.name}`);
+        skippedCount++;
         continue;
       }
       
-      const toolId = await toolService.addTool(tool);
-      console.log(`Added new tool: ${tool.name} with ID: ${toolId}`);
-    } catch (error) {
-      console.error(`Error adding tool ${tool.name}:`, error);
+      try {
+        await toolService.addTool(tool);
+        console.log(`Added tool: ${tool.name}`);
+        addedCount++;
+        // Add to existing names to prevent duplicates within this batch
+        existingNames.add(tool.name.toLowerCase());
+      } catch (error) {
+        console.error(`Error adding tool ${tool.name}:`, error);
+      }
     }
+    
+    console.log(`Population complete! Added: ${addedCount}, Skipped: ${skippedCount}`);
+    return { added: addedCount, skipped: skippedCount };
+  } catch (error) {
+    console.error('Error during population:', error);
+    throw error;
   }
-  
-  console.log('Finished populating tools!');
-}
-
-// To run this script, call populateTools() from browser console or admin panel
-window.populateTools = populateTools;
+};
