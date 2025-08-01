@@ -17,6 +17,9 @@ const CategoryTools = () => {
   const categoryDisplayName = categoryName?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Category';
 
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+    
     const fetchTools = async () => {
       if (!categoryName) return;
       

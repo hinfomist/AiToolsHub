@@ -11,6 +11,7 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [trendingTools, setTrendingTools] = useState([]);
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+  const [searchResults, setSearchResults] = useState([]);
 
   const featuredCategories = [
     { name: 'Content Writing', count: categoryCounts['Content Writing'] || 0, icon: '✍️' },
@@ -55,6 +56,32 @@ const Index = () => {
 
     fetchData();
   }, []);
+
+  // Handle search functionality
+  useEffect(() => {
+    const performSearch = async () => {
+      if (searchQuery.trim() === '') {
+        setSearchResults([]);
+        return;
+      }
+
+      try {
+        const allTools = await toolService.getAllTools();
+        const filtered = allTools.filter(tool =>
+          tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          tool.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          tool.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          tool.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+        setSearchResults(filtered);
+      } catch (error) {
+        console.error('Error searching tools:', error);
+      }
+    };
+
+    const timeoutId = setTimeout(performSearch, 300);
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
@@ -102,6 +129,32 @@ const Index = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-12 pr-4 py-4 text-lg border-2 border-gray-200 focus:border-purple-400 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
             />
+            {/* Search Results Dropdown */}
+            {searchResults.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg max-h-80 overflow-y-auto z-50">
+                {searchResults.slice(0, 5).map((tool) => (
+                  <Link
+                    key={tool.id}
+                    to={`/tool/${tool.id}`}
+                    className="block p-4 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
+                    onClick={() => setSearchQuery('')}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{tool.logoUrl || '🤖'}</span>
+                      <div>
+                        <h4 className="font-medium text-gray-900">{tool.name}</h4>
+                        <p className="text-sm text-gray-600">{tool.category}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+                {searchResults.length > 5 && (
+                  <div className="p-4 text-center text-gray-500 text-sm">
+                    +{searchResults.length - 5} more results...
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Action Buttons */}
