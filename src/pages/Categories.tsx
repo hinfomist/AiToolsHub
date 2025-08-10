@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import AdSlot from '@/components/AdSlot';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { toolService } from '../services/toolService';
@@ -93,55 +94,75 @@ const Categories = () => {
           </p>
         </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allCategories.map((category) => (
-            <Link
-              key={category.name}
-              to={`/category/${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-              className="group"
-            >
-              <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="text-3xl">{category.icon}</div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
-                        {category.name}
-                      </h3>
-                      <Badge variant="secondary" className="mb-2">
-                        {categoryCounts[category.name] || 0} tools
-                      </Badge>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 text-sm">
-                    {category.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
+        <div className="flex gap-8">
+          {/* Left Sidebar Ad */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24">
+              <AdSlot position="sidebar" size="medium" />
+            </div>
+          </div>
+          
+          {/* Main Content */}
+          <div className="flex-1">
+            {/* Categories Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {allCategories.map((category) => (
+                <Link
+                  key={category.name}
+                  to={`/category/${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="group"
+                >
+                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="text-3xl">{category.icon}</div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
+                            {category.name}
+                          </h3>
+                          <Badge variant="secondary" className="mb-2">
+                            {categoryCounts[category.name] || 0} tools
+                          </Badge>
+                        </div>
+                      </div>
+                      <p className="text-gray-600 text-sm">
+                        {category.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
 
-        {/* Stats */}
-        <div className="mt-16 text-center">
-          <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-8">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Platform Statistics</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <div className="text-3xl font-bold text-purple-600 mb-2">
-                  {Object.values(categoryCounts).reduce((sum: number, count: unknown) => sum + (typeof count === 'number' ? count : 0), 0)}+
+            {/* Stats */}
+            <div className="mt-16 text-center">
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-8">
+                <h2 className="text-2xl font-bold mb-4 text-gray-800">Platform Statistics</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div>
+                    <div className="text-3xl font-bold text-purple-600 mb-2">
+                      {Object.values(categoryCounts).reduce((sum: number, count: unknown) => sum + (typeof count === 'number' ? count : 0), 0)}+
+                    </div>
+                    <div className="text-gray-600">Total Tools</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-blue-600 mb-2">{allCategories.length}+</div>
+                    <div className="text-gray-600">Categories</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-indigo-600 mb-2">10K+</div>
+                    <div className="text-gray-600">Active Users</div>
+                  </div>
                 </div>
-                <div className="text-gray-600">Total Tools</div>
               </div>
-              <div>
-                <div className="text-3xl font-bold text-blue-600 mb-2">{allCategories.length}+</div>
-                <div className="text-gray-600">Categories</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-indigo-600 mb-2">10K+</div>
-                <div className="text-gray-600">Active Users</div>
-              </div>
+            </div>
+          </div>
+          
+          {/* Right Sidebar Ad */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24 space-y-4">
+              <AdSlot position="sidebar" size="large" />
+              <AdSlot position="sidebar" size="small" />
             </div>
           </div>
         </div>

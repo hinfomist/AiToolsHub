@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, Star, ArrowUp, ExternalLink, Share, Heart, MessageCircle, Eye, Calendar } from 'lucide-react';
 import { toolService } from '../services/toolService';
+import AdSlot from '@/components/AdSlot';
 
 const ToolDetail = () => {
   const { id } = useParams();
@@ -368,6 +369,9 @@ const ToolDetail = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Ad Space */}
+            <AdSlot position="sidebar" size="medium" />
+            <AdSlot position="sidebar" size="small" />
             {/* Tool Info */}
             <Card className="border-0 bg-white/80 backdrop-blur-sm">
               <CardHeader>

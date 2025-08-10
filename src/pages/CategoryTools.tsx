@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Star, ArrowUp, ExternalLink, Filter } from 'lucide-react';
 import { toolService } from '../services/toolService';
+import AdSlot from '@/components/AdSlot';
 
 const CategoryTools = () => {
   const { categoryName } = useParams();
@@ -93,6 +94,16 @@ const CategoryTools = () => {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex gap-8">
+          {/* Left Sidebar Ad */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24">
+              <AdSlot position="sidebar" size="medium" />
+            </div>
+          </div>
+          
+          {/* Main Content */}
+          <div className="flex-1">
         {/* Header */}
         <div className="mb-8">
           <Link to="/categories" className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 mb-4">
@@ -266,6 +277,16 @@ const CategoryTools = () => {
           <Button variant="outline" size="lg" className="border-purple-200 text-purple-600 hover:bg-purple-50">
             Load More Tools
           </Button>
+        </div>
+          </div>
+          
+          {/* Right Sidebar Ad */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24 space-y-4">
+              <AdSlot position="sidebar" size="medium" />
+              <AdSlot position="sidebar" size="small" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

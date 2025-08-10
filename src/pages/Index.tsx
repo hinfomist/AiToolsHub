@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { toolService } from '../services/toolService';
+import AdSlot from '@/components/AdSlot';
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -144,7 +145,16 @@ const Index = () => {
 
       {/* Featured Categories */}
       <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto flex gap-8">
+          {/* Sidebar Ad */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24">
+              <AdSlot position="sidebar" size="large" />
+            </div>
+          </div>
+          
+          {/* Main Content */}
+          <div className="flex-1">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 animate-fade-in">
             Explore by Category
           </h2>
@@ -176,6 +186,14 @@ const Index = () => {
                 View All Categories
               </Button>
             </Link>
+          </div>
+          </div>
+          
+          {/* Right Sidebar Ad */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24">
+              <AdSlot position="sidebar" size="medium" />
+            </div>
           </div>
         </div>
       </section>
