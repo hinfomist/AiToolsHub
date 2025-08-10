@@ -1049,5 +1049,5 @@ async function populateTools() {
   }
 }
 
-// Run the populate function
-populateTools();
+// Export the function for use in other modules
+export { populateTools };
