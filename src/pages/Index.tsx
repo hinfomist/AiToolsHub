@@ -143,56 +143,54 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Mobile Banner Ad */}
+      <div className="lg:hidden px-4 py-6">
+        <AdSlot position="banner" />
+      </div>
+
       {/* Featured Categories */}
       <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto flex gap-8">
-          {/* Sidebar Ad */}
-          <div className="hidden lg:block">
+        <div className="max-w-7xl mx-auto lg:flex lg:gap-8">
+          {/* Desktop Sidebar Ad */}
+          <div className="hidden lg:block lg:flex-shrink-0">
             <div className="sticky top-24">
-              <AdSlot position="sidebar" size="large" />
+              <AdSlot position="sidebar" />
             </div>
           </div>
           
           {/* Main Content */}
           <div className="flex-1">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 animate-fade-in">
-            Explore by Category
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {featuredCategories.map((category, index) => (
-              <Link
-                key={category.name}
-                to={`/category/${category.name.toLowerCase().replace(' ', '-')}`}
-                className="group animate-fade-in"
-                style={{ animationDelay: `${1.4 + index * 0.1}s` }}
-              >
-                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm hover:scale-105">
-                  <CardContent className="p-6 text-center">
-                    <div className="text-4xl mb-4 animate-pulse">{category.icon}</div>
-                    <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
-                      {category.name}
-                    </h3>
-                    <p className="text-gray-500">
-                      {category.count} tools
-                    </p>
-                  </CardContent>
-                </Card>
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 animate-fade-in">
+              Explore by Category
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {featuredCategories.map((category, index) => (
+                <Link
+                  key={category.name}
+                  to={`/category/${category.name.toLowerCase().replace(' ', '-')}`}
+                  className="group animate-fade-in"
+                  style={{ animationDelay: `${1.4 + index * 0.1}s` }}
+                >
+                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm hover:scale-105">
+                    <CardContent className="p-6 text-center">
+                      <div className="text-4xl mb-4 animate-pulse">{category.icon}</div>
+                      <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
+                        {category.name}
+                      </h3>
+                      <p className="text-gray-500">
+                        {category.count} tools
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link to="/categories">
+                <Button variant="outline" size="lg" className="border-purple-200 text-purple-600 hover:bg-purple-50 hover:scale-105 transition-all duration-300">
+                  View All Categories
+                </Button>
               </Link>
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <Link to="/categories">
-              <Button variant="outline" size="lg" className="border-purple-200 text-purple-600 hover:bg-purple-50 hover:scale-105 transition-all duration-300">
-                View All Categories
-              </Button>
-            </Link>
-          </div>
-          </div>
-          
-          {/* Right Sidebar Ad */}
-          <div className="hidden lg:block">
-            <div className="sticky top-24">
-              <AdSlot position="sidebar" size="medium" />
             </div>
           </div>
         </div>

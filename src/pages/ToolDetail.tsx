@@ -130,6 +130,11 @@ const ToolDetail = () => {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Mobile Banner Ad */}
+        <div className="lg:hidden mb-6">
+          <AdSlot position="banner" />
+        </div>
+        
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link to="/" className="text-purple-600 hover:text-purple-700">Home</Link>
@@ -369,9 +374,8 @@ const ToolDetail = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Ad Space */}
-            <AdSlot position="sidebar" size="medium" />
-            <AdSlot position="sidebar" size="small" />
+            {/* Desktop Ad Space */}
+            <AdSlot position="sidebar" />
             {/* Tool Info */}
             <Card className="border-0 bg-white/80 backdrop-blur-sm">
               <CardHeader>

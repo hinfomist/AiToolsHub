@@ -1,53 +1,70 @@
 interface AdSlotProps {
-  position: 'sidebar' | 'header' | 'footer' | 'inline';
-  size?: 'small' | 'medium' | 'large';
+  position: 'sidebar' | 'banner';
   className?: string;
 }
 
-const AdSlot = ({ position, size = 'medium', className = '' }: AdSlotProps) => {
-  // Ad size configurations based on Google Ads/Adsterra recommendations
-  const getAdSize = () => {
-    switch (position) {
-      case 'sidebar':
-        switch (size) {
-          case 'small':
-            return 'w-[250px] h-[250px]'; // Square
-          case 'medium':
-            return 'w-[300px] h-[250px]'; // Medium Rectangle (most popular)
-          case 'large':
-            return 'w-[300px] h-[600px]'; // Half Page
-          default:
-            return 'w-[300px] h-[250px]';
-        }
-      case 'header':
-        return 'w-[728px] h-[90px]'; // Leaderboard
-      case 'footer':
-        return 'w-[728px] h-[90px]'; // Leaderboard
-      case 'inline':
-        return 'w-[336px] h-[280px]'; // Large Rectangle
-      default:
-        return 'w-[300px] h-[250px]';
-    }
-  };
+const AdSlot = ({ position, className = '' }: AdSlotProps) => {
+  // Blogger.com style ad placement
+  if (position === 'banner') {
+    // Mobile banner ad (responsive)
+    return (
+      <div className={`lg:hidden w-full max-w-md mx-auto bg-gray-100 border border-gray-300 rounded-lg overflow-hidden ${className}`}>
+        <div className="w-full h-[60px] flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-xs font-medium text-gray-500 mb-1">
+              MOBILE BANNER AD
+            </div>
+            <div className="text-xs text-gray-400">
+              468x60 - Paste your Adsterra banner code here
+            </div>
+          </div>
+        </div>
+        {/* Example Adsterra code placeholder */}
+        {/*
+        <script type="text/javascript">
+          atOptions = {
+            'key' : 'bc200603ac65f380f52b50bead1f39c0',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/bc200603ac65f380f52b50bead1f39c0/invoke.js"></script>
+        */}
+      </div>
+    );
+  }
 
+  // Desktop sidebar ad (300x250 standard)
   return (
-    <div className={`flex items-center justify-center bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg ${getAdSize()} ${className}`}>
-      <div className="text-center p-4">
-        <div className="text-sm font-medium text-gray-500 mb-2">
-          AD SPACE - {position.toUpperCase()}
-        </div>
-        <div className="text-xs text-gray-400">
-          {position === 'sidebar' && size === 'medium' && '300x250'}
-          {position === 'sidebar' && size === 'large' && '300x600'}
-          {position === 'sidebar' && size === 'small' && '250x250'}
-          {position === 'header' && '728x90'}
-          {position === 'footer' && '728x90'}
-          {position === 'inline' && '336x280'}
-        </div>
-        <div className="text-xs text-gray-400 mt-1">
-          Paste your ad code here
+    <div className={`hidden lg:block w-[300px] bg-gray-100 border border-gray-300 rounded-lg overflow-hidden ${className}`}>
+      <div className="w-full h-[250px] flex items-center justify-center">
+        <div className="text-center p-4">
+          <div className="text-sm font-medium text-gray-500 mb-2">
+            SIDEBAR AD
+          </div>
+          <div className="text-xs text-gray-400 mb-1">
+            300x250
+          </div>
+          <div className="text-xs text-gray-400">
+            Paste your Adsterra code here
+          </div>
         </div>
       </div>
+      {/* Example Adsterra code placeholder */}
+      {/*
+      <script type="text/javascript">
+        atOptions = {
+          'key' : 'your-adsterra-key',
+          'format' : 'iframe',
+          'height' : 250,
+          'width' : 300,
+          'params' : {}
+        };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/your-key/invoke.js"></script>
+      */}
     </div>
   );
 };

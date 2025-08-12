@@ -94,11 +94,16 @@ const CategoryTools = () => {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex gap-8">
-          {/* Left Sidebar Ad */}
-          <div className="hidden lg:block">
+        {/* Mobile Banner Ad */}
+        <div className="lg:hidden mb-6">
+          <AdSlot position="banner" />
+        </div>
+        
+        <div className="lg:flex lg:gap-8">
+          {/* Desktop Sidebar Ad */}
+          <div className="hidden lg:block lg:flex-shrink-0">
             <div className="sticky top-24">
-              <AdSlot position="sidebar" size="medium" />
+              <AdSlot position="sidebar" />
             </div>
           </div>
           
@@ -278,14 +283,6 @@ const CategoryTools = () => {
             Load More Tools
           </Button>
         </div>
-          </div>
-          
-          {/* Right Sidebar Ad */}
-          <div className="hidden lg:block">
-            <div className="sticky top-24 space-y-4">
-              <AdSlot position="sidebar" size="medium" />
-              <AdSlot position="sidebar" size="small" />
-            </div>
           </div>
         </div>
       </div>
