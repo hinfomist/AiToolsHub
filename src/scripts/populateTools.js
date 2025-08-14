@@ -1011,35 +1011,43 @@ async function populateTools() {
   try {
     console.log('Starting to populate tools...');
     
-    // Clear existing tools first
-    console.log('Clearing existing tools...');
-    await toolService.clearAllTools();
+    // Get existing tools to check for duplicates
+    const existingTools = await toolService.getAllTools();
+    const existingNames = new Set(existingTools.map(tool => tool.name));
     
-    // Add new tools with duplicate prevention
+    console.log(`Found ${existingTools.length} existing tools`);
+    
+    // Add only new tools (avoid duplicates)
+    const addedTools = [];
+    const skippedTools = [];
+    
     for (const tool of toolsToAdd) {
       try {
-        console.log(`Adding tool: ${tool.name}`);
-        await toolService.addTool(tool);
-        console.log(`✓ Successfully added: ${tool.name}`);
-      } catch (error) {
-        if (error.message && error.message.includes('already exists')) {
-          console.log(`⚠ Tool already exists: ${tool.name}`);
+        if (existingNames.has(tool.name)) {
+          skippedTools.push(tool.name);
+          console.log(`⚠ Skipped existing: ${tool.name}`);
         } else {
-          console.error(`✗ Error adding ${tool.name}:`, error);
+          await toolService.addTool(tool);
+          addedTools.push(tool);
+          console.log(`✓ Successfully added: ${tool.name}`);
         }
+      } catch (error) {
+        console.error(`✗ Error adding ${tool.name}:`, error);
       }
     }
     
-    console.log('✅ All tools populated successfully!');
-    console.log(`Total tools added: ${toolsToAdd.length}`);
+    console.log('✅ Population process completed!');
+    console.log(`New tools added: ${addedTools.length}`);
+    console.log(`Tools skipped (already exist): ${skippedTools.length}`);
+    console.log(`Total tools in database: ${existingTools.length + addedTools.length}`);
     
-    // Display summary by category
+    // Display summary by category for new tools only
     const categoryCount = {};
-    toolsToAdd.forEach(tool => {
+    addedTools.forEach(tool => {
       categoryCount[tool.category] = (categoryCount[tool.category] || 0) + 1;
     });
     
-    console.log('\n📊 Tools by category:');
+    console.log('\n📊 New tools added by category:');
     Object.entries(categoryCount).forEach(([category, count]) => {
       console.log(`${category}: ${count} tools`);
     });
