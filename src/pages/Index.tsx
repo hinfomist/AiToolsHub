@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, Star, TrendingUp, Users, ArrowUp, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,9 +9,64 @@ import { toolService } from '../services/toolService';
 import AdSlot from '@/components/AdSlot';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [trendingTools, setTrendingTools] = useState([]);
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+
+  // Category mapping with keywords for search
+  const categoryKeywords = {
+    'Content Writing': ['writing', 'content', 'blog', 'article', 'copywriting', 'text', 'write'],
+    'Image Generation': ['image', 'art', 'design', 'photo', 'picture', 'visual', 'graphic'],
+    'Personal Assistants': ['assistant', 'help', 'productivity', 'personal', 'ai helper'],
+    'Chatbots': ['chat', 'bot', 'conversation', 'messaging', 'talk'],
+    'Sales': ['sales', 'selling', 'lead', 'crm', 'business'],
+    'Productivity': ['productivity', 'efficient', 'work', 'organize', 'task'],
+    'Video Creation': ['video', 'editing', 'movie', 'film', 'visual', 'animation'],
+    'Music Creation': ['music', 'audio', 'sound', 'song', 'beat', 'compose'],
+    'Customer Support': ['support', 'customer', 'service', 'help desk', 'ticket'],
+    'Interview Prep': ['interview', 'job', 'preparation', 'career', 'hiring'],
+    'AI Code Tools': ['code', 'coding', 'programming', 'developer', 'software'],
+    'Resume Builder': ['resume', 'cv', 'job', 'career', 'application'],
+    'Email Assistants': ['email', 'mail', 'communication', 'inbox'],
+    'Data Analysis': ['data', 'analytics', 'analysis', 'insights', 'statistics'],
+    'PDF Tools': ['pdf', 'document', 'file', 'conversion'],
+    'Legal AI Tools': ['legal', 'law', 'lawyer', 'contract', 'document'],
+    'Language Translation': ['translation', 'translate', 'language', 'international'],
+    'Design Tools': ['design', 'ui', 'ux', 'creative', 'layout'],
+    'Avatars & Voice': ['avatar', 'voice', 'speech', 'character'],
+    'Marketing': ['marketing', 'promotion', 'advertising', 'campaign'],
+    'SEO Tools': ['seo', 'search', 'optimization', 'ranking'],
+    'Logo Generator': ['logo', 'brand', 'identity', 'branding'],
+    'Storytelling AI': ['story', 'narrative', 'creative writing', 'fiction'],
+    'Course Generator': ['course', 'education', 'learning', 'teaching'],
+    'Business Plan Tools': ['business plan', 'strategy', 'planning', 'startup'],
+    'Prompt Marketplace': ['prompt', 'template', 'marketplace', 'ai prompt']
+  };
+
+  const handleSearch = () => {
+    if (!searchQuery.trim()) return;
+    
+    const query = searchQuery.toLowerCase().trim();
+    
+    // Find matching category based on keywords
+    for (const [categoryName, keywords] of Object.entries(categoryKeywords)) {
+      if (keywords.some(keyword => keyword.includes(query) || query.includes(keyword))) {
+        const categorySlug = categoryName.toLowerCase().replace(/\s+/g, '-');
+        navigate(`/category/${categorySlug}`);
+        return;
+      }
+    }
+    
+    // If no category match found, search for general terms and redirect to categories
+    navigate('/categories');
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const featuredCategories = [
     { name: 'Content Writing', count: categoryCounts['Content Writing'] || 0, icon: '✍️' },
@@ -95,14 +150,26 @@ const Index = () => {
           
           {/* Search Bar */}
           <div className="relative max-w-2xl mx-auto mb-8 animate-scale-in" style={{ animationDelay: '0.4s' }}>
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <Input
-              type="text"
-              placeholder="Search AI tools..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 pr-4 py-4 text-lg border-2 border-gray-200 focus:border-purple-400 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-            />
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <Input
+                  type="text"
+                  placeholder="What are you looking for? writing, video, coding, legal, pdf..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  className="pl-12 pr-4 py-4 text-lg border-2 border-gray-200 focus:border-purple-400 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 w-full"
+                />
+              </div>
+              <Button 
+                onClick={handleSearch}
+                size="lg"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
 
           {/* Action Buttons */}
