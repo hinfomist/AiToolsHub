@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { toolService } from '@/services/toolService';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -34,14 +33,14 @@ const AddTool = () => {
     setLoading(true);
 
     try {
-      await addDoc(collection(db, 'tools'), {
-        ...formData,
-        tags: formData.tags.split(',').map(tag => tag.trim()),
-        highlights: formData.highlights.split(',').map(highlight => highlight.trim()),
-        votes: 0,
-        views: 0,
-        rating: 4.5,
-        createdAt: new Date().toISOString()
+      await toolService.addTool({
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        websiteUrl: formData.websiteUrl,
+        logoUrl: formData.logoUrl,
+        tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()).filter(Boolean) : [],
+        highlights: formData.highlights ? formData.highlights.split(',').map(h => h.trim()).filter(Boolean) : []
       });
 
       toast({

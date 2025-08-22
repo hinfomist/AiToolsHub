@@ -29,10 +29,11 @@ const AdminTools = () => {
   const fetchTools = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'tools'));
-      const toolsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Tool[];
+      const toolsData = querySnapshot.docs.map(d => {
+        const data = d.data() as any;
+        const createdAt = data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString();
+        return { id: d.id, ...data, createdAt } as Tool;
+      });
       setTools(toolsData);
     } catch (error) {
       toast({
