@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toolService } from '@/services/toolService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,9 +19,11 @@ const SubmitTool = () => {
     website: '',
     category: '',
     pricing: '',
+    email: '',
     highlights: [] as string[],
     tags: [] as string[]
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [newHighlight, setNewHighlight] = useState('');
   const [newTag, setNewTag] = useState('');
 
@@ -82,35 +85,71 @@ const SubmitTool = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.name || !formData.description || !formData.website || !formData.category) {
+    if (!formData.name || !formData.description || !formData.website || !formData.category || !formData.email) {
       toast({
         title: "Missing Information",
-        description: "Please fill in all required fields.",
+        description: "Please fill in all required fields including email address.",
         variant: "destructive"
       });
       return;
     }
 
-    // Show success message
-    toast({
-      title: "Tool Submitted Successfully!",
-      description: "Your tool has been submitted for review. We'll notify you once it's approved.",
-    });
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "destructive"
+      });
+      return;
+    }
 
-    // Reset form
-    setFormData({
-      name: '',
-      description: '',
-      website: '',
-      category: '',
-      pricing: '',
-      highlights: [],
-      tags: []
-    });
+    setIsSubmitting(true);
+
+    try {
+      await toolService.submitTool({
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        websiteUrl: formData.website,
+        pricing: formData.pricing,
+        submitterEmail: formData.email,
+        tags: formData.tags,
+        highlights: formData.highlights,
+        logoUrl: ''
+      });
+
+      // Show success message
+      toast({
+        title: "Tool Submitted Successfully!",
+        description: "Your tool has been submitted for review. You'll be notified soon via email.",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        description: '',
+        website: '',
+        category: '',
+        pricing: '',
+        email: '',
+        highlights: [],
+        tags: []
+      });
+    } catch (error) {
+      toast({
+        title: "Submission Failed",
+        description: "Failed to submit tool. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -218,6 +257,23 @@ const SubmitTool = () => {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Your Email Address *
+                </label>
+                <Input
+                  type="email"
+                  placeholder="your.email@example.com"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className="w-full"
+                  required
+                />
+                <p className="text-sm text-gray-500 mt-1">
+                  We'll use this to contact you about your submission status
+                </p>
               </div>
 
               <div>
@@ -375,8 +431,9 @@ const SubmitTool = () => {
               type="submit"
               size="lg"
               className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-lg py-3"
+              disabled={isSubmitting}
             >
-              Submit for Review
+              {isSubmitting ? 'Submitting...' : 'Submit for Review'}
             </Button>
             <Button type="button" variant="outline" size="lg" className="px-8">
               Save Draft

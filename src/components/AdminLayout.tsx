@@ -9,7 +9,8 @@ import {
   List, 
   MessageSquare, 
   LogOut,
-  Settings
+  Settings,
+  Clock
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -40,6 +41,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const menuItems = [
     { path: '/admin/tools', label: 'Manage Tools', icon: List },
+    { path: '/admin/pending', label: 'Pending Tools', icon: Clock },
     { path: '/admin/add-tool', label: 'Add Tool', icon: Plus },
     { path: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
   ];

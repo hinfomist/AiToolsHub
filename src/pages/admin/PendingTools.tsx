@@ -111,16 +111,39 @@ const PendingTools = () => {
               <CardContent className="space-y-4">
                 <p className="text-gray-700">{tool.description}</p>
                 
-                <div className="flex items-center gap-2">
-                  <ExternalLink className="h-4 w-4 text-gray-400" />
-                  <a 
-                    href={tool.websiteUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 underline"
-                  >
-                    {tool.websiteUrl}
-                  </a>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <ExternalLink className="h-4 w-4 text-gray-400" />
+                    <a 
+                      href={tool.websiteUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 underline"
+                    >
+                      {tool.websiteUrl}
+                    </a>
+                  </div>
+                  
+                  {tool.submitterEmail && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-500">📧 Submitter:</span>
+                      <a 
+                        href={`mailto:${tool.submitterEmail}`}
+                        className="text-blue-600 hover:text-blue-800 underline text-sm"
+                      >
+                        {tool.submitterEmail}
+                      </a>
+                    </div>
+                  )}
+                  
+                  {tool.pricing && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-500">💰 Pricing:</span>
+                      <Badge variant="secondary" className="text-xs">
+                        {tool.pricing}
+                      </Badge>
+                    </div>
+                  )}
                 </div>
 
                 {tool.tags && tool.tags.length > 0 && (
