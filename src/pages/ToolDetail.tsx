@@ -139,8 +139,8 @@ const ToolDetail = () => {
         <div className="mb-6">
           <Link to="/" className="text-purple-600 hover:text-purple-700">Home</Link>
           <span className="mx-2 text-gray-400">/</span>
-          <Link to={`/category/${tool.category.toLowerCase().replace(' ', '-')}`} className="text-purple-600 hover:text-purple-700">
-            {tool.category}
+          <Link to={`/category/${(tool.category || '').toLowerCase().replace(/\s+/g, '-')}`} className="text-purple-600 hover:text-purple-700">
+            {tool.category || 'General'}
           </Link>
           <span className="mx-2 text-gray-400">/</span>
           <span className="text-gray-600">{tool.name}</span>
@@ -191,27 +191,27 @@ const ToolDetail = () => {
                     <div className="flex items-center gap-6 mb-6 text-sm text-gray-600">
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                        <span className="font-medium">{tool.rating}</span>
-                        <span>({tool.totalRatings} reviews)</span>
+                        <span className="font-medium">{tool.rating ?? 0}</span>
+                        <span>({tool.totalRatings ?? 0} reviews)</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <ArrowUp className="h-4 w-4" />
-                        <span>{tool.votes} votes</span>
+                        <span>{tool.votes ?? 0} votes</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Eye className="h-4 w-4" />
-                        <span>{tool.views.toLocaleString()} views</span>
+                        <span>{Number(tool.views ?? 0).toLocaleString()} views</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
-                        <span>Added {tool.createdAt}</span>
+                        <span>Added {tool.createdAt || ''}</span>
                       </div>
                     </div>
 
                     {/* Actions */}
                     <div className="flex flex-wrap gap-3">
                       <a
-                        href={tool.websiteUrl}
+                        href={tool.websiteUrl?.startsWith('http') ? tool.websiteUrl : (tool.websiteUrl ? `https://${tool.websiteUrl}` : '#')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex-1 min-w-0"
@@ -249,7 +249,7 @@ const ToolDetail = () => {
                 <div className="mb-6">
                   <h3 className="font-semibold mb-3">Tags</h3>
                   <div className="flex flex-wrap gap-2">
-                    {tool.tags.map((tag) => (
+                    {(tool.tags || []).map((tag) => (
                       <Badge key={tag} variant="outline" className="hover:bg-purple-50 cursor-pointer">
                         {tag}
                       </Badge>
@@ -261,7 +261,7 @@ const ToolDetail = () => {
                 <div>
                   <h3 className="font-semibold mb-3">Key Features</h3>
                   <div className="flex flex-wrap gap-2">
-                    {tool.highlights.map((highlight) => (
+                    {(tool.highlights || []).map((highlight) => (
                       <Badge key={highlight} className="bg-green-100 text-green-700">
                         ✓ {highlight}
                       </Badge>
@@ -278,7 +278,7 @@ const ToolDetail = () => {
               </CardHeader>
               <CardContent>
                 <div className="prose max-w-none">
-                  {tool.fullDescription.split('\n').map((paragraph, index) => (
+                  {(tool.fullDescription || tool.description || '').split('\n').map((paragraph, index) => (
                     <p key={index} className="mb-4 text-gray-700 leading-relaxed">
                       {paragraph}
                     </p>
@@ -392,16 +392,16 @@ const ToolDetail = () => {
                 </div>
                 <div>
                   <div className="text-sm font-medium text-gray-600 mb-1">Category</div>
-                  <Link to={`/category/${tool.category.toLowerCase().replace(' ', '-')}`}>
+                  <Link to={`/category/${(tool.category || '').toLowerCase().replace(/\s+/g, '-')}`}>
                     <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer">
-                      {tool.category}
+                      {tool.category || 'General'}
                     </Badge>
                   </Link>
                 </div>
                 <div>
                   <div className="text-sm font-medium text-gray-600 mb-1">Website</div>
                   <a
-                    href={tool.websiteUrl}
+                    href={tool.websiteUrl?.startsWith('http') ? tool.websiteUrl : (tool.websiteUrl ? `https://${tool.websiteUrl}` : '#')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-purple-600 hover:text-purple-700 text-sm"
