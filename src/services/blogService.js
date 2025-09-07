@@ -1,0 +1,297 @@
+import { collection, addDoc, updateDoc, deleteDoc, doc, getDocs, getDoc, query, where, orderBy, limit, startAfter, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../lib/firebase';
+
+const BLOGS_COLLECTION = 'blogs';
+const CATEGORIES_COLLECTION = 'blogCategories';
+const TAGS_COLLECTION = 'blogTags';
+
+export const blogService = {
+  // Blog CRUD operations
+  async addBlog(blogData) {
+    try {
+      const docRef = await addDoc(collection(db, BLOGS_COLLECTION), {
+        ...blogData,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        views: 0,
+        likes: 0
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error('Error adding blog:', error);
+      throw error;
+    }
+  },
+
+  async updateBlog(id, blogData) {
+    try {
+      const blogRef = doc(db, BLOGS_COLLECTION, id);
+      await updateDoc(blogRef, {
+        ...blogData,
+        updatedAt: serverTimestamp()
+      });
+      return true;
+    } catch (error) {
+      console.error('Error updating blog:', error);
+      throw error;
+    }
+  },
+
+  async deleteBlog(id) {
+    try {
+      const blogRef = doc(db, BLOGS_COLLECTION, id);
+      await deleteDoc(blogRef);
+      return true;
+    } catch (error) {
+      console.error('Error deleting blog:', error);
+      throw error;
+    }
+  },
+
+  async getBlogById(id) {
+    try {
+      const blogRef = doc(db, BLOGS_COLLECTION, id);
+      const blogSnap = await getDoc(blogRef);
+      
+      if (blogSnap.exists()) {
+        return { id: blogSnap.id, ...blogSnap.data() };
+      } else {
+        throw new Error('Blog not found');
+      }
+    } catch (error) {
+      console.error('Error getting blog:', error);
+      throw error;
+    }
+  },
+
+  async getBlogBySlug(slug) {
+    try {
+      const q = query(collection(db, BLOGS_COLLECTION), where('slug', '==', slug));
+      const querySnapshot = await getDocs(q);
+      
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
+        return { id: doc.id, ...doc.data() };
+      } else {
+        throw new Error('Blog not found');
+      }
+    } catch (error) {
+      console.error('Error getting blog by slug:', error);
+      throw error;
+    }
+  },
+
+  async getAllBlogs(status = 'published', pageLimit = 10, lastDoc = null) {
+    try {
+      let q = query(
+        collection(db, BLOGS_COLLECTION),
+        where('status', '==', status),
+        orderBy('createdAt', 'desc'),
+        limit(pageLimit)
+      );
+
+      if (lastDoc) {
+        q = query(
+          collection(db, BLOGS_COLLECTION),
+          where('status', '==', status),
+          orderBy('createdAt', 'desc'),
+          startAfter(lastDoc),
+          limit(pageLimit)
+        );
+      }
+
+      const querySnapshot = await getDocs(q);
+      const blogs = [];
+      let lastVisible = null;
+
+      querySnapshot.forEach((doc) => {
+        blogs.push({ id: doc.id, ...doc.data() });
+        lastVisible = doc;
+      });
+
+      return { blogs, lastVisible, hasMore: querySnapshot.docs.length === pageLimit };
+    } catch (error) {
+      console.error('Error getting blogs:', error);
+      throw error;
+    }
+  },
+
+  async getBlogsByCategory(category, pageLimit = 10) {
+    try {
+      const q = query(
+        collection(db, BLOGS_COLLECTION),
+        where('categories', 'array-contains', category),
+        where('status', '==', 'published'),
+        orderBy('createdAt', 'desc'),
+        limit(pageLimit)
+      );
+
+      const querySnapshot = await getDocs(q);
+      const blogs = [];
+
+      querySnapshot.forEach((doc) => {
+        blogs.push({ id: doc.id, ...doc.data() });
+      });
+
+      return blogs;
+    } catch (error) {
+      console.error('Error getting blogs by category:', error);
+      throw error;
+    }
+  },
+
+  async getBlogsByTag(tag, pageLimit = 10) {
+    try {
+      const q = query(
+        collection(db, BLOGS_COLLECTION),
+        where('tags', 'array-contains', tag),
+        where('status', '==', 'published'),
+        orderBy('createdAt', 'desc'),
+        limit(pageLimit)
+      );
+
+      const querySnapshot = await getDocs(q);
+      const blogs = [];
+
+      querySnapshot.forEach((doc) => {
+        blogs.push({ id: doc.id, ...doc.data() });
+      });
+
+      return blogs;
+    } catch (error) {
+      console.error('Error getting blogs by tag:', error);
+      throw error;
+    }
+  },
+
+  async getRelatedBlogs(currentBlogId, tags, categories, pageLimit = 3) {
+    try {
+      const q = query(
+        collection(db, BLOGS_COLLECTION),
+        where('status', '==', 'published'),
+        orderBy('createdAt', 'desc'),
+        limit(pageLimit + 5) // Get more to filter out current blog
+      );
+
+      const querySnapshot = await getDocs(q);
+      const blogs = [];
+
+      querySnapshot.forEach((doc) => {
+        const blog = { id: doc.id, ...doc.data() };
+        if (blog.id !== currentBlogId) {
+          // Check if blog has common tags or categories
+          const hasCommonTags = blog.tags?.some(tag => tags?.includes(tag));
+          const hasCommonCategories = blog.categories?.some(cat => categories?.includes(cat));
+          
+          if (hasCommonTags || hasCommonCategories) {
+            blogs.push(blog);
+          }
+        }
+      });
+
+      return blogs.slice(0, pageLimit);
+    } catch (error) {
+      console.error('Error getting related blogs:', error);
+      throw error;
+    }
+  },
+
+  async incrementViews(id) {
+    try {
+      const blogRef = doc(db, BLOGS_COLLECTION, id);
+      const blogSnap = await getDoc(blogRef);
+      
+      if (blogSnap.exists()) {
+        const currentViews = blogSnap.data().views || 0;
+        await updateDoc(blogRef, {
+          views: currentViews + 1
+        });
+      }
+    } catch (error) {
+      console.error('Error incrementing views:', error);
+    }
+  },
+
+  // File upload
+  async uploadImage(file, path = 'blog-images/') {
+    try {
+      const filename = `${path}${Date.now()}_${file.name}`;
+      const storageRef = ref(storage, filename);
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      return downloadURL;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+  },
+
+  // Categories
+  async getCategories() {
+    try {
+      const querySnapshot = await getDocs(collection(db, CATEGORIES_COLLECTION));
+      const categories = [];
+      querySnapshot.forEach((doc) => {
+        categories.push({ id: doc.id, ...doc.data() });
+      });
+      return categories;
+    } catch (error) {
+      console.error('Error getting categories:', error);
+      throw error;
+    }
+  },
+
+  async addCategory(name) {
+    try {
+      const slug = name.toLowerCase().replace(/\s+/g, '-');
+      const docRef = await addDoc(collection(db, CATEGORIES_COLLECTION), {
+        name,
+        slug
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error('Error adding category:', error);
+      throw error;
+    }
+  },
+
+  // Tags
+  async getTags() {
+    try {
+      const querySnapshot = await getDocs(collection(db, TAGS_COLLECTION));
+      const tags = [];
+      querySnapshot.forEach((doc) => {
+        tags.push({ id: doc.id, ...doc.data() });
+      });
+      return tags;
+    } catch (error) {
+      console.error('Error getting tags:', error);
+      throw error;
+    }
+  },
+
+  async addTag(name) {
+    try {
+      const slug = name.toLowerCase().replace(/\s+/g, '-');
+      const docRef = await addDoc(collection(db, TAGS_COLLECTION), {
+        name,
+        slug
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error('Error adding tag:', error);
+      throw error;
+    }
+  },
+
+  // Utility functions
+  generateSlug(title) {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim('-');
+  }
+};

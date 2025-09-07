@@ -44,6 +44,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     { path: '/admin/pending', label: 'Pending Tools', icon: Clock },
     { path: '/admin/add-tool', label: 'Add Tool', icon: Plus },
     { path: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
+    { path: '/admin/blogs', label: 'Manage Blogs', icon: Settings },
+    { path: '/admin/add-blog', label: 'Add Blog Post', icon: Plus },
   ];
 
   return (

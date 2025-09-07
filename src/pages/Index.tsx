@@ -125,6 +125,9 @@ const Index = () => {
               <Link to="/categories" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
                 Categories
               </Link>
+              <Link to="/blog" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
+                Blog
+              </Link>
               <Link to="/submit" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
                 Submit Tool
               </Link>
