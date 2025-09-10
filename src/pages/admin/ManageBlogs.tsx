@@ -15,15 +15,21 @@ const ManageBlogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        // Get both published and draft blogs for admin
-        const [publishedResult, draftResult] = await Promise.all([
-          blogService.getAllBlogs('published', 50),
-          blogService.getAllBlogs('draft', 50)
-        ]);
+        // Always try to get published blogs
+        const publishedResult = await blogService.getAllBlogs('published', 50);
+        let drafts = [];
+
+        // Try to get drafts (may fail if not authenticated as admin per rules)
+        try {
+          const draftResult = await blogService.getAllBlogs('draft', 50);
+          drafts = draftResult.blogs;
+        } catch (draftErr) {
+          console.warn('Could not fetch drafts (likely permissions). Showing published only.');
+        }
         
         const allBlogs = [
           ...publishedResult.blogs,
-          ...draftResult.blogs
+          ...drafts
         ].sort((a, b) => {
           const aDate = a.updatedAt?.toDate?.() || (a.updatedAt?.seconds ? new Date(a.updatedAt.seconds * 1000) : new Date(a.updatedAt || 0));
           const bDate = b.updatedAt?.toDate?.() || (b.updatedAt?.seconds ? new Date(b.updatedAt.seconds * 1000) : new Date(b.updatedAt || 0));
