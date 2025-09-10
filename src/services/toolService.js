@@ -26,6 +26,7 @@ export const toolService = {
   // Get tools by category
   async getToolsByCategory(categoryName) {
     try {
+      console.log('Searching for category:', categoryName);
       const toolsRef = collection(db, 'tools');
       const q = query(
         toolsRef, 
@@ -34,11 +35,29 @@ export const toolService = {
       );
       const querySnapshot = await getDocs(q);
       
-      const tools = querySnapshot.docs.map(doc => ({
+      let tools = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
         createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt
       }));
+
+      // If no tools found with categories array, try with old category field
+      if (tools.length === 0) {
+        console.log('No tools found with categories array, trying category field');
+        const q2 = query(
+          toolsRef, 
+          where('approved', '==', true),
+          where('category', '==', categoryName)
+        );
+        const querySnapshot2 = await getDocs(q2);
+        tools = querySnapshot2.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt
+        }));
+      }
+
+      console.log('Found tools:', tools);
       
       // Sort by createdAt in JavaScript instead of Firestore
       return tools.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

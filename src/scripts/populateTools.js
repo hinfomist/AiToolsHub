@@ -74,6 +74,7 @@ const toolsToAdd = [
     description: 'AI music composer for creating royalty-free soundtracks.',
     fullDescription: 'AIVA is an AI music composer that creates royalty-free music for various creative projects including films, games, and commercials.',
     category: 'Music Creation',
+    categories: ['Music Creation'],
     tags: ['Royalty-free music', 'Multiple genres', 'Commercial license'],
     logoUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=100&h=100&fit=crop',
     websiteUrl: 'https://aiva.ai',

@@ -25,6 +25,7 @@ import AddBlog from "./pages/admin/AddBlog";
 import EditBlog from "./pages/admin/EditBlog";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./components/AdminLayout";
+import DatabaseInitializer from "./components/DatabaseInitializer";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
       <TooltipProvider>
+        <DatabaseInitializer />
         <Toaster />
         <Sonner />
         <BrowserRouter>
