@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, Star, ArrowUp, ExternalLink, Share, Heart, MessageCircle, Eye, Calendar } from 'lucide-react';
 import { toolService } from '../services/toolService';
+import { blogService } from '../services/blogService';
 import AdSlot from '@/components/AdSlot';
 
 const ToolDetail = () => {
@@ -16,6 +17,7 @@ const ToolDetail = () => {
   const [comment, setComment] = useState('');
   const [tool, setTool] = useState(null);
   const [relatedTools, setRelatedTools] = useState([]);
+  const [relatedBlogs, setRelatedBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,8 +30,12 @@ const ToolDetail = () => {
         setTool(toolData);
         
         if (toolData) {
-          const related = await toolService.getToolsByCategory(toolData.category);
+          const [related, blogs] = await Promise.all([
+            toolService.getToolsByCategory(toolData.category),
+            blogService.getBlogsByRelatedTool(toolData.id)
+          ]);
           setRelatedTools(related.filter(t => t.id !== toolData.id).slice(0, 3));
+          setRelatedBlogs(blogs);
         }
       } catch (error) {
         console.error('Error fetching tool:', error);
@@ -457,6 +463,45 @@ const ToolDetail = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Related Blogs */}
+            {relatedBlogs.length > 0 && (
+              <Card className="border-0 bg-white/80 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle>Related Blogs about {tool?.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {relatedBlogs.map((blog) => (
+                      <Link
+                        key={blog.id}
+                        to={`/blog/${blog.slug}`}
+                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors group"
+                      >
+                        {blog.featuredImage && (
+                          <img
+                            src={blog.featuredImage}
+                            alt={blog.title}
+                            className="w-16 h-12 object-cover rounded"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-gray-800 group-hover:text-purple-600 line-clamp-2 text-sm">
+                            {blog.title}
+                          </div>
+                          <div className="text-xs text-gray-500 flex items-center gap-2 mt-1">
+                            <Calendar className="h-3 w-3" />
+                            {new Date(blog.createdAt).toLocaleDateString()}
+                            <Eye className="h-3 w-3" />
+                            {blog.views || 0} views
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Share Widget */}
             <Card className="border-0 bg-white/80 backdrop-blur-sm">

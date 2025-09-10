@@ -3,8 +3,8 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 
 const BLOGS_COLLECTION = 'blogs';
-const CATEGORIES_COLLECTION = 'blogCategories';
-const TAGS_COLLECTION = 'blogTags';
+const CATEGORIES_COLLECTION = 'categories'; // Shared with tools
+const TAGS_COLLECTION = 'tags';
 
 export const blogService = {
   // Blog CRUD operations
@@ -156,6 +156,30 @@ export const blogService = {
       return blogs;
     } catch (error) {
       console.error('Error getting blogs by category:', error);
+      throw error;
+    }
+  },
+
+  async getBlogsByRelatedTool(toolId, pageLimit = 10) {
+    try {
+      const q = query(
+        collection(db, BLOGS_COLLECTION),
+        where('relatedToolId', '==', toolId),
+        where('status', '==', 'published'),
+        orderBy('createdAt', 'desc'),
+        limit(pageLimit)
+      );
+
+      const querySnapshot = await getDocs(q);
+      const blogs = [];
+
+      querySnapshot.forEach((doc) => {
+        blogs.push({ id: doc.id, ...doc.data() });
+      });
+
+      return blogs;
+    } catch (error) {
+      console.error('Error getting blogs by related tool:', error);
       throw error;
     }
   },

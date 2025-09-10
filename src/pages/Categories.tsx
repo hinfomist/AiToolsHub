@@ -6,15 +6,15 @@ import { Badge } from '@/components/ui/badge';
 import AdSlot from '@/components/AdSlot';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { toolService } from '../services/toolService';
+import { categoryService } from '../services/categoryService';
 
 const Categories = () => {
-  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, any>>({});
 
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const counts = await toolService.getCategoryCounts();
+        const counts = await categoryService.getCategoryCounts();
         setCategoryCounts(counts);
       } catch (error) {
         console.error('Error fetching category counts:', error);
@@ -125,9 +125,14 @@ const Categories = () => {
                           <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
                             {category.name}
                           </h3>
-                          <Badge variant="secondary" className="mb-2">
-                            {categoryCounts[category.name] || 0} tools
-                          </Badge>
+                          <div className="flex gap-2 mb-2">
+                            <Badge variant="secondary">
+                              {categoryCounts[category.name]?.tools || 0} tools
+                            </Badge>
+                            <Badge variant="outline">
+                              {categoryCounts[category.name]?.blogs || 0} blogs
+                            </Badge>
+                          </div>
                         </div>
                       </div>
                       <p className="text-gray-600 text-sm">
@@ -146,7 +151,7 @@ const Categories = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div>
                     <div className="text-3xl font-bold text-purple-600 mb-2">
-                      {Object.values(categoryCounts).reduce((sum: number, count: unknown) => sum + (typeof count === 'number' ? count : 0), 0)}+
+                      {Object.values(categoryCounts).reduce((sum: number, category: any) => sum + (category?.tools || 0), 0)}+
                     </div>
                     <div className="text-gray-600">Total Tools</div>
                   </div>
@@ -155,8 +160,10 @@ const Categories = () => {
                     <div className="text-gray-600">Categories</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-indigo-600 mb-2">10K+</div>
-                    <div className="text-gray-600">Active Users</div>
+                    <div className="text-3xl font-bold text-indigo-600 mb-2">
+                      {Object.values(categoryCounts).reduce((sum: number, category: any) => sum + (category?.blogs || 0), 0)}+
+                    </div>
+                    <div className="text-gray-600">Blog Posts</div>
                   </div>
                 </div>
               </div>

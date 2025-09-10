@@ -240,6 +240,22 @@ const BlogPost = () => {
               )}
             </div>
 
+            {/* Related Tool */}
+            {blog.relatedToolId && blog.relatedToolName && (
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 mb-6">
+                <h3 className="font-semibold text-lg mb-2 text-gray-800">Featured Tool</h3>
+                <p className="text-gray-600 mb-4">
+                  This blog post is about <strong>{blog.relatedToolName}</strong>
+                </p>
+                <Button asChild className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                  <Link to={`/tool/${blog.relatedToolId}`}>
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    Check out {blog.relatedToolName}
+                  </Link>
+                </Button>
+              </div>
+            )}
+
             {/* Social Share */}
             <div className="flex items-center gap-4 pt-4 border-t">
               <span className="text-sm font-medium text-gray-600">Share:</span>

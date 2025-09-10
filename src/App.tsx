@@ -8,6 +8,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Index from "./pages/Index";
 import Categories from "./pages/Categories";
 import CategoryTools from "./pages/CategoryTools";
+import CategoryPage from "./pages/CategoryPage";
 import ToolDetail from "./pages/ToolDetail";
 import SubmitTool from "./pages/SubmitTool";
 import Auth from "./pages/Auth";
@@ -37,7 +38,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/category/:categoryName" element={<CategoryTools />} />
+          <Route path="/category/:categoryName" element={<CategoryPage />} />
           <Route path="/tool/:id" element={<ToolDetail />} />
           <Route path="/submit" element={<SubmitTool />} />
           <Route path="/blog" element={<Blog />} />

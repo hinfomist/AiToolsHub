@@ -10,26 +10,58 @@ Add these rules in the Firebase Console > Firestore Database > Rules:
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow read access to published blogs for everyone
+
+    // --------------------------
+    // TOOLS
+    // --------------------------
+    match /tools/{toolId} {
+      allow read: if true;
+      allow write, update, delete: if request.auth != null 
+        && request.auth.token.email == "hamza@gmail.com";
+    }
+
+    // --------------------------
+    // CATEGORIES (shared by tools + blogs)
+    // --------------------------
+    match /categories/{catId} {
+      allow read: if true;
+      allow write, update, delete: if request.auth != null 
+        && request.auth.token.email == "hamza@gmail.com";
+    }
+
+    // --------------------------
+    // REVIEWS
+    // --------------------------
+    match /reviews/{reviewId} {
+      allow create: if true;
+      allow read: if true;
+      allow update, delete: if request.auth != null 
+        && request.auth.token.email == "hamza@gmail.com";
+    }
+
+    // --------------------------
+    // BLOGS
+    // --------------------------
     match /blogs/{blogId} {
-      allow read: if resource.data.status == 'published';
-      allow read, write: if request.auth != null; // Authenticated users can read/write all blogs
+      // Anyone can read published blogs
+      allow read: if resource.data.status == "published";
+
+      // Admin can create, edit, delete
+      allow create, update, delete: if request.auth != null
+        && request.auth.token.email == "hamza@gmail.com";
+
+      // Admin can also read drafts
+      allow read: if request.auth != null
+        && request.auth.token.email == "hamza@gmail.com";
     }
-    
-    // Allow read access to categories and tags for everyone
-    match /blogCategories/{categoryId} {
+
+    // --------------------------
+    // TAGS (for blogs)
+    // --------------------------
+    match /tags/{tagId} {
       allow read: if true;
-      allow write: if request.auth != null;
-    }
-    
-    match /blogTags/{tagId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-    
-    // Allow test collection for testing connectivity
-    match /test/{docId} {
-      allow read, write: if true;
+      allow write, update, delete: if request.auth != null
+        && request.auth.token.email == "hamza@gmail.com";
     }
   }
 }
@@ -43,15 +75,13 @@ Add these rules in the Firebase Console > Storage > Rules:
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // Allow authenticated users to upload blog images
-    match /blog-images/{allPaths=**} {
-      allow read: if true; // Anyone can read images
-      allow write: if request.auth != null; // Only authenticated users can upload
-    }
-    
-    match /blog-featured/{allPaths=**} {
-      allow read: if true; // Anyone can read featured images
-      allow write: if request.auth != null; // Only authenticated users can upload
+    match /blogImages/{allPaths=**} {
+      // Anyone can view blog images
+      allow read: if true;
+
+      // Only admin can upload or delete
+      allow write, delete: if request.auth != null
+        && request.auth.token.email == "hamza@gmail.com";
     }
   }
 }

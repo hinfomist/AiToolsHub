@@ -30,7 +30,7 @@ export const toolService = {
       const q = query(
         toolsRef, 
         where('approved', '==', true),
-        where('category', '==', categoryName)
+        where('categories', 'array-contains', categoryName)
       );
       const querySnapshot = await getDocs(q);
       
@@ -172,13 +172,34 @@ export const toolService = {
       const counts = {};
       
       tools.forEach(tool => {
-        counts[tool.category] = (counts[tool.category] || 0) + 1;
+        // Handle both old single category and new categories array
+        const categories = Array.isArray(tool.categories) ? tool.categories : [tool.category];
+        categories.forEach(category => {
+          if (category) {
+            counts[category] = (counts[category] || 0) + 1;
+          }
+        });
       });
       
       return counts;
     } catch (error) {
       console.error('Error getting category counts:', error);
       return {};
+    }
+  },
+
+  // Get all categories from shared collection
+  async getAllCategories() {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'categories'));
+      const categories = [];
+      querySnapshot.forEach((doc) => {
+        categories.push({ id: doc.id, ...doc.data() });
+      });
+      return categories;
+    } catch (error) {
+      console.error('Error getting categories:', error);
+      return [];
     }
   }
 };

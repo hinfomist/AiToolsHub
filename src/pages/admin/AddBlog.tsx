@@ -10,6 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { blogService } from '../../services/blogService';
+import { categoryService } from '../../services/categoryService';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -29,13 +31,17 @@ const AddBlog = () => {
     categories: [],
     status: 'draft',
     seoTitle: '',
-    seoDescription: ''
+    seoDescription: '',
+    relatedToolId: '',
+    relatedToolName: ''
   });
   
   const [currentTag, setCurrentTag] = useState('');
   const [currentCategory, setCurrentCategory] = useState('');
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [availableTools, setAvailableTools] = useState([]);
+  const [loadingTools, setLoadingTools] = useState(false);
 
   const quillModules = {
     toolbar: [
@@ -140,14 +146,44 @@ const AddBlog = () => {
     }));
   };
 
-  const addCategory = () => {
+  const addCategory = async () => {
     if (currentCategory.trim() && !formData.categories.includes(currentCategory.trim())) {
       setFormData(prev => ({
         ...prev,
         categories: [...prev.categories, currentCategory.trim()]
       }));
       setCurrentCategory('');
+      
+      // Load tools for this category
+      await loadToolsForCategory(currentCategory.trim());
     }
+  };
+
+  const loadToolsForCategory = async (categoryName) => {
+    if (!categoryName) {
+      setAvailableTools([]);
+      return;
+    }
+
+    setLoadingTools(true);
+    try {
+      const tools = await categoryService.getToolsInCategory(categoryName);
+      setAvailableTools(tools);
+    } catch (error) {
+      console.error('Error loading tools for category:', error);
+      setAvailableTools([]);
+    } finally {
+      setLoadingTools(false);
+    }
+  };
+
+  const handleRelatedToolChange = (toolId) => {
+    const selectedTool = availableTools.find(tool => tool.id === toolId);
+    setFormData(prev => ({
+      ...prev,
+      relatedToolId: toolId,
+      relatedToolName: selectedTool ? selectedTool.name : ''
+    }));
   };
 
   const removeCategory = (categoryToRemove) => {
@@ -466,6 +502,51 @@ const AddBlog = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Related Tool */}
+          {formData.categories.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Related Tool (Optional)</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-gray-600">
+                  Link this blog post to a specific tool from the selected categories.
+                </p>
+                
+                {loadingTools ? (
+                  <div className="text-sm text-gray-500">Loading tools...</div>
+                ) : availableTools.length > 0 ? (
+                  <Select
+                    value={formData.relatedToolId}
+                    onValueChange={handleRelatedToolChange}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a related tool" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">No related tool</SelectItem>
+                      {availableTools.map((tool) => (
+                        <SelectItem key={tool.id} value={tool.id}>
+                          {tool.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <div className="text-sm text-gray-500">
+                    No tools found in the selected categories.
+                  </div>
+                )}
+                
+                {formData.relatedToolName && (
+                  <div className="text-sm text-green-600">
+                    Related to: {formData.relatedToolName}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
