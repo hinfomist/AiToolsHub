@@ -170,7 +170,7 @@ export const blogService = {
       console.error('Error getting blogs by category:', error);
       throw error;
     }
-  }
+  },
 
   async getBlogsByRelatedTool(toolId, pageLimit = 10) {
     try {
