@@ -4,17 +4,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Star, Users, Eye, Clock, Tag, ExternalLink } from 'lucide-react';
-import { categoryService } from '../services/categoryService';
+import { ArrowLeft, Star, Users, ExternalLink } from 'lucide-react';
+import { toolService } from '../services/toolService';
 import AdSlot from '@/components/AdSlot';
+import { Helmet } from 'react-helmet-async';
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
   const [categoryData, setCategoryData] = useState({ tools: [], blogs: [] });
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('newest');
-  const [activeTab, setActiveTab] = useState('all');
 
   const formattedCategoryName = categoryName
     ? categoryName
@@ -24,21 +23,22 @@ const CategoryPage = () => {
     : '';
 
   useEffect(() => {
-    const fetchCategoryData = async () => {
+    const fetchTools = async () => {
       if (!formattedCategoryName) return;
-      
+
       setLoading(true);
       try {
-        const data = await categoryService.getCategoryContent(formattedCategoryName);
-        setCategoryData(data);
+        const tools = await toolService.getToolsByCategory(formattedCategoryName);
+        setCategoryData({ tools, blogs: [] });
       } catch (error) {
-        console.error('Error fetching category data:', error);
+        console.error('Error fetching category tools:', error);
+        setCategoryData({ tools: [], blogs: [] });
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCategoryData();
+    fetchTools();
   }, [formattedCategoryName]);
 
   const sortItems = (items, type) => {
@@ -65,7 +65,6 @@ const CategoryPage = () => {
   };
 
   const sortedTools = sortItems(categoryData.tools, 'tools');
-  const sortedBlogs = sortItems(categoryData.blogs, 'blogs');
 
   const formatDate = (timestamp) => {
     if (!timestamp) return '';
@@ -137,7 +136,7 @@ const CategoryPage = () => {
             {formattedCategoryName}
           </h1>
           <p className="text-xl text-gray-600 mb-6">
-            Explore {categoryData.tools.length} tools and {categoryData.blogs.length} blog posts in this category.
+            Explore {categoryData.tools.length} tools in this category.
           </p>
 
           {/* Controls */}
