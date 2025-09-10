@@ -140,15 +140,7 @@ const CategoryPage = () => {
           </p>
 
           {/* Controls */}
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-3 bg-white/70">
-                <TabsTrigger value="all">All ({categoryData.tools.length + categoryData.blogs.length})</TabsTrigger>
-                <TabsTrigger value="tools">Tools ({categoryData.tools.length})</TabsTrigger>
-                <TabsTrigger value="blogs">Blogs ({categoryData.blogs.length})</TabsTrigger>
-              </TabsList>
-            </Tabs>
-
+          <div className="flex justify-end">
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-40 bg-white/70">
                 <SelectValue />
@@ -177,250 +169,67 @@ const CategoryPage = () => {
             </div>
           </div>
 
-          {/* Content */}
+          {/* Tools Grid */}
           <div className="flex-1">
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsContent value="all">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {/* Tools */}
-                  {sortedTools.map((tool) => (
-                    <Card key={`tool-${tool.id}`} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm">
-                      <CardContent className="p-6">
-                        <div className="flex items-start gap-4 mb-4">
-                          <img
-                            src={tool.logo || '/placeholder.svg'}
-                            alt={tool.name}
-                            className="w-12 h-12 rounded-lg object-cover"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <Badge variant="outline" className="mb-2 bg-blue-50 text-blue-700 border-blue-200">
-                              Tool
-                            </Badge>
-                            <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
-                              {tool.name}
-                            </h3>
-                          </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sortedTools.map((tool) => (
+                <Card key={tool.id} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4 mb-4">
+                      <img
+                        src={tool.logo || '/placeholder.svg'}
+                        alt={tool.name}
+                        className="w-12 h-12 rounded-lg object-cover"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
+                          {tool.name}
+                        </h3>
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                      {tool.description}
+                    </p>
+
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1">
+                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          <span>{tool.rating?.toFixed(1) || '0.0'}</span>
                         </div>
-                        
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                          {tool.description}
-                        </p>
-
-                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-1">
-                              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                              <span>{tool.rating?.toFixed(1) || '0.0'}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Users className="h-4 w-4" />
-                              <span>{tool.votes || 0}</span>
-                            </div>
-                          </div>
-                          <Badge variant={tool.pricing === 'Free' ? 'secondary' : 'outline'}>
-                            {tool.pricing}
-                          </Badge>
+                        <div className="flex items-center gap-1">
+                          <Users className="h-4 w-4" />
+                          <span>{tool.votes || 0}</span>
                         </div>
+                      </div>
+                      <Badge variant={tool.pricing === 'Free' ? 'secondary' : 'outline'}>
+                        {tool.pricing}
+                      </Badge>
+                    </div>
 
-                        <div className="flex gap-2">
-                          <Button asChild size="sm" className="flex-1">
-                            <Link to={`/tool/${tool.id}`}>
-                              View Details
-                            </Link>
-                          </Button>
-                          <Button asChild variant="outline" size="sm">
-                            <a href={tool.website} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                    <div className="flex gap-2">
+                      <Button asChild size="sm" className="flex-1">
+                        <Link to={`/tool/${tool.id}`}>
+                          View Details
+                        </Link>
+                      </Button>
+                      <Button asChild variant="outline" size="sm">
+                        <a href={tool.website} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-                  {/* Blogs */}
-                  {sortedBlogs.map((blog) => (
-                    <Card key={`blog-${blog.id}`} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm">
-                      <CardContent className="p-6">
-                        <div className="mb-4">
-                          <Badge variant="outline" className="mb-2 bg-green-50 text-green-700 border-green-200">
-                            Blog Post
-                            {blog.relatedToolName && (
-                              <span className="ml-1">• {blog.relatedToolName}</span>
-                            )}
-                          </Badge>
-                          {blog.featuredImage && (
-                            <img
-                              src={blog.featuredImage}
-                              alt={blog.title}
-                              className="w-full h-32 object-cover rounded-lg mb-3"
-                            />
-                          )}
-                          <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors line-clamp-2">
-                            {blog.title}
-                          </h3>
-                        </div>
-                        
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                          {blog.excerpt || blog.content?.replace(/<[^>]*>/g, '').substring(0, 150) + '...'}
-                        </p>
-
-                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-1">
-                              <Clock className="h-4 w-4" />
-                              <span>{getReadingTime(blog.content)}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Eye className="h-4 w-4" />
-                              <span>{blog.views || 0}</span>
-                            </div>
-                          </div>
-                          <span>{formatDate(blog.createdAt)}</span>
-                        </div>
-
-                        {blog.tags && blog.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mb-4">
-                            {blog.tags.slice(0, 3).map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
-                                <Tag className="h-3 w-3 mr-1" />
-                                {tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        )}
-
-                        <Button asChild size="sm" className="w-full">
-                          <Link to={`/blog/${blog.slug}`}>
-                            Read More
-                          </Link>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="tools">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {sortedTools.map((tool) => (
-                    <Card key={tool.id} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm">
-                      <CardContent className="p-6">
-                        <div className="flex items-start gap-4 mb-4">
-                          <img
-                            src={tool.logo || '/placeholder.svg'}
-                            alt={tool.name}
-                            className="w-12 h-12 rounded-lg object-cover"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
-                              {tool.name}
-                            </h3>
-                          </div>
-                        </div>
-                        
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                          {tool.description}
-                        </p>
-
-                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-1">
-                              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                              <span>{tool.rating?.toFixed(1) || '0.0'}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Users className="h-4 w-4" />
-                              <span>{tool.votes || 0}</span>
-                            </div>
-                          </div>
-                          <Badge variant={tool.pricing === 'Free' ? 'secondary' : 'outline'}>
-                            {tool.pricing}
-                          </Badge>
-                        </div>
-
-                        <div className="flex gap-2">
-                          <Button asChild size="sm" className="flex-1">
-                            <Link to={`/tool/${tool.id}`}>
-                              View Details
-                            </Link>
-                          </Button>
-                          <Button asChild variant="outline" size="sm">
-                            <a href={tool.website} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="blogs">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {sortedBlogs.map((blog) => (
-                    <Card key={blog.id} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm">
-                      <CardContent className="p-6">
-                        <div className="mb-4">
-                          {blog.featuredImage && (
-                            <img
-                              src={blog.featuredImage}
-                              alt={blog.title}
-                              className="w-full h-32 object-cover rounded-lg mb-3"
-                            />
-                          )}
-                          <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors line-clamp-2">
-                            {blog.title}
-                          </h3>
-                        </div>
-                        
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                          {blog.excerpt || blog.content?.replace(/<[^>]*>/g, '').substring(0, 150) + '...'}
-                        </p>
-
-                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-1">
-                              <Clock className="h-4 w-4" />
-                              <span>{getReadingTime(blog.content)}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Eye className="h-4 w-4" />
-                              <span>{blog.views || 0}</span>
-                            </div>
-                          </div>
-                          <span>{formatDate(blog.createdAt)}</span>
-                        </div>
-
-                        {blog.tags && blog.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mb-4">
-                            {blog.tags.slice(0, 3).map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
-                                <Tag className="h-3 w-3 mr-1" />
-                                {tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        )}
-
-                        <Button asChild size="sm" className="w-full">
-                          <Link to={`/blog/${blog.slug}`}>
-                            Read More
-                          </Link>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-            </Tabs>
-
-            {categoryData.tools.length === 0 && categoryData.blogs.length === 0 && (
+            {categoryData.tools.length === 0 && (
               <div className="text-center py-16">
-                <h3 className="text-xl font-semibold text-gray-600 mb-2">No content found</h3>
+                <h3 className="text-xl font-semibold text-gray-600 mb-2">No tools found</h3>
                 <p className="text-gray-500">
-                  No tools or blog posts have been added to this category yet.
+                  No tools have been added to this category yet.
                 </p>
               </div>
             )}
