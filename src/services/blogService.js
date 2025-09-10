@@ -103,10 +103,10 @@ export const blogService = {
 
   async getAllBlogs(status = 'published', pageLimit = 10, lastDoc = null) {
     try {
+      // Avoid Firestore composite index by not ordering here; sort in JS instead
       let q = query(
         collection(db, BLOGS_COLLECTION),
         where('status', '==', status),
-        orderBy('createdAt', 'desc'),
         limit(pageLimit)
       );
 
@@ -114,19 +114,25 @@ export const blogService = {
         q = query(
           collection(db, BLOGS_COLLECTION),
           where('status', '==', status),
-          orderBy('createdAt', 'desc'),
           startAfter(lastDoc),
           limit(pageLimit)
         );
       }
 
       const querySnapshot = await getDocs(q);
-      const blogs = [];
+      let blogs = [];
       let lastVisible = null;
 
-      querySnapshot.forEach((doc) => {
-        blogs.push({ id: doc.id, ...doc.data() });
-        lastVisible = doc;
+      querySnapshot.forEach((docSnap) => {
+        blogs.push({ id: docSnap.id, ...docSnap.data() });
+        lastVisible = docSnap;
+      });
+
+      // Sort by createdAt desc in JS for consistent UI
+      blogs.sort((a, b) => {
+        const aTime = a.createdAt?.toDate?.() || (a.createdAt?.seconds ? new Date(a.createdAt.seconds * 1000) : new Date(a.createdAt || 0));
+        const bTime = b.createdAt?.toDate?.() || (b.createdAt?.seconds ? new Date(b.createdAt.seconds * 1000) : new Date(b.createdAt || 0));
+        return bTime.getTime() - aTime.getTime();
       });
 
       return { blogs, lastVisible, hasMore: querySnapshot.docs.length === pageLimit };
@@ -142,15 +148,21 @@ export const blogService = {
         collection(db, BLOGS_COLLECTION),
         where('categories', 'array-contains', category),
         where('status', '==', 'published'),
-        orderBy('createdAt', 'desc'),
         limit(pageLimit)
       );
 
       const querySnapshot = await getDocs(q);
       const blogs = [];
 
-      querySnapshot.forEach((doc) => {
-        blogs.push({ id: doc.id, ...doc.data() });
+      querySnapshot.forEach((docSnap) => {
+        blogs.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      // Sort by createdAt desc in JS
+      blogs.sort((a, b) => {
+        const aTime = a.createdAt?.toDate?.() || (a.createdAt?.seconds ? new Date(a.createdAt.seconds * 1000) : new Date(a.createdAt || 0));
+        const bTime = b.createdAt?.toDate?.() || (b.createdAt?.seconds ? new Date(b.createdAt.seconds * 1000) : new Date(b.createdAt || 0));
+        return bTime.getTime() - aTime.getTime();
       });
 
       return blogs;
@@ -158,7 +170,7 @@ export const blogService = {
       console.error('Error getting blogs by category:', error);
       throw error;
     }
-  },
+  }
 
   async getBlogsByRelatedTool(toolId, pageLimit = 10) {
     try {
@@ -166,15 +178,21 @@ export const blogService = {
         collection(db, BLOGS_COLLECTION),
         where('relatedToolId', '==', toolId),
         where('status', '==', 'published'),
-        orderBy('createdAt', 'desc'),
         limit(pageLimit)
       );
 
       const querySnapshot = await getDocs(q);
       const blogs = [];
 
-      querySnapshot.forEach((doc) => {
-        blogs.push({ id: doc.id, ...doc.data() });
+      querySnapshot.forEach((docSnap) => {
+        blogs.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      // Sort by createdAt desc in JS
+      blogs.sort((a, b) => {
+        const aTime = a.createdAt?.toDate?.() || (a.createdAt?.seconds ? new Date(a.createdAt.seconds * 1000) : new Date(a.createdAt || 0));
+        const bTime = b.createdAt?.toDate?.() || (b.createdAt?.seconds ? new Date(b.createdAt.seconds * 1000) : new Date(b.createdAt || 0));
+        return bTime.getTime() - aTime.getTime();
       });
 
       return blogs;
@@ -182,7 +200,7 @@ export const blogService = {
       console.error('Error getting blogs by related tool:', error);
       throw error;
     }
-  },
+  }
 
   async getBlogsByTag(tag, pageLimit = 10) {
     try {
@@ -190,15 +208,21 @@ export const blogService = {
         collection(db, BLOGS_COLLECTION),
         where('tags', 'array-contains', tag),
         where('status', '==', 'published'),
-        orderBy('createdAt', 'desc'),
         limit(pageLimit)
       );
 
       const querySnapshot = await getDocs(q);
       const blogs = [];
 
-      querySnapshot.forEach((doc) => {
-        blogs.push({ id: doc.id, ...doc.data() });
+      querySnapshot.forEach((docSnap) => {
+        blogs.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      // Sort by createdAt desc in JS
+      blogs.sort((a, b) => {
+        const aTime = a.createdAt?.toDate?.() || (a.createdAt?.seconds ? new Date(a.createdAt.seconds * 1000) : new Date(a.createdAt || 0));
+        const bTime = b.createdAt?.toDate?.() || (b.createdAt?.seconds ? new Date(b.createdAt.seconds * 1000) : new Date(b.createdAt || 0));
+        return bTime.getTime() - aTime.getTime();
       });
 
       return blogs;
@@ -206,31 +230,35 @@ export const blogService = {
       console.error('Error getting blogs by tag:', error);
       throw error;
     }
-  },
+  }
 
   async getRelatedBlogs(currentBlogId, tags, categories, pageLimit = 3) {
     try {
       const q = query(
         collection(db, BLOGS_COLLECTION),
         where('status', '==', 'published'),
-        orderBy('createdAt', 'desc'),
-        limit(pageLimit + 5) // Get more to filter out current blog
+        limit(pageLimit + 10) // Fetch extra and filter client-side
       );
 
       const querySnapshot = await getDocs(q);
       const blogs = [];
 
-      querySnapshot.forEach((doc) => {
-        const blog = { id: doc.id, ...doc.data() };
+      querySnapshot.forEach((docSnap) => {
+        const blog = { id: docSnap.id, ...docSnap.data() };
         if (blog.id !== currentBlogId) {
-          // Check if blog has common tags or categories
           const hasCommonTags = blog.tags?.some(tag => tags?.includes(tag));
           const hasCommonCategories = blog.categories?.some(cat => categories?.includes(cat));
-          
           if (hasCommonTags || hasCommonCategories) {
             blogs.push(blog);
           }
         }
+      });
+
+      // Sort by createdAt desc and limit
+      blogs.sort((a, b) => {
+        const aTime = a.createdAt?.toDate?.() || (a.createdAt?.seconds ? new Date(a.createdAt.seconds * 1000) : new Date(a.createdAt || 0));
+        const bTime = b.createdAt?.toDate?.() || (b.createdAt?.seconds ? new Date(b.createdAt.seconds * 1000) : new Date(b.createdAt || 0));
+        return bTime.getTime() - aTime.getTime();
       });
 
       return blogs.slice(0, pageLimit);
@@ -238,7 +266,7 @@ export const blogService = {
       console.error('Error getting related blogs:', error);
       throw error;
     }
-  },
+  }
 
   async incrementViews(id) {
     try {
@@ -257,7 +285,7 @@ export const blogService = {
   },
 
   // File upload
-  async uploadImage(file, path = 'blog-images/') {
+  async uploadImage(file, path = 'blogImages/') {
     try {
       console.log('Starting image upload:', file.name, file.size);
       

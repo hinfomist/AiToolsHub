@@ -98,7 +98,8 @@ const AddBlog = () => {
     setUploading(true);
     try {
       console.log('Starting image upload...', file.name);
-      const imageUrl = await blogService.uploadImage(file, 'blog-featured/');
+      // Upload to the path allowed by your Storage rules
+      const imageUrl = await blogService.uploadImage(file, 'blogImages/');
       console.log('Image uploaded successfully:', imageUrl);
       
       setFormData(prev => ({

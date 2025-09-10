@@ -7,7 +7,8 @@ const firebaseConfig = {
   apiKey: "AIzaSyAzLlTiXgudODUFnrjQoKre6i-fSvWzzyk",
   authDomain: "ai-tool-finder-fb502.firebaseapp.com",
   projectId: "ai-tool-finder-fb502",
-  storageBucket: "ai-tool-finder-fb502.firebasestorage.app",
+  // Use the correct bucket format for Firebase Storage
+  storageBucket: "ai-tool-finder-fb502.appspot.com",
   messagingSenderId: "393046093087",
   appId: "1:393046093087:web:01317b337d6c34b707142a",
   measurementId: "G-0M3TNWHVRY"

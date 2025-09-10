@@ -1027,8 +1027,13 @@ async function populateTools() {
           skippedTools.push(tool.name);
           console.log(`⚠ Skipped existing: ${tool.name}`);
         } else {
-          await toolService.addTool(tool);
-          addedTools.push(tool);
+          // Ensure new data model compatibility: add categories array
+          const toolWithCategories = {
+            ...tool,
+            categories: Array.isArray(tool.categories) ? tool.categories : [tool.category].filter(Boolean)
+          };
+          await toolService.addTool(toolWithCategories);
+          addedTools.push(toolWithCategories);
           console.log(`✓ Successfully added: ${tool.name}`);
         }
       } catch (error) {

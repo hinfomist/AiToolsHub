@@ -117,7 +117,7 @@ const EditBlog = () => {
 
     setUploading(true);
     try {
-      const imageUrl = await blogService.uploadImage(file, 'blog-featured/');
+      const imageUrl = await blogService.uploadImage(file, 'blogImages/');
       setFormData(prev => ({
         ...prev,
         featuredImage: imageUrl
