@@ -28,7 +28,13 @@ const CategoryPage = () => {
 
       setLoading(true);
       try {
+        console.log('Fetching tools for category:', formattedCategoryName);
+        // Also fetch all tools to debug
+        const allTools = await toolService.getAllTools();
+        console.log('All tools in database:', allTools);
+        
         const toolsData = await toolService.getToolsByCategory(formattedCategoryName);
+        console.log('Fetched tools for category:', toolsData);
         setTools(toolsData || []);
       } catch (error) {
         console.error('Error fetching category tools:', error);

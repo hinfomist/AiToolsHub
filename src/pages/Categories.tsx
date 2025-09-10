@@ -129,9 +129,6 @@ const Categories = () => {
                             <Badge variant="secondary">
                               {categoryCounts[category.name]?.tools || 0} tools
                             </Badge>
-                            <Badge variant="outline">
-                              {categoryCounts[category.name]?.blogs || 0} blogs
-                            </Badge>
                           </div>
                         </div>
                       </div>
@@ -160,10 +157,8 @@ const Categories = () => {
                     <div className="text-gray-600">Categories</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-indigo-600 mb-2">
-                      {Object.values(categoryCounts).reduce((sum: number, category: any) => sum + (category?.blogs || 0), 0)}+
-                    </div>
-                    <div className="text-gray-600">Blog Posts</div>
+                    <div className="text-3xl font-bold text-indigo-600 mb-2">24/7</div>
+                    <div className="text-gray-600">AI Assistance</div>
                   </div>
                 </div>
               </div>
