@@ -230,7 +230,7 @@ export const blogService = {
       console.error('Error getting blogs by tag:', error);
       throw error;
     }
-  }
+  },
 
   async getRelatedBlogs(currentBlogId, tags, categories, pageLimit = 3) {
     try {
@@ -266,7 +266,7 @@ export const blogService = {
       console.error('Error getting related blogs:', error);
       throw error;
     }
-  }
+  },
 
   async incrementViews(id) {
     try {
