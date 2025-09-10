@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { getStorage, connectStorageEmulator } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAzLlTiXgudODUFnrjQoKre6i-fSvWzzyk",
@@ -17,4 +17,15 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+
+// Enable offline persistence for better reliability
+try {
+  // This will enable offline support for Firestore
+  db.settings = {
+    cacheSizeBytes: 40 * 1024 * 1024, // 40MB cache
+  };
+} catch (error) {
+  console.warn('Could not enable offline persistence:', error);
+}
+
 export default app;

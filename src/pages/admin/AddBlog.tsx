@@ -79,22 +79,43 @@ const AddBlog = () => {
       return;
     }
 
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "Error",
+        description: "Image size should be less than 5MB",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setUploading(true);
     try {
+      console.log('Starting image upload...', file.name);
       const imageUrl = await blogService.uploadImage(file, 'blog-featured/');
+      console.log('Image uploaded successfully:', imageUrl);
+      
       setFormData(prev => ({
         ...prev,
         featuredImage: imageUrl
       }));
+      
       toast({
         title: "Success",
         description: "Image uploaded successfully",
       });
     } catch (error) {
       console.error('Error uploading image:', error);
+      let errorMessage = "Failed to upload image";
+      if (error.code === 'storage/unauthorized') {
+        errorMessage = "Permission denied for image upload";
+      } else if (error.message) {
+        errorMessage = `Upload failed: ${error.message}`;
+      }
+      
       toast({
         title: "Error",
-        description: "Failed to upload image",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -146,7 +167,7 @@ const AddBlog = () => {
       return;
     }
 
-    if (!formData.content.trim()) {
+    if (!formData.content.trim() || formData.content === '<p><br></p>') {
       toast({
         title: "Error",
         description: "Content is required",
@@ -157,25 +178,47 @@ const AddBlog = () => {
 
     setSaving(true);
     try {
+      console.log('Attempting to save blog post...', { status, formData });
+      
       const blogData = {
         ...formData,
         status: status,
-        excerpt: formData.excerpt || formData.content.replace(/<[^>]*>/g, '').substring(0, 200) + '...'
+        slug: formData.slug || blogService.generateSlug(formData.title),
+        excerpt: formData.excerpt || formData.content.replace(/<[^>]*>/g, '').substring(0, 200) + '...',
+        author: formData.author || 'Admin',
+        seoTitle: formData.seoTitle || formData.title,
+        seoDescription: formData.seoDescription || formData.excerpt || formData.content.replace(/<[^>]*>/g, '').substring(0, 160)
       };
 
+      console.log('Blog data prepared:', blogData);
       const blogId = await blogService.addBlog(blogData);
+      console.log('Blog saved with ID:', blogId);
       
       toast({
         title: "Success",
         description: `Blog post ${status === 'published' ? 'published' : 'saved as draft'} successfully`,
       });
       
-      navigate('/admin/blogs');
+      // Small delay to ensure toast is visible before navigation
+      setTimeout(() => {
+        navigate('/admin/blogs');
+      }, 1000);
+      
     } catch (error) {
       console.error('Error saving blog:', error);
+      
+      let errorMessage = "Failed to save blog post";
+      if (error.code === 'permission-denied') {
+        errorMessage = "Permission denied. Please check Firebase rules.";
+      } else if (error.code === 'unavailable') {
+        errorMessage = "Service unavailable. Please try again later.";
+      } else if (error.message) {
+        errorMessage = `Failed to save: ${error.message}`;
+      }
+      
       toast({
         title: "Error",
-        description: "Failed to save blog post",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

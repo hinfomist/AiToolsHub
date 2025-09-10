@@ -10,6 +10,13 @@ export const blogService = {
   // Blog CRUD operations
   async addBlog(blogData) {
     try {
+      console.log('Adding blog to Firestore...', blogData);
+      
+      // Validate required fields
+      if (!blogData.title || !blogData.content) {
+        throw new Error('Title and content are required');
+      }
+      
       const docRef = await addDoc(collection(db, BLOGS_COLLECTION), {
         ...blogData,
         createdAt: serverTimestamp(),
@@ -17,9 +24,21 @@ export const blogService = {
         views: 0,
         likes: 0
       });
+      
+      console.log('Blog added successfully with ID:', docRef.id);
       return docRef.id;
     } catch (error) {
       console.error('Error adding blog:', error);
+      
+      // Provide more specific error messages
+      if (error.code === 'permission-denied') {
+        throw new Error('Permission denied. Please check Firebase security rules.');
+      } else if (error.code === 'unavailable') {
+        throw new Error('Firebase service is currently unavailable. Please try again later.');
+      } else if (error.code === 'unauthenticated') {
+        throw new Error('Authentication required. Please log in and try again.');
+      }
+      
       throw error;
     }
   },
@@ -216,13 +235,35 @@ export const blogService = {
   // File upload
   async uploadImage(file, path = 'blog-images/') {
     try {
-      const filename = `${path}${Date.now()}_${file.name}`;
+      console.log('Starting image upload:', file.name, file.size);
+      
+      // Create a unique filename
+      const timestamp = Date.now();
+      const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const filename = `${path}${timestamp}_${cleanFileName}`;
+      
+      console.log('Upload path:', filename);
+      
       const storageRef = ref(storage, filename);
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
+      
+      console.log('Image uploaded successfully, URL:', downloadURL);
       return downloadURL;
     } catch (error) {
       console.error('Error uploading image:', error);
+      
+      // Provide more specific error messages
+      if (error.code === 'storage/unauthorized') {
+        throw new Error('Permission denied for image upload. Please check Firebase storage rules.');
+      } else if (error.code === 'storage/canceled') {
+        throw new Error('Upload was canceled.');
+      } else if (error.code === 'storage/quota-exceeded') {
+        throw new Error('Storage quota exceeded.');
+      } else if (error.code === 'storage/unauthenticated') {
+        throw new Error('Authentication required for image upload.');
+      }
+      
       throw error;
     }
   },
