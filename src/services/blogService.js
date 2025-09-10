@@ -200,7 +200,7 @@ export const blogService = {
       console.error('Error getting blogs by related tool:', error);
       throw error;
     }
-  }
+  },
 
   async getBlogsByTag(tag, pageLimit = 10) {
     try {
