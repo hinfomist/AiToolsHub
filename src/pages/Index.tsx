@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, Star, TrendingUp, Users, ArrowUp, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { toolService } from '../services/toolService';
 import AdSlot from '@/components/AdSlot';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -113,41 +116,40 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              AI Tool Finder
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link to="/categories" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                Categories
-              </Link>
-              <Link to="/blog" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                Blog
-              </Link>
-              <Link to="/submit" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                Submit Tool
-              </Link>
-              <Link to="/auth">
-                <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
-                  Sign In
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <>
+      <Helmet>
+        <title>AI Tool Mela: Discover the Best AI Tools Directory</title>
+        <meta 
+          name="description" 
+          content="Find, compare, and submit top AI tools for content, productivity, and more at AI Tool Mela. Discover the Best AI Tools in One Vibrant Directory." 
+        />
+        <meta name="keywords" content="AI tools, artificial intelligence, productivity tools, content creation, AI directory" />
+        <link rel="canonical" href="https://aitoolmela.com/" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "AI Tool Mela",
+            "url": "https://aitoolmela.com",
+            "description": "Discover the Best AI Tools in One Vibrant Directory",
+            "sameAs": ["https://twitter.com/aitoolmela"]
+          })}
+        </script>
+      </Helmet>
+
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/10">
+        <Navbar />
 
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent animate-fade-in">
-            Discover the Best AI Tools
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-fade-in">
+            AI Tool Mela
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <p className="text-2xl md:text-3xl font-semibold mb-6 text-foreground animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            Discover the Best AI Tools in One Vibrant Directory
+          </p>
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Find, compare, and discover the perfect AI tools for your needs. From content creation to productivity, we've got you covered.
           </p>
           
@@ -168,7 +170,7 @@ const Index = () => {
               <Button 
                 onClick={handleSearch}
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <Search className="h-5 w-5" />
               </Button>
@@ -178,12 +180,12 @@ const Index = () => {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.6s' }}>
             <Link to="/categories">
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 text-lg hover:scale-105 transition-all duration-300">
+              <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white px-8 py-3 text-lg hover:scale-105 transition-all duration-300">
                 Browse Categories
               </Button>
             </Link>
             <Link to="/submit">
-              <Button size="lg" variant="outline" className="border-2 border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg hover:scale-105 transition-all duration-300">
+              <Button size="lg" variant="outline" className="border-2 border-primary/20 text-primary hover:bg-primary/10 px-8 py-3 text-lg hover:scale-105 transition-all duration-300">
                 Submit Your Tool
               </Button>
             </Link>
@@ -196,18 +198,18 @@ const Index = () => {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
-              <div className="text-3xl font-bold text-purple-600 mb-2">
+              <div className="text-3xl font-bold text-primary mb-2">
                 {Object.values(categoryCounts).reduce((sum: number, count: unknown) => sum + (typeof count === 'number' ? count : 0), 0)}+
               </div>
-              <div className="text-gray-600">AI Tools Listed</div>
+              <div className="text-muted-foreground">AI Tools Listed</div>
             </div>
             <div className="animate-fade-in" style={{ animationDelay: '1s' }}>
-              <div className="text-3xl font-bold text-blue-600 mb-2">25+</div>
-              <div className="text-gray-600">Categories</div>
+              <div className="text-3xl font-bold text-accent mb-2">25+</div>
+              <div className="text-muted-foreground">Categories</div>
             </div>
             <div className="animate-fade-in" style={{ animationDelay: '1.2s' }}>
-              <div className="text-3xl font-bold text-indigo-600 mb-2">10K+</div>
-              <div className="text-gray-600">Happy Users</div>
+              <div className="text-3xl font-bold text-primary mb-2">10K+</div>
+              <div className="text-muted-foreground">Happy Users</div>
             </div>
           </div>
         </div>
@@ -230,7 +232,7 @@ const Index = () => {
           
           {/* Main Content */}
           <div className="flex-1">
-            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 animate-fade-in">
+            <h2 className="text-3xl font-bold text-center mb-12 text-foreground animate-fade-in">
               Explore by Category
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -244,7 +246,7 @@ const Index = () => {
                   <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm hover:scale-105">
                     <CardContent className="p-6 text-center">
                       <div className="text-4xl mb-4 animate-pulse">{category.icon}</div>
-                      <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-600 transition-colors">
+                      <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
                         {category.name}
                       </h3>
                       <p className="text-gray-500">
@@ -257,7 +259,7 @@ const Index = () => {
             </div>
             <div className="text-center mt-8">
               <Link to="/categories">
-                <Button variant="outline" size="lg" className="border-purple-200 text-purple-600 hover:bg-purple-50 hover:scale-105 transition-all duration-300">
+                <Button variant="outline" size="lg" className="border-primary/20 text-primary hover:bg-primary/10 hover:scale-105 transition-all duration-300">
                   View All Categories
                 </Button>
               </Link>
@@ -270,8 +272,8 @@ const Index = () => {
       <section className="py-16 px-4 bg-white/30 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-12">
-            <TrendingUp className="h-8 w-8 text-purple-600" />
-            <h2 className="text-3xl font-bold text-gray-800">
+            <TrendingUp className="h-8 w-8 text-primary" />
+            <h2 className="text-3xl font-bold text-foreground">
               Trending Tools
             </h2>
           </div>
@@ -300,7 +302,7 @@ const Index = () => {
                         <span className="text-2xl hidden">🤖</span>
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-lg mb-1 group-hover:text-purple-600 transition-colors">
+                        <h3 className="font-semibold text-lg mb-1 group-hover:text-primary transition-colors">
                           {tool.name}
                         </h3>
                         <Badge variant="secondary" className="mb-2">
@@ -339,61 +341,23 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6 text-gray-800 animate-fade-in">
+          <h2 className="text-4xl font-bold mb-6 text-foreground animate-fade-in">
             Ready to Share Your AI Tool?
           </h2>
-          <p className="text-xl text-gray-600 mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <p className="text-xl text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Join thousands of developers and creators who have already listed their AI tools on our platform.
           </p>
           <Link to="/submit">
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg hover:scale-105 transition-all duration-300 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white px-8 py-4 text-lg hover:scale-105 transition-all duration-300 animate-fade-in" style={{ animationDelay: '0.4s' }}>
               Submit Your Tool
             </Button>
           </Link>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">AI Tool Finder</h3>
-              <p className="text-gray-400">
-                Discover the best AI tools for your projects and workflow.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Platform</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link to="/categories" className="hover:text-white transition-colors">Browse Tools</Link></li>
-                <li><Link to="/submit" className="hover:text-white transition-colors">Submit Tool</Link></li>
-                <li><Link to="/categories" className="hover:text-white transition-colors">Categories</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Community</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Discord</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Newsletter</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 AI Tool Finder. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 
