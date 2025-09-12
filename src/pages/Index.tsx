@@ -194,7 +194,7 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 px-4 bg-white/50 backdrop-blur-sm">
+      <section className="py-12 px-4 bg-background">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
@@ -243,7 +243,7 @@ const Index = () => {
                   className="group animate-fade-in"
                   style={{ animationDelay: `${1.4 + index * 0.1}s` }}
                 >
-                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/70 backdrop-blur-sm hover:scale-105">
+                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-card hover:scale-105">
                     <CardContent className="p-6 text-center">
                       <div className="text-4xl mb-4 animate-pulse">{category.icon}</div>
                       <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
@@ -269,7 +269,7 @@ const Index = () => {
       </section>
 
       {/* Trending Tools */}
-      <section className="py-16 px-4 bg-white/30 backdrop-blur-sm">
+      <section className="py-16 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-12">
             <TrendingUp className="h-8 w-8 text-primary" />
@@ -280,7 +280,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {trendingTools.map((tool, index) => (
               <Link key={tool.id} to={`/tool/${tool.id}`} className="group animate-fade-in" style={{ animationDelay: `${2 + index * 0.2}s` }}>
-                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-white/80 backdrop-blur-sm hover:scale-105">
+                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-card hover:scale-105">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4 mb-4">
                       <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
