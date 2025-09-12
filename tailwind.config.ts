@@ -20,9 +20,9 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ["Inter", "sans-serif"],
-				heading: ["Montserrat", "sans-serif"],
-				display: ["Montserrat", "sans-serif"],
-				serif: ["Playfair Display", "serif"],
+				heading: ["Inter", "sans-serif"],
+				display: ["Inter", "sans-serif"],
+				serif: ["Inter", "serif"],
 				body: ["Inter", "sans-serif"],
 			},
 			colors: {

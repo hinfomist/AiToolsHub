@@ -6,48 +6,48 @@
 
 @layer base {
 :root {
-    /* High-Contrast Yellow & Black Theme */
-    --background: 0 0% 0%;
-    --foreground: 60 100% 50%;
-    --card: 0 0% 5%;
-    --card-foreground: 60 100% 50%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 60 100% 50%;
-    --primary: 60 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 60 100% 50%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 60 100% 70%;
-    --accent: 60 100% 50%;
-    --accent-foreground: 0 0% 0%;
-    --destructive: 0 84.2% 60.2%;
+    /* Original Light Purple Theme */
+    --background: 240 100% 98%;
+    --foreground: 240 10% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 15%;
+    --primary: 260 30% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 60% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 240 30% 96%;
+    --accent-foreground: 240 10% 15%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 60 100% 50%;
-    --radius: 0.75rem;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 260 30% 45%;
+    --radius: 0.5rem;
     
-    /* AI Tool Mela Brand Colors - High Contrast */
-    --mela-yellow: 60 100% 50%;
-    --mela-black: 0 0% 0%;
-    --mela-gray: 0 0% 15%;
-    --mela-white: 0 0% 100%;
-    --chart-1: 60 100% 50%;
-    --chart-2: 45 100% 50%;
-    --chart-3: 35 100% 50%;
-    --chart-4: 25 100% 50%;
-    --chart-5: 15 100% 50%;
+    /* AI Tool Mela Brand Colors - Original */
+    --mela-purple: 260 30% 45%;
+    --mela-blue: 220 60% 60%;
+    --mela-light-purple: 240 100% 98%;
+    --mela-dark: 240 10% 15%;
+    --chart-1: 260 30% 45%;
+    --chart-2: 220 60% 60%;
+    --chart-3: 200 70% 55%;
+    --chart-4: 180 65% 50%;
+    --chart-5: 160 60% 45%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(60 100% 50%), hsl(45 100% 45%));
-    --gradient-dark: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 10%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 0% / 0.8), hsl(60 100% 50% / 0.2));
+    --gradient-primary: linear-gradient(135deg, hsl(260 30% 45%), hsl(220 60% 60%));
+    --gradient-light: linear-gradient(135deg, hsl(240 100% 98%), hsl(240 30% 96%));
+    --gradient-hero: linear-gradient(135deg, hsl(260 30% 45% / 0.1), hsl(220 60% 60% / 0.1));
     
     /* Shadows */
-    --shadow-glow: 0 0 30px hsl(60 100% 50% / 0.5);
-    --shadow-card: 0 10px 30px hsl(0 0% 0% / 0.5);
-    --shadow-button: 0 5px 15px hsl(60 100% 50% / 0.3);
+    --shadow-soft: 0 4px 20px hsl(260 30% 45% / 0.1);
+    --shadow-card: 0 2px 10px hsl(240 10% 15% / 0.1);
+    --shadow-button: 0 2px 8px hsl(260 30% 45% / 0.2);
     
     /* Animations */
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -116,10 +116,10 @@
 
 @keyframes glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 20px hsl(60 100% 50% / 0.3);
+    box-shadow: 0 0 20px hsl(260 30% 45% / 0.2);
   }
   50% {
-    box-shadow: 0 0 40px hsl(60 100% 50% / 0.6);
+    box-shadow: 0 0 40px hsl(260 30% 45% / 0.4);
   }
 }
 
@@ -179,7 +179,7 @@
 
 .hover-scale:hover {
   transform: scale(1.05);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-soft);
 }
 
 .hover-glow {
@@ -187,7 +187,7 @@
 }
 
 .hover-glow:hover {
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-soft);
   transform: translateY(-2px);
 }
 
@@ -264,5 +264,15 @@
 
 /* Text glow effect */
 .text-glow {
-  text-shadow: 0 0 20px hsl(60 100% 50% / 0.5);
+  text-shadow: 0 0 20px hsl(260 30% 45% / 0.3);
+}
+
+/* Professional card hover effect */
+.card-hover {
+  transition: var(--transition-smooth);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
 }
