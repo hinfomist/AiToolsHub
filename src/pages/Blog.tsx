@@ -174,8 +174,8 @@ const Blog = () => {
                 <div className="flex flex-col justify-center h-full px-8 md:px-16">
                   <div className="max-w-2xl">
                     <div className="flex items-center gap-2 mb-4">
-                      <Sparkles className="h-6 w-6 text-accent" />
-                      <span className="text-accent font-semibold text-lg">Latest Insights</span>
+                      <Sparkles className="h-6 w-6 text-yellow-400" />
+                      <span className="text-yellow-400 font-semibold text-lg">Latest Insights</span>
                     </div>
                     <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-serif leading-tight">
                       AI Tools Blog

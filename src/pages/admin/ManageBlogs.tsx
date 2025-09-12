@@ -146,7 +146,7 @@ const ManageBlogs = () => {
             <CardTitle className="text-sm font-medium text-gray-600">Drafts</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">
+            <div className="text-2xl font-bold text-yellow-600">
               {blogs.filter(blog => blog.status === 'draft').length}
             </div>
           </CardContent>

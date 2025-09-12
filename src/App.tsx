@@ -26,9 +26,6 @@ import EditBlog from "./pages/admin/EditBlog";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./components/AdminLayout";
 import DatabaseInitializer from "./components/DatabaseInitializer";
-import About from "./pages/About";
-import Privacy from "./pages/Privacy";
-import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -49,9 +46,6 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/contact" element={<Contact />} />
           <Route path="/admin/add-tool" element={
             <ProtectedRoute>
               <AdminLayout>
