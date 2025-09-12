@@ -7,6 +7,7 @@ import AdSlot from '@/components/AdSlot';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { categoryService } from '../services/categoryService';
+import Footer from '@/components/Footer';
 
 const Categories = () => {
   const [categoryCounts, setCategoryCounts] = useState<Record<string, any>>({});
@@ -168,7 +169,7 @@ const Categories = () => {
         
         <Footer />
       </div>
-    </>
+    </div>
   );
 };
 
