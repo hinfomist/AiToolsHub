@@ -141,51 +141,55 @@ const Index = () => {
         <Navbar />
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-fade-in">
-            AI Tool Mela
+      <section className="relative py-32 px-4 bg-gradient-dark overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-hero"></div>
+        <div className="relative max-w-6xl mx-auto text-center">
+          <h1 className="font-display text-6xl md:text-8xl lg:text-9xl font-black mb-6 text-primary animate-bounce-in text-glow">
+            AI TOOL MELA
           </h1>
-          <p className="text-2xl md:text-3xl font-semibold mb-6 text-foreground animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            Discover the Best AI Tools in One Vibrant Directory
+          <p className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-foreground animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            Discover the Best AI Tools in One 
+            <span className="text-primary"> VIBRANT </span>
+            Directory
           </p>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto animate-fade-in font-medium" style={{ animationDelay: '0.4s' }}>
             Find, compare, and discover the perfect AI tools for your needs. From content creation to productivity, we've got you covered.
           </p>
           
           {/* Search Bar */}
-          <div className="relative max-w-2xl mx-auto mb-8 animate-scale-in" style={{ animationDelay: '0.4s' }}>
-            <div className="flex gap-2">
+          <div className="relative max-w-3xl mx-auto mb-12 animate-scale-in" style={{ animationDelay: '0.6s' }}>
+            <div className="flex gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 text-primary h-6 w-6" />
                 <Input
                   type="text"
                   placeholder="What are you looking for? writing, video, coding, legal, pdf..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="pl-12 pr-4 py-4 text-lg border-2 border-gray-200 focus:border-purple-400 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 w-full"
+                  className="pl-16 pr-6 py-6 text-xl border-4 border-primary bg-card text-foreground placeholder:text-muted-foreground rounded-2xl shadow-[0_0_30px_hsl(60_100%_50%/0.3)] hover:shadow-[0_0_50px_hsl(60_100%_50%/0.5)] transition-all duration-300 font-medium"
                 />
               </div>
               <Button 
                 onClick={handleSearch}
-                size="lg"
-                className="bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                variant="hero"
+                size="hero"
+                className="rounded-2xl"
               >
-                <Search className="h-5 w-5" />
+                <Search className="h-6 w-6" />
               </Button>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.6s' }}>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fade-in" style={{ animationDelay: '0.8s' }}>
             <Link to="/categories">
-              <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white px-8 py-3 text-lg hover:scale-105 transition-all duration-300">
+              <Button variant="hero" size="hero" className="rounded-2xl">
                 Browse Categories
               </Button>
             </Link>
             <Link to="/submit">
-              <Button size="lg" variant="outline" className="border-2 border-primary/20 text-primary hover:bg-primary/10 px-8 py-3 text-lg hover:scale-105 transition-all duration-300">
+              <Button variant="outline" size="hero" className="rounded-2xl font-black">
                 Submit Your Tool
               </Button>
             </Link>
@@ -194,22 +198,22 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 px-4 bg-background">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
-              <div className="text-3xl font-bold text-primary mb-2">
+      <section className="py-20 px-4 bg-gradient-primary">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <div className="animate-bounce-in hover-glow p-8 rounded-2xl bg-black/20" style={{ animationDelay: '1s' }}>
+              <div className="font-display text-6xl font-black text-primary-foreground mb-4">
                 {Object.values(categoryCounts).reduce((sum: number, count: unknown) => sum + (typeof count === 'number' ? count : 0), 0)}+
               </div>
-              <div className="text-muted-foreground">AI Tools Listed</div>
+              <div className="font-heading text-xl font-bold text-primary-foreground">AI TOOLS LISTED</div>
             </div>
-            <div className="animate-fade-in" style={{ animationDelay: '1s' }}>
-              <div className="text-3xl font-bold text-accent mb-2">25+</div>
-              <div className="text-muted-foreground">Categories</div>
+            <div className="animate-bounce-in hover-glow p-8 rounded-2xl bg-black/20" style={{ animationDelay: '1.2s' }}>
+              <div className="font-display text-6xl font-black text-primary-foreground mb-4">25+</div>
+              <div className="font-heading text-xl font-bold text-primary-foreground">CATEGORIES</div>
             </div>
-            <div className="animate-fade-in" style={{ animationDelay: '1.2s' }}>
-              <div className="text-3xl font-bold text-primary mb-2">10K+</div>
-              <div className="text-muted-foreground">Happy Users</div>
+            <div className="animate-bounce-in hover-glow p-8 rounded-2xl bg-black/20" style={{ animationDelay: '1.4s' }}>
+              <div className="font-display text-6xl font-black text-primary-foreground mb-4">10K+</div>
+              <div className="font-heading text-xl font-bold text-primary-foreground">HAPPY USERS</div>
             </div>
           </div>
         </div>
@@ -221,7 +225,7 @@ const Index = () => {
       </div>
 
       {/* Featured Categories */}
-      <section className="py-16 px-4">
+      <section className="py-24 px-4 bg-background">
         <div className="max-w-7xl mx-auto lg:flex lg:gap-8">
           {/* Desktop Sidebar Ad */}
           <div className="hidden lg:block lg:flex-shrink-0">
@@ -232,35 +236,37 @@ const Index = () => {
           
           {/* Main Content */}
           <div className="flex-1">
-            <h2 className="text-3xl font-bold text-center mb-12 text-foreground animate-fade-in">
-              Explore by Category
+            <h2 className="font-display text-5xl md:text-6xl font-black text-center mb-16 text-foreground animate-bounce-in">
+              EXPLORE BY <span className="text-primary">CATEGORY</span>
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {featuredCategories.map((category, index) => (
                 <Link
                   key={category.name}
                   to={`/category/${category.name.toLowerCase().replace(' ', '-')}`}
-                  className="group animate-fade-in"
-                  style={{ animationDelay: `${1.4 + index * 0.1}s` }}
+                  className="group animate-slide-up"
+                  style={{ animationDelay: `${1.6 + index * 0.1}s` }}
                 >
-                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-card hover:scale-105">
-                    <CardContent className="p-6 text-center">
-                      <div className="text-4xl mb-4 animate-pulse">{category.icon}</div>
-                      <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-                        {category.name}
+                  <Card className="card-featured h-full hover-bounce group">
+                    <CardContent className="p-8 text-center">
+                      <div className="text-6xl mb-6 animate-glow-pulse group-hover:scale-125 transition-all duration-300">
+                        {category.icon}
+                      </div>
+                      <h3 className="font-heading text-xl font-bold mb-3 group-hover:text-primary transition-colors text-foreground">
+                        {category.name.toUpperCase()}
                       </h3>
-                      <p className="text-gray-500">
-                        {category.count} tools
+                      <p className="font-bold text-primary text-lg">
+                        {category.count} TOOLS
                       </p>
                     </CardContent>
                   </Card>
                 </Link>
               ))}
             </div>
-            <div className="text-center mt-8">
+            <div className="text-center mt-12">
               <Link to="/categories">
-                <Button variant="outline" size="lg" className="border-primary/20 text-primary hover:bg-primary/10 hover:scale-105 transition-all duration-300">
-                  View All Categories
+                <Button variant="outline" size="hero" className="rounded-2xl font-black">
+                  VIEW ALL CATEGORIES
                 </Button>
               </Link>
             </div>
@@ -269,21 +275,21 @@ const Index = () => {
       </section>
 
       {/* Trending Tools */}
-      <section className="py-16 px-4 bg-background">
+      <section className="py-24 px-4 bg-gradient-dark">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-center gap-2 mb-12">
-            <TrendingUp className="h-8 w-8 text-primary" />
-            <h2 className="text-3xl font-bold text-foreground">
-              Trending Tools
+          <div className="flex items-center justify-center gap-4 mb-16">
+            <TrendingUp className="h-12 w-12 text-primary animate-glow-pulse" />
+            <h2 className="font-display text-5xl md:text-6xl font-black text-foreground">
+              <span className="text-primary">TRENDING</span> TOOLS
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {trendingTools.map((tool, index) => (
-              <Link key={tool.id} to={`/tool/${tool.id}`} className="group animate-fade-in" style={{ animationDelay: `${2 + index * 0.2}s` }}>
-                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 bg-card hover:scale-105">
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+              <Link key={tool.id} to={`/tool/${tool.id}`} className="group animate-bounce-in" style={{ animationDelay: `${2 + index * 0.2}s` }}>
+                <Card className="card-featured h-full hover-bounce">
+                  <CardContent className="p-8">
+                    <div className="flex items-start gap-6 mb-6">
+                      <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 bg-primary/20 flex items-center justify-center border-2 border-primary">
                         {tool.logoUrl && tool.logoUrl.startsWith('http') ? (
                           <img 
                             src={tool.logoUrl} 
@@ -297,36 +303,36 @@ const Index = () => {
                             }}
                           />
                         ) : (
-                          <span className="text-2xl">{tool.logoUrl || '🤖'}</span>
+                          <span className="text-3xl">{tool.logoUrl || '🤖'}</span>
                         )}
-                        <span className="text-2xl hidden">🤖</span>
+                        <span className="text-3xl hidden">🤖</span>
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-lg mb-1 group-hover:text-primary transition-colors">
-                          {tool.name}
+                        <h3 className="font-heading text-xl font-bold mb-2 group-hover:text-primary transition-colors text-foreground">
+                          {tool.name.toUpperCase()}
                         </h3>
-                        <Badge variant="secondary" className="mb-2">
-                          {tool.category}
+                        <Badge variant="secondary" className="mb-3 bg-primary text-primary-foreground font-bold px-3 py-1">
+                          {tool.category.toUpperCase()}
                         </Badge>
                       </div>
                     </div>
-                    <p className="text-gray-600 mb-4 line-clamp-2">
+                    <p className="text-muted-foreground mb-6 line-clamp-2 font-medium text-base">
                       {tool.description}
                     </p>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 text-primary fill-current" />
-                        <span className="text-sm font-medium">{tool.rating}</span>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-2">
+                        <Star className="h-5 w-5 text-primary fill-current" />
+                        <span className="text-lg font-bold text-foreground">{tool.rating}</span>
                       </div>
-                      <div className="flex items-center gap-1 text-gray-500">
-                        <ArrowUp className="h-4 w-4" />
-                        <span className="text-sm">{tool.votes}</span>
+                      <div className="flex items-center gap-2 text-primary">
+                        <ArrowUp className="h-5 w-5" />
+                        <span className="text-lg font-bold">{tool.votes}</span>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-wrap gap-2">
                       {tool.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          {tag}
+                        <Badge key={tag} variant="outline" className="text-sm font-bold border-primary text-primary">
+                          {tag.toUpperCase()}
                         </Badge>
                       ))}
                     </div>
@@ -339,17 +345,17 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6 text-foreground animate-fade-in">
-            Ready to Share Your AI Tool?
+      <section className="py-32 px-4 bg-gradient-primary">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="font-display text-5xl md:text-7xl font-black mb-8 text-primary-foreground animate-bounce-in">
+            READY TO SHARE YOUR <span className="text-black">AI TOOL?</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <p className="text-2xl md:text-3xl text-primary-foreground mb-12 animate-fade-in font-bold max-w-4xl mx-auto" style={{ animationDelay: '0.2s' }}>
             Join thousands of developers and creators who have already listed their AI tools on our platform.
           </p>
           <Link to="/submit">
-            <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white px-8 py-4 text-lg hover:scale-105 transition-all duration-300 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              Submit Your Tool
+            <Button variant="outline" size="hero" className="bg-black text-primary border-4 border-black hover:bg-primary hover:text-black hover:scale-110 font-black text-2xl px-16 py-8 rounded-3xl animate-glow-pulse" style={{ animationDelay: '0.4s' }}>
+              SUBMIT YOUR TOOL NOW
             </Button>
           </Link>
         </div>

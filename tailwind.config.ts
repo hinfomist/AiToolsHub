@@ -20,8 +20,10 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ["Inter", "sans-serif"],
+				heading: ["Montserrat", "sans-serif"],
+				display: ["Montserrat", "sans-serif"],
 				serif: ["Playfair Display", "serif"],
-				body: ["Source Sans Pro", "sans-serif"],
+				body: ["Inter", "sans-serif"],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
