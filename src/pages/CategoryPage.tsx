@@ -214,7 +214,7 @@ const CategoryPage = () => {
                       <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            <Star className="h-4 w-4 fill-primary text-primary" />
                             <span className="font-medium">{tool.rating?.toFixed(1) || '0'}</span>
                           </div>
                           <div className="flex items-center gap-1">

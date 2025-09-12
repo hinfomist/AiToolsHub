@@ -196,7 +196,7 @@ const ToolDetail = () => {
                     {/* Stats */}
                     <div className="flex items-center gap-6 mb-6 text-sm text-gray-600">
                       <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                        <Star className="h-4 w-4 text-primary fill-current" />
                         <span className="font-medium">{tool.rating ?? 0}</span>
                         <span>({tool.totalRatings ?? 0} reviews)</span>
                       </div>
@@ -311,7 +311,7 @@ const ToolDetail = () => {
                         <Star
                           className={`h-6 w-6 ${
                             star <= userRating
-                              ? 'text-yellow-400 fill-current'
+                              ? 'text-primary fill-current'
                               : 'text-gray-300'
                           }`}
                         />
@@ -353,7 +353,7 @@ const ToolDetail = () => {
                                   key={star}
                                   className={`h-3 w-3 ${
                                     star <= review.rating
-                                      ? 'text-yellow-400 fill-current'
+                                      ? 'text-primary fill-current'
                                       : 'text-gray-300'
                                   }`}
                                 />
@@ -454,7 +454,7 @@ const ToolDetail = () => {
                           {relatedTool.name}
                         </div>
                         <div className="text-sm text-gray-500 flex items-center gap-1">
-                          <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                          <Star className="h-3 w-3 text-primary fill-current" />
                           {relatedTool.rating}
                         </div>
                       </div>

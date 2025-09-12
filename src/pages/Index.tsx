@@ -137,7 +137,7 @@ const Index = () => {
         </script>
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/10">
+      <div className="min-h-screen bg-background">
         <Navbar />
 
       {/* Hero Section */}
@@ -315,7 +315,7 @@ const Index = () => {
                     </p>
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                        <Star className="h-4 w-4 text-primary fill-current" />
                         <span className="text-sm font-medium">{tool.rating}</span>
                       </div>
                       <div className="flex items-center gap-1 text-gray-500">

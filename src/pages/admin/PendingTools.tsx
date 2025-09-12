@@ -92,7 +92,7 @@ const PendingTools = () => {
       ) : (
         <div className="grid gap-6">
           {pendingTools.map((tool) => (
-            <Card key={tool.id} className="border-l-4 border-l-yellow-400">
+            <Card key={tool.id} className="border-l-4 border-l-primary">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
