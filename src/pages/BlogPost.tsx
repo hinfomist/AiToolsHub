@@ -142,7 +142,7 @@ const BlogPost = () => {
   return (
     <>
       <Helmet>
-        <title>{blog.seoTitle || blog.title} - AI Tool Finder</title>
+        <title>{blog.seoTitle || blog.title} - AI Tool Mela</title>
         <meta name="description" content={blog.seoDescription || blog.excerpt} />
         <meta property="og:title" content={blog.title} />
         <meta property="og:description" content={blog.excerpt} />
@@ -163,7 +163,7 @@ const BlogPost = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <Link to="/" className="text-2xl font-bold font-serif bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                AI Tool Finder
+                AI Tool Mela
               </Link>
               <div className="flex items-center space-x-6">
                 <Link to="/categories" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">

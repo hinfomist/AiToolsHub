@@ -23,6 +23,9 @@ import PendingTools from "./pages/admin/PendingTools";
 import ManageBlogs from "./pages/admin/ManageBlogs";
 import AddBlog from "./pages/admin/AddBlog";
 import EditBlog from "./pages/admin/EditBlog";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./components/AdminLayout";
 import DatabaseInitializer from "./components/DatabaseInitializer";
@@ -45,6 +48,9 @@ const App = () => (
           <Route path="/submit" element={<SubmitTool />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/admin/add-tool" element={
             <ProtectedRoute>

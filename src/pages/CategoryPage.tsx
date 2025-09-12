@@ -89,7 +89,7 @@ const CategoryPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
       <Helmet>
-        <title>{formattedCategoryName} AI Tools | AI Tool Finder</title>
+        <title>{formattedCategoryName} AI Tools | AI Tool Mela</title>
         <meta name="description" content={`Discover the best AI tools for ${formattedCategoryName}. Find ${tools.length} tools to boost your productivity.`} />
       </Helmet>
 
@@ -98,7 +98,7 @@ const CategoryPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              AI Tool Finder
+              AI Tool Mela
             </Link>
             <div className="flex items-center space-x-4">
               <Link to="/categories" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">

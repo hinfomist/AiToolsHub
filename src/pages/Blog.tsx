@@ -8,6 +8,8 @@ import { blogService } from '../services/blogService';
 import { Helmet } from 'react-helmet-async';
 import BlogSidebar from '@/components/BlogSidebar';
 import blogHeroImage from '@/assets/blog-hero.jpg';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -112,7 +114,7 @@ const Blog = () => {
   return (
     <>
       <Helmet>
-        <title>AI Tools Blog - Latest Insights & Trends | AI Tool Finder</title>
+        <title>AI Tools Blog - Latest Insights & Trends | AI Tool Mela</title>
         <meta name="description" content="Stay ahead with the latest AI tool insights, industry trends, reviews, and productivity tips. Discover how artificial intelligence is transforming various industries and workflows." />
         <meta property="og:title" content="AI Tools Blog - Latest Insights & Trends" />
         <meta property="og:description" content="Latest insights on AI tools, industry trends, and productivity tips" />
@@ -122,32 +124,7 @@ const Blog = () => {
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-        {/* Navigation */}
-        <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-white/20 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <Link to="/" className="text-2xl font-bold font-serif bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                AI Tool Finder
-              </Link>
-              <div className="flex items-center space-x-6">
-                <Link to="/categories" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                  Categories
-                </Link>
-                <Link to="/blog" className="text-purple-600 font-semibold">
-                  Blog
-                </Link>
-                <Link to="/submit" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                  Submit Tool
-                </Link>
-                <Link to="/auth">
-                  <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50 font-medium">
-                    Sign In
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </nav>
+        <Navbar />
 
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -323,6 +300,8 @@ const Blog = () => {
             <BlogSidebar />
           </div>
         </main>
+        
+        <Footer />
       </div>
     </>
   );

@@ -7,6 +7,9 @@ import AdSlot from '@/components/AdSlot';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { categoryService } from '../services/categoryService';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { Helmet } from 'react-helmet-async';
 
 const Categories = () => {
   const [categoryCounts, setCategoryCounts] = useState<Record<string, any>>({});
@@ -54,30 +57,16 @@ const Categories = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              AI Tool Finder
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link to="/categories" className="text-purple-600 font-medium">
-                Categories
-              </Link>
-              <Link to="/submit" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                Submit Tool
-              </Link>
-              <Link to="/auth">
-                <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
-                  Sign In
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <>
+      <Helmet>
+        <title>Categories - Browse AI Tools | AI Tool Mela</title>
+        <meta name="description" content="Browse AI tools by category. Find the perfect tools for content writing, image generation, productivity, and more." />
+        <meta property="og:title" content="Categories - Browse AI Tools | AI Tool Mela" />
+        <meta property="og:description" content="Browse AI tools by category on AI Tool Mela." />
+      </Helmet>
+      
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+        <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
@@ -166,7 +155,10 @@ const Categories = () => {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
+    </>
   );
 };
 

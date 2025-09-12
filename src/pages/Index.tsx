@@ -7,6 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { toolService } from '../services/toolService';
 import AdSlot from '@/components/AdSlot';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { Helmet } from 'react-helmet-async';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -113,33 +116,16 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              AI Tool Finder
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link to="/categories" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                Categories
-              </Link>
-              <Link to="/blog" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                Blog
-              </Link>
-              <Link to="/submit" className="text-gray-600 hover:text-purple-600 font-medium transition-colors">
-                Submit Tool
-              </Link>
-              <Link to="/auth">
-                <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
-                  Sign In
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <>
+      <Helmet>
+        <title>AI Tool Mela - Best AI Tools Directory</title>
+        <meta name="description" content="Discover the best AI tools for creators, developers, and businesses. Your ultimate AI tool directory with 128+ tools across 25+ categories." />
+        <meta property="og:title" content="AI Tool Mela - Best AI Tools Directory" />
+        <meta property="og:description" content="Discover the best AI tools for creators, developers, and businesses. Your ultimate AI tool directory with 128+ tools across 25+ categories." />
+      </Helmet>
+      
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+        <Navbar />
 
       {/* Hero Section */}
       <section className="py-20 px-4">
@@ -353,47 +339,9 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">AI Tool Finder</h3>
-              <p className="text-gray-400">
-                Discover the best AI tools for your projects and workflow.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Platform</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link to="/categories" className="hover:text-white transition-colors">Browse Tools</Link></li>
-                <li><Link to="/submit" className="hover:text-white transition-colors">Submit Tool</Link></li>
-                <li><Link to="/categories" className="hover:text-white transition-colors">Categories</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Community</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Discord</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Newsletter</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 AI Tool Finder. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 
