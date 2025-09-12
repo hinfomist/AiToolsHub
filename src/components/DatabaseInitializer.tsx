@@ -147,7 +147,7 @@ const DatabaseInitializer = () => {
         
         // Check if we already have tools
         const existingTools = await toolService.getAllTools();
-        console.log('Existing tools:', existingTools.length);
+        console.log('Existing tools found:', existingTools.length);
         
         if (existingTools.length === 0) {
           console.log('📝 Database is empty, adding sample tools...');
@@ -164,17 +164,39 @@ const DatabaseInitializer = () => {
           
           console.log('✅ Database initialization completed!');
         } else {
-          console.log('Database already has tools, skipping initialization');
+          // Check for specific tools to avoid duplicating only these initial tools
+          const existingToolNames = new Set(existingTools.map(tool => tool.name));
+          const sampleToolNames = new Set(toolsToAdd.map(tool => tool.name));
+          const missingTools = toolsToAdd.filter(tool => !existingToolNames.has(tool.name));
+          
+          if (missingTools.length > 0) {
+            console.log(`📝 Found ${missingTools.length} missing sample tools, adding them...`);
+            
+            for (const tool of missingTools) {
+              try {
+                console.log(`⏳ Adding missing tool: ${tool.name}`);
+                await toolService.addTool(tool);
+                console.log(`✅ Successfully added ${tool.name}`);
+              } catch (error) {
+                console.error(`❌ Error adding ${tool.name}:`, error);
+              }
+            }
+            
+            console.log('✅ Missing tools added successfully!');
+          } else {
+            console.log('✅ All sample tools already exist, skipping initialization');
+          }
         }
         
         setInitialized(true);
       } catch (error) {
         console.error('❌ Error initializing database:', error);
+        setInitialized(true); // Set as initialized even on error to prevent infinite retries
       }
     };
 
     initializeDatabase();
-  }, [initialized]);
+  }, []);
 
   return null; // This component doesn't render anything
 };

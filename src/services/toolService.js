@@ -88,9 +88,29 @@ export const toolService = {
     }
   },
 
-  // Add a new tool (admin)
+  // Check if tool exists by name
+  async toolExists(toolName) {
+    try {
+      const toolsRef = collection(db, 'tools');
+      const q = query(toolsRef, where('name', '==', toolName));
+      const querySnapshot = await getDocs(q);
+      return !querySnapshot.empty;
+    } catch (error) {
+      console.error('Error checking if tool exists:', error);
+      return false;
+    }
+  },
+
+  // Add a new tool (admin) with duplicate checking
   async addTool(toolData) {
     try {
+      // Check if tool already exists
+      const exists = await this.toolExists(toolData.name);
+      if (exists) {
+        console.log(`Tool "${toolData.name}" already exists, skipping...`);
+        return null;
+      }
+
       const docRef = await addDoc(collection(db, 'tools'), {
         ...toolData,
         approved: true, // Admin tools are automatically approved
