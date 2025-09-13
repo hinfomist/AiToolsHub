@@ -11,7 +11,6 @@ import { Plus, Edit, Trash2, Eye, Database, Grid, ArrowLeft, AlertTriangle, Chec
 import { populateTools } from '../../scripts/populateTools';
 import { categoryService } from '@/services/categoryService';
 import { toolService } from '@/services/toolService';
-import { populateCategories } from '../../scripts/populateCategories';
 import { CategoryIcon } from '@/components/CategoryIcon';
 
 interface Tool {
@@ -61,13 +60,17 @@ const AdminTools = () => {
 
   const fetchCategories = async () => {
     try {
+      console.log('Fetching categories...');
       const [categoriesData, counts] = await Promise.all([
         categoryService.getAllCategories(),
         categoryService.getAdminCategoryCounts()
       ]);
+      console.log('Categories data:', categoriesData);
+      console.log('Category counts:', counts);
       setCategories(categoriesData);
       setCategoryCounts(counts);
     } catch (error) {
+      console.error('Error fetching categories:', error);
       toast({
         title: "Error",
         description: "Failed to fetch categories",
@@ -203,13 +206,66 @@ const AdminTools = () => {
     
     setLoading(true);
     try {
-      await populateCategories();
+      // Simple inline category population instead of importing
+      const { collection, addDoc, getDocs } = await import('firebase/firestore');
+      const { db } = await import('@/lib/firebase');
+      
+      const categories = [
+        { name: 'Content Writing', slug: 'content-writing', description: 'AI-powered writing and content creation tools' },
+        { name: 'Image Generation', slug: 'image-generation', description: 'Create stunning visuals with AI image generators' },
+        { name: 'Personal Assistants', slug: 'personal-assistants', description: 'AI assistants for daily tasks and productivity' },
+        { name: 'Chatbots', slug: 'chatbots', description: 'Conversational AI and customer service bots' },
+        { name: 'Sales', slug: 'sales', description: 'AI tools for sales automation and lead generation' },
+        { name: 'Productivity', slug: 'productivity', description: 'Boost efficiency with AI productivity tools' },
+        { name: 'Video Creation', slug: 'video-creation', description: 'AI-powered video editing and generation' },
+        { name: 'Music Creation', slug: 'music-creation', description: 'Compose and generate music with AI' },
+        { name: 'Customer Support', slug: 'customer-support', description: 'AI customer service and support solutions' },
+        { name: 'Interview Prep', slug: 'interview-prep', description: 'AI-powered interview practice and preparation' },
+        { name: 'AI Code Tools', slug: 'ai-code-tools', description: 'Code generation and development assistance' },
+        { name: 'Resume Builder', slug: 'resume-builder', description: 'Create professional resumes with AI help' },
+        { name: 'Email Assistants', slug: 'email-assistants', description: 'AI email writing and management tools' },
+        { name: 'Data Analysis', slug: 'data-analysis', description: 'Analyze and visualize data with AI' },
+        { name: 'PDF Tools', slug: 'pdf-tools', description: 'AI-powered PDF processing and analysis' },
+        { name: 'Legal AI Tools', slug: 'legal-ai-tools', description: 'Legal document analysis and assistance' },
+        { name: 'Language Translation', slug: 'language-translation', description: 'AI translation and language tools' },
+        { name: 'Design Tools', slug: 'design-tools', description: 'AI-assisted design and creative tools' },
+        { name: 'Avatars & Voice', slug: 'avatars-voice', description: 'AI avatars and voice synthesis' },
+        { name: 'Marketing', slug: 'marketing', description: 'AI marketing automation and optimization' },
+        { name: 'SEO Tools', slug: 'seo-tools', description: 'AI-powered SEO analysis and optimization' },
+        { name: 'Logo Generator', slug: 'logo-generator', description: 'Create logos and brand assets with AI' },
+        { name: 'Storytelling AI', slug: 'storytelling-ai', description: 'AI-powered story and narrative creation' },
+        { name: 'Course Generator', slug: 'course-generator', description: 'Create educational content with AI' },
+        { name: 'Business Plan Tools', slug: 'business-plan-tools', description: 'AI business planning and strategy tools' }
+      ];
+
+      // Check if categories already exist
+      const existingCategories = await getDocs(collection(db, 'categories'));
+      if (!existingCategories.empty) {
+        console.log('Categories already exist. Skipping population.');
+        toast({
+          title: "Info",
+          description: "Categories already exist in database"
+        });
+        fetchCategories();
+        return;
+      }
+
+      // Add each category
+      for (const category of categories) {
+        console.log(`Adding category: ${category.name}`);
+        await addDoc(collection(db, 'categories'), {
+          ...category,
+          createdAt: new Date()
+        });
+      }
+
       toast({
         title: "Success",
-        description: "Categories populated successfully"
+        description: `${categories.length} categories added successfully`
       });
       fetchCategories();
     } catch (error) {
+      console.error('Error populating categories:', error);
       toast({
         title: "Error",
         description: "Failed to populate categories",
@@ -230,6 +286,12 @@ const AdminTools = () => {
       filterToolsByCategory(selectedCategory);
     }
   }, [tools, selectedCategory]);
+
+  // Debug info
+  useEffect(() => {
+    console.log('Categories state updated:', categories);
+    console.log('Category counts:', categoryCounts);
+  }, [categories, categoryCounts]);
 
   const renderToolCard = (tool: Tool) => (
     <Card key={tool.id} className={duplicates.includes(tool.id) ? "border-warning bg-warning/5" : ""}>
@@ -398,16 +460,31 @@ const AdminTools = () => {
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Categories</h2>
-                {categories.length === 0 && (
+                <div className="flex gap-2">
+                  {categories.length === 0 && (
+                    <Button 
+                      variant="outline" 
+                      onClick={handlePopulateCategories}
+                      disabled={loading}
+                    >
+                      <Database className="h-4 w-4 mr-2" />
+                      Initialize Categories
+                    </Button>
+                  )}
                   <Button 
-                    variant="outline" 
-                    onClick={handlePopulateCategories}
-                    disabled={loading}
+                    variant="default" 
+                    onClick={() => {
+                      // Add new category functionality - for now just show categories count
+                      toast({
+                        title: "Categories Info",
+                        description: `Found ${categories.length} categories`
+                      });
+                    }}
                   >
-                    <Database className="h-4 w-4 mr-2" />
-                    Initialize Categories
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Category
                   </Button>
-                )}
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {categories.map((category) => {
