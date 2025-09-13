@@ -7,16 +7,19 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
-import { Plus, Edit, Trash2, Eye, Database, Grid, ArrowLeft, AlertTriangle, CheckSquare } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Database, Grid, ArrowLeft, AlertTriangle, CheckSquare, Layers } from 'lucide-react';
 import { populateTools } from '../../scripts/populateTools';
 import { categoryService } from '@/services/categoryService';
 import { toolService } from '@/services/toolService';
+import { populateCategories } from '../../scripts/populateCategories';
+import { CategoryIcon } from '@/components/CategoryIcon';
 
 interface Tool {
   id: string;
   name: string;
   description: string;
   category: string;
+  categories?: string[]; // Support for new categories array format
   websiteUrl: string;
   tags: string[];
   votes: number;
@@ -60,7 +63,7 @@ const AdminTools = () => {
     try {
       const [categoriesData, counts] = await Promise.all([
         categoryService.getAllCategories(),
-        categoryService.getCategoryCounts()
+        categoryService.getAdminCategoryCounts()
       ]);
       setCategories(categoriesData);
       setCategoryCounts(counts);
@@ -74,7 +77,13 @@ const AdminTools = () => {
   };
 
   const filterToolsByCategory = (categoryName: string) => {
-    const filtered = tools.filter(tool => tool.category === categoryName);
+    const filtered = tools.filter(tool => {
+      // Handle both old single category field and new categories array
+      if (Array.isArray(tool.categories)) {
+        return tool.categories.includes(categoryName);
+      }
+      return tool.category === categoryName;
+    });
     setFilteredTools(filtered);
     findDuplicatesInCategory(filtered);
   };
@@ -182,6 +191,28 @@ const AdminTools = () => {
       toast({
         title: "Error",
         description: "Failed to populate tools",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePopulateCategories = async () => {
+    if (!confirm('This will add 25 categories to the database. Continue?')) return;
+    
+    setLoading(true);
+    try {
+      await populateCategories();
+      toast({
+        title: "Success",
+        description: "Categories populated successfully"
+      });
+      fetchCategories();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to populate categories",
         variant: "destructive"
       });
     } finally {
@@ -365,25 +396,44 @@ const AdminTools = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Categories</h2>
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold">Categories</h2>
+                {categories.length === 0 && (
+                  <Button 
+                    variant="outline" 
+                    onClick={handlePopulateCategories}
+                    disabled={loading}
+                  >
+                    <Database className="h-4 w-4 mr-2" />
+                    Initialize Categories
+                  </Button>
+                )}
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {categories.map((category) => {
-                  const count = categoryCounts[category.name]?.tools || 0;
+                  const count = categoryCounts[category.name] || 0;
                   return (
                     <Card 
                       key={category.id} 
-                      className="cursor-pointer hover:shadow-lg transition-shadow"
+                      className={`cursor-pointer hover:shadow-lg transition-shadow ${count === 0 ? 'border-warning/20 bg-warning/5' : ''}`}
                       onClick={() => setSelectedCategory(category.name)}
                     >
                       <CardContent className="p-6">
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                            <Grid className="h-6 w-6 text-primary" />
+                            <CategoryIcon categoryName={category.name} className="h-6 w-6 text-primary" />
                           </div>
-                          <div>
+                          <div className="flex-1">
                             <h3 className="font-semibold text-lg">{category.name}</h3>
-                            <p className="text-muted-foreground">{count} tools</p>
+                            <p className={`text-sm ${count === 0 ? 'text-warning' : 'text-muted-foreground'}`}>
+                              {count} tools {count === 0 ? '(Empty)' : ''}
+                            </p>
                           </div>
+                          {count > 0 && (
+                            <Badge variant="secondary" className="ml-2">
+                              {count}
+                            </Badge>
+                          )}
                         </div>
                       </CardContent>
                     </Card>

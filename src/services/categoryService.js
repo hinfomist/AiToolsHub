@@ -86,6 +86,37 @@ export const categoryService = {
     }
   },
 
+  // Get detailed tool counts specifically for admin
+  async getAdminCategoryCounts() {
+    try {
+      const allCategories = await this.getAllCategories();
+      const allTools = await toolService.getAllTools();
+      
+      const counts = {};
+      
+      // Initialize all categories with 0 count
+      allCategories.forEach(category => {
+        counts[category.name] = 0;
+      });
+      
+      // Count tools for each category
+      allTools.forEach(tool => {
+        // Handle both old single category and new categories array
+        const categories = Array.isArray(tool.categories) ? tool.categories : [tool.category];
+        categories.forEach(category => {
+          if (category && counts.hasOwnProperty(category)) {
+            counts[category]++;
+          }
+        });
+      });
+      
+      return counts;
+    } catch (error) {
+      console.error('Error getting admin category counts:', error);
+      return {};
+    }
+  },
+
   async getBlogCategoryCounts() {
     try {
       const blogs = await blogService.getAllBlogs('published', 1000); // Get all blogs for counting

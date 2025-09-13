@@ -31,7 +31,7 @@ const categories = [
   { name: 'Prompt Marketplace', slug: 'prompt-marketplace', description: 'Buy and sell AI prompts and templates' }
 ];
 
-async function populateCategories() {
+export async function populateCategories() {
   try {
     console.log('Starting to populate categories...');
 
@@ -65,5 +65,7 @@ async function populateCategories() {
   }
 }
 
-// Run the script
-populateCategories();
+// Run the script if called directly
+if (typeof window === 'undefined') {
+  populateCategories();
+}
