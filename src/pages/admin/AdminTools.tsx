@@ -40,13 +40,9 @@ const AdminTools = () => {
 
   const fetchTools = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, 'tools'));
-      const toolsData = querySnapshot.docs.map(d => {
-        const data = d.data() as any;
-        const createdAt = data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString();
-        return { id: d.id, ...data, createdAt } as Tool;
-      });
-      setTools(toolsData);
+      // Use admin service to get all tools including non-approved
+      const allTools = await toolService.getAllToolsAdmin();
+      setTools(allTools);
     } catch (error) {
       toast({
         title: "Error",
@@ -201,74 +197,26 @@ const AdminTools = () => {
     }
   };
 
-  const handlePopulateCategories = async () => {
-    if (!confirm('This will add 25 categories to the database. Continue?')) return;
+  const handlePopulateAllData = async () => {
+    if (!confirm('This will add 26 categories and sample tools to the database. Continue?')) return;
     
     setLoading(true);
     try {
-      // Simple inline category population instead of importing
-      const { collection, addDoc, getDocs } = await import('firebase/firestore');
-      const { db } = await import('@/lib/firebase');
+      const { populateAllData } = await import('../../scripts/populateAllData');
+      const result = await populateAllData();
       
-      const categories = [
-        { name: 'Content Writing', slug: 'content-writing', description: 'AI-powered writing and content creation tools' },
-        { name: 'Image Generation', slug: 'image-generation', description: 'Create stunning visuals with AI image generators' },
-        { name: 'Personal Assistants', slug: 'personal-assistants', description: 'AI assistants for daily tasks and productivity' },
-        { name: 'Chatbots', slug: 'chatbots', description: 'Conversational AI and customer service bots' },
-        { name: 'Sales', slug: 'sales', description: 'AI tools for sales automation and lead generation' },
-        { name: 'Productivity', slug: 'productivity', description: 'Boost efficiency with AI productivity tools' },
-        { name: 'Video Creation', slug: 'video-creation', description: 'AI-powered video editing and generation' },
-        { name: 'Music Creation', slug: 'music-creation', description: 'Compose and generate music with AI' },
-        { name: 'Customer Support', slug: 'customer-support', description: 'AI customer service and support solutions' },
-        { name: 'Interview Prep', slug: 'interview-prep', description: 'AI-powered interview practice and preparation' },
-        { name: 'AI Code Tools', slug: 'ai-code-tools', description: 'Code generation and development assistance' },
-        { name: 'Resume Builder', slug: 'resume-builder', description: 'Create professional resumes with AI help' },
-        { name: 'Email Assistants', slug: 'email-assistants', description: 'AI email writing and management tools' },
-        { name: 'Data Analysis', slug: 'data-analysis', description: 'Analyze and visualize data with AI' },
-        { name: 'PDF Tools', slug: 'pdf-tools', description: 'AI-powered PDF processing and analysis' },
-        { name: 'Legal AI Tools', slug: 'legal-ai-tools', description: 'Legal document analysis and assistance' },
-        { name: 'Language Translation', slug: 'language-translation', description: 'AI translation and language tools' },
-        { name: 'Design Tools', slug: 'design-tools', description: 'AI-assisted design and creative tools' },
-        { name: 'Avatars & Voice', slug: 'avatars-voice', description: 'AI avatars and voice synthesis' },
-        { name: 'Marketing', slug: 'marketing', description: 'AI marketing automation and optimization' },
-        { name: 'SEO Tools', slug: 'seo-tools', description: 'AI-powered SEO analysis and optimization' },
-        { name: 'Logo Generator', slug: 'logo-generator', description: 'Create logos and brand assets with AI' },
-        { name: 'Storytelling AI', slug: 'storytelling-ai', description: 'AI-powered story and narrative creation' },
-        { name: 'Course Generator', slug: 'course-generator', description: 'Create educational content with AI' },
-        { name: 'Business Plan Tools', slug: 'business-plan-tools', description: 'AI business planning and strategy tools' }
-      ];
-
-      // Check if categories already exist
-      const existingCategories = await getDocs(collection(db, 'categories'));
-      if (!existingCategories.empty) {
-        console.log('Categories already exist. Skipping population.');
-        toast({
-          title: "Info",
-          description: "Categories already exist in database"
-        });
-        fetchCategories();
-        return;
-      }
-
-      // Add each category
-      for (const category of categories) {
-        console.log(`Adding category: ${category.name}`);
-        await addDoc(collection(db, 'categories'), {
-          ...category,
-          createdAt: new Date()
-        });
-      }
-
       toast({
         title: "Success",
-        description: `${categories.length} categories added successfully`
+        description: `Added ${result.categoriesAdded} categories and ${result.toolsAdded} tools`
       });
+      
+      fetchTools();
       fetchCategories();
     } catch (error) {
-      console.error('Error populating categories:', error);
+      console.error('Error populating data:', error);
       toast({
         title: "Error",
-        description: "Failed to populate categories",
+        description: "Failed to populate data",
         variant: "destructive"
       });
     } finally {
@@ -464,11 +412,11 @@ const AdminTools = () => {
                   {categories.length === 0 && (
                     <Button 
                       variant="outline" 
-                      onClick={handlePopulateCategories}
+                      onClick={handlePopulateAllData}
                       disabled={loading}
                     >
                       <Database className="h-4 w-4 mr-2" />
-                      Initialize Categories
+                      Initialize Categories & Sample Tools
                     </Button>
                   )}
                   <Button 

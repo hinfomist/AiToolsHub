@@ -90,7 +90,7 @@ export const categoryService = {
   async getAdminCategoryCounts() {
     try {
       const allCategories = await this.getAllCategories();
-      const allTools = await toolService.getAllTools();
+      const allTools = await toolService.getAllToolsAdmin(); // Use admin method to get all tools
       
       const counts = {};
       

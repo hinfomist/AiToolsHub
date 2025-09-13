@@ -23,6 +23,26 @@ export const toolService = {
     }
   },
 
+  // Get ALL tools (including non-approved) for admin
+  async getAllToolsAdmin() {
+    try {
+      const toolsRef = collection(db, 'tools');
+      const querySnapshot = await getDocs(toolsRef);
+      
+      const tools = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt
+      }));
+      
+      // Sort by createdAt in JavaScript instead of Firestore
+      return tools.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } catch (error) {
+      console.error('Error fetching all tools:', error);
+      return [];
+    }
+  },
+
   // Get tools by category
   async getToolsByCategory(categoryName) {
     try {
